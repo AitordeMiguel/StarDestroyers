@@ -5,18 +5,16 @@ import java.util.ArrayList;
 
 public class Espacio {
 	private Casilla[][] tablero;
-	public Espacio(String color)
+	private static Espacio miEspacio;
+	private Espacio(String color,ArrayList<int[]> posE)
 	{
-		int cantEnem = new Random().nextInt(4,9);
-		ArrayList<Integer> posE = new ArrayList();
-		int dist=90/cantEnem;
-		for(int i=0;i<cantEnem;i++){posE.add(5+i*dist);}
+		
 		tablero = new Casilla[60][100];
 		for(int f=0;f<60;f++)
 		{
 			for(int c=0;c<100;c++)
 			{
-				if(f==2 && c==posE.get(0))
+				if(!posE.isEmpty() &&f==2 && c==posE.get(0)[1])
 				{
 					posE.remove(0);
 					tablero[f][c] = new Enemigo();
@@ -31,5 +29,14 @@ public class Espacio {
 				}
 			}
 		}
+	}
+	
+	public static Espacio getEspacio(String color,ArrayList<int[]> posE)
+	{
+		if(miEspacio == null)
+		{
+			miEspacio = new Espacio(color,posE);
+		}
+		return miEspacio;
 	}
 }

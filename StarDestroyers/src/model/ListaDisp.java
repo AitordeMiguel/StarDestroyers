@@ -3,9 +3,19 @@ import java.util.ArrayList;
 
 public class ListaDisp extends Lista{
 	private ArrayList<int[]> LDis;
-	public ListaDisp()
+	private static ListaDisp miListaDisp;
+	private ListaDisp(String color)
 	{
 		LDis = new ArrayList<int[]>();
+		ListaNaves ln = ListaNaves.getListaNaves(color, LDis);
+	}
+	public static ListaDisp getListaDisp(String color)
+	{
+		if(miListaDisp == null)
+		{
+			miListaDisp = new ListaDisp(color);
+		}
+		return miListaDisp;
 	}
 	public void addDisp(int x, int y)
 	{
