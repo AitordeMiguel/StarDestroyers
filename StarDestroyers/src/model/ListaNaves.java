@@ -2,7 +2,7 @@ package model;
 
 import java.util.ArrayList;
 
-public class ListaNaves extends Lista{
+public class ListaNaves{
 	private ArrayList<int[]> LNav;
 	private static ListaNaves miListaNaves;
 	private ListaNaves(String color,ArrayList<int[]> LDis)
@@ -28,5 +28,9 @@ public class ListaNaves extends Lista{
 	{
 		int[] coor = {x,y};
 		LNav.remove(coor);
+	}
+	public void actualizarMov()
+	{
+		
 	}
 }

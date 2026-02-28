@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class ListaEnem extends Lista{
+public class ListaEnem{
 	private ArrayList<int[]> LEnem;
 	private static ListaEnem miListaEnem;
 	private ListaEnem(String color,ArrayList<int[]> LDis,ArrayList<int[]> LNav)
@@ -53,5 +53,9 @@ public class ListaEnem extends Lista{
 				}
 			}
 		}
+	}
+	public void actualizarMov()
+	{
+		
 	}
 }

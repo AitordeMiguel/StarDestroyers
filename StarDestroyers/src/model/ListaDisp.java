@@ -1,7 +1,7 @@
 package model;
 import java.util.ArrayList;
 
-public class ListaDisp extends Lista{
+public class ListaDisp{
 	private ArrayList<int[]> LDis;
 	private static ListaDisp miListaDisp;
 	private ListaDisp(String color)
@@ -26,5 +26,10 @@ public class ListaDisp extends Lista{
 	{
 		int[] coor = {x,y};
 		LDis.remove(coor);
+	}
+	public void actualizarMov()
+	{
+		ListaNaves.getListaNaves("ya está creado así que no importa", LDis).actualizarMov();;
+		
 	}
 }
