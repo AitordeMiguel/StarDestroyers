@@ -14,16 +14,25 @@ import javax.swing.BoxLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.Observable;
+import java.util.Observer;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 
-public class Menu extends JFrame {
+public class Menu extends JFrame implements Observer{
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JLabel lblEspacio;
 	private JPanel panel;
 	private JLabel lblSI;
+	private Controlador controlador = null;
+	private String color = "";
 
 	/**
 	 * Launch the application.
@@ -53,7 +62,8 @@ public class Menu extends JFrame {
 		contentPane.setLayout(null);
 		contentPane.add(getLblEspacio());
 		contentPane.add(getPanel_1());
-
+		color = "red";
+		model.Espacio.getEspacio().addObserver(this);
 	}
 	private JLabel getLblEspacio() {
 		if (lblEspacio == null) {
@@ -70,6 +80,13 @@ public class Menu extends JFrame {
 			panel.setBounds(0, 0, 612, 408);
 			panel.setLayout(new BorderLayout(0, 0));
 			panel.add(getLblSI(), BorderLayout.CENTER);
+			panel.addKeyListener(new KeyAdapter() {
+				public void keyPressed(KeyEvent e) {
+					if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+						//TODO avisar al controler
+					}
+				}
+			});
 		}
 		return panel;
 	}
@@ -80,8 +97,33 @@ public class Menu extends JFrame {
 		}
 		return lblSI;
 	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		this.setVisible(false);
+		Juego juego = new Juego();
+		juego.setVisible(true);
+	}
 	
-	//CONTROLER
+	//CONTROLER - INSTANCIA
+	private Controlador getControlador() {
+		if (controlador == null) {
+			controlador = new Controlador();
+		}
+		return controlador;
+	}
 	
+	
+	//CONTROLER - LISTENER
+	private class Controlador implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (color != "") {
+				model.ListaDisp.getListaDisp().inicializar();
+			}
+		}
+		
+	}
 	
 }

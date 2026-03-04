@@ -2,8 +2,9 @@ package model;
 
 import java.util.Random;
 import java.util.ArrayList;
+import java.util.Observable;
 
-public class Espacio {
+public class Espacio extends Observable{
 	private Casilla[][] tablero;
 	private static Espacio miEspacio;
 	private Espacio(String color,ArrayList<int[]> posE)

@@ -13,6 +13,9 @@ public class ListaDisp{
 	{
 		return miListaDisp;
 	}
+	public void inicializar() {
+		
+	}
 	public void addDisp(int x, int y)
 	{
 		int[] coor = {x,y};
