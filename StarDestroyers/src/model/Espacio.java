@@ -7,9 +7,11 @@ import java.util.Observable;
 public class Espacio extends Observable{
 	private Casilla[][] tablero;
 	private static Espacio miEspacio;
-	private Espacio(String color,ArrayList<int[]> posE)
+	private Espacio()
 	{
-		
+	}
+	public void inicializar(String color,ArrayList<int[]> posE)
+	{
 		tablero = new Casilla[60][100];
 		for(int f=0;f<60;f++)
 		{
@@ -33,12 +35,12 @@ public class Espacio extends Observable{
 		setChanged();
 		notifyObservers(new Object[] {});
 	}
-	public void inicializar(String color,ArrayList<int[]> LEnem)
-	{
-		miEspacio = new Espacio(color,LEnem);
-	}
 	public static Espacio getEspacio()
 	{
+		if(miEspacio == null)
+		{
+			miEspacio = new Espacio();
+		}
 		return miEspacio;
 	}
 }

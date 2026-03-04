@@ -4,18 +4,20 @@ import java.util.ArrayList;
 public class ListaDisp{
 	private ArrayList<int[]> LDis;
 	private static ListaDisp miListaDisp;
-	private ListaDisp(String color)
-	{
-		LDis = new ArrayList<int[]>();
-		ListaNaves.getListaNaves().inicializar(color);
-	}
+	private ListaDisp(){}
+	
 	public static ListaDisp getListaDisp()
 	{
+		if(miListaDisp == null)
+		{
+			miListaDisp = new ListaDisp();
+		}
 		return miListaDisp;
 	}
 	public void inicializar(String color) 
 	{
-		miListaDisp = new ListaDisp(color);
+		LDis = new ArrayList<int[]>();
+		ListaNaves.getListaNaves().inicializar(color);;
 	}
 	public void addDisp(int x, int y)
 	{
