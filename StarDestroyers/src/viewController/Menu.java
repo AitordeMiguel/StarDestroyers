@@ -80,4 +80,8 @@ public class Menu extends JFrame {
 		}
 		return lblSI;
 	}
+	
+	//CONTROLER
+	
+	
 }

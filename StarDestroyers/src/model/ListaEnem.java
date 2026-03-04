@@ -17,19 +17,15 @@ public class ListaEnem{
 			LEnem.add(pos);
 		}
 		comprobarColNave(LNav);
-		Espacio esp = Espacio.getEspacio(color,LEnem);
+		Espacio esp = Espacio.getEspacio();
 	}
 	//public void addEnem(int x, int y)
 	//{
 	//	int[] coor = {x,y};
 	//	LEnem.add(coor);
 	//}
-	public static ListaEnem getListaEnem(String color,ArrayList<int[]> LDis,ArrayList<int[]> LNav)
+	public static ListaEnem getListaEnem()
 	{
-		if(miListaEnem == null)
-		{
-			miListaEnem = new ListaEnem(color,LDis,LNav);
-		}
 		return miListaEnem;
 	}
 	public void removeEnem(int x, int y)

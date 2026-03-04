@@ -31,12 +31,8 @@ public class Espacio {
 		}
 	}
 	
-	public static Espacio getEspacio(String color,ArrayList<int[]> posE)
+	public static Espacio getEspacio()
 	{
-		if(miEspacio == null)
-		{
-			miEspacio = new Espacio(color,posE);
-		}
 		return miEspacio;
 	}
 }

@@ -9,14 +9,10 @@ public class ListaNaves{
 	{
 		LNav = new ArrayList<int[]>();
 		addNave(55,50);
-		ListaEnem le = ListaEnem.getListaEnem(color,LDis,LNav);
+		ListaEnem le = ListaEnem.getListaEnem();
 	}
-	public static ListaNaves getListaNaves(String color,ArrayList<int[]> LDis)
+	public static ListaNaves getListaNaves()
 	{
-		if(miListaNaves == null)
-		{
-			miListaNaves = new ListaNaves(color,LDis);
-		}
 		return miListaNaves;
 	}
 	private void addNave(int x, int y)

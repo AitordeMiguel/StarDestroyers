@@ -7,14 +7,10 @@ public class ListaDisp{
 	private ListaDisp(String color)
 	{
 		LDis = new ArrayList<int[]>();
-		ListaNaves ln = ListaNaves.getListaNaves(color, LDis);
+		ListaNaves ln = ListaNaves.getListaNaves();
 	}
-	public static ListaDisp getListaDisp(String color)
+	public static ListaDisp getListaDisp()
 	{
-		if(miListaDisp == null)
-		{
-			miListaDisp = new ListaDisp(color);
-		}
 		return miListaDisp;
 	}
 	public void addDisp(int x, int y)
@@ -29,7 +25,7 @@ public class ListaDisp{
 	}
 	public void actualizarMov()
 	{
-		ListaNaves.getListaNaves("ya está creado así que no importa", LDis).actualizarMov();;
+		ListaNaves.getListaNaves().actualizarMov();;
 		
 	}
 }
