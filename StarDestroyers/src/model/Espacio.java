@@ -30,8 +30,13 @@ public class Espacio extends Observable{
 				}
 			}
 		}
+		setChanged();
+		notifyObservers(new Object[] {});
 	}
-	
+	public void inicializar(String color,ArrayList<int[]> LEnem)
+	{
+		miEspacio = new Espacio(color,LEnem);
+	}
 	public static Espacio getEspacio()
 	{
 		return miEspacio;

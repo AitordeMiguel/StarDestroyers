@@ -6,6 +6,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import model.Espacio;
+
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
 import java.awt.CardLayout;
@@ -18,6 +21,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -80,13 +85,9 @@ public class Menu extends JFrame implements Observer{
 			panel.setBounds(0, 0, 612, 408);
 			panel.setLayout(new BorderLayout(0, 0));
 			panel.add(getLblSI(), BorderLayout.CENTER);
-			panel.addKeyListener(new KeyAdapter() {
-				public void keyPressed(KeyEvent e) {
-					if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-						//TODO avisar al controler
-					}
-				}
-			});
+			panel.requestFocusInWindow();
+			panel.setFocusable(true);
+			panel.addKeyListener(getControlador());
 		}
 		return panel;
 	}
@@ -115,14 +116,32 @@ public class Menu extends JFrame implements Observer{
 	
 	
 	//CONTROLER - LISTENER
-	private class Controlador implements ActionListener {
+	private class Controlador implements KeyListener {
 
 		@Override
-		public void actionPerformed(ActionEvent e) {
-			if (color != "") {
-				model.ListaDisp.getListaDisp().inicializar();
-			}
+		public void keyTyped(KeyEvent e) {
+			// TODO Auto-generated method stub
+			
 		}
+
+		@Override
+		public void keyPressed(KeyEvent e) {
+			 if (e.getKeyCode() == KeyEvent.VK_SPACE) 
+			 {
+				 model.ListaDisp.getListaDisp().inicializar(color);
+			 }			
+		}
+
+		@Override
+		public void keyReleased(KeyEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		
+
+			
+		
 		
 	}
 	

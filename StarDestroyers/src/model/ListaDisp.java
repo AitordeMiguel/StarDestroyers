@@ -7,14 +7,15 @@ public class ListaDisp{
 	private ListaDisp(String color)
 	{
 		LDis = new ArrayList<int[]>();
-		ListaNaves ln = ListaNaves.getListaNaves();
+		ListaNaves.getListaNaves().inicializar(color);
 	}
 	public static ListaDisp getListaDisp()
 	{
 		return miListaDisp;
 	}
-	public void inicializar() {
-		
+	public void inicializar(String color) 
+	{
+		miListaDisp = new ListaDisp(color);
 	}
 	public void addDisp(int x, int y)
 	{

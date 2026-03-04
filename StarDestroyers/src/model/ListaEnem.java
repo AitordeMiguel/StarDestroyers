@@ -6,7 +6,7 @@ import java.util.Random;
 public class ListaEnem{
 	private ArrayList<int[]> LEnem;
 	private static ListaEnem miListaEnem;
-	private ListaEnem(String color,ArrayList<int[]> LDis,ArrayList<int[]> LNav)
+	private ListaEnem(String color)
 	{
 		LEnem = new ArrayList<int[]>();
 		int cantEnem = new Random().nextInt(4,9);
@@ -15,9 +15,8 @@ public class ListaEnem{
 		{
 			int[] pos = {2,5+i*dist};
 			LEnem.add(pos);
-		}
-		comprobarColNave(LNav);
-		Espacio esp = Espacio.getEspacio();
+		};
+		Espacio.getEspacio().inicializar(color,LEnem);
 	}
 	//public void addEnem(int x, int y)
 	//{
@@ -27,6 +26,10 @@ public class ListaEnem{
 	public static ListaEnem getListaEnem()
 	{
 		return miListaEnem;
+	}
+	public void inicializar(String color)
+	{
+		miListaEnem = new ListaEnem(color);
 	}
 	public void removeEnem(int x, int y)
 	{
