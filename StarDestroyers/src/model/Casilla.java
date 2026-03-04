@@ -2,7 +2,7 @@ package model;
 
 import java.util.Observable;
 
-public class Casilla {
+public class Casilla extends Observable{
 	public Casilla()
 	{
 		
