@@ -3,19 +3,22 @@ package viewController;
 import java.awt.EventQueue;
 import java.awt.Image;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.GridLayout;
 
 public class Juego extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JPanel panel;
-	//private JLabel[][] tablero;
+	private JLabel[][] tablero;
 
 	/**
 	 * Launch the application.
@@ -64,22 +67,21 @@ public class Juego extends JFrame {
 	private JPanel getPanel() {
 		if (panel == null) {
 			panel = new JPanel();
-			panel.setLayout(new BorderLayout(0, 0));
 			panel.setOpaque(false);
+			panel.setLayout(new GridLayout(60, 100, 0, 0));
+			JLabel lblNewLabel;
+			for(int f=0;f<60;f++)
+			{
+				for(int c=0;c<100;c++)
+				{
+					lblNewLabel = new JLabel("");
+					//lblNewLabel.setOpaque(true);
+					//lblNewLabel.setBackground(Color.BLACK);
+					panel.add(lblNewLabel);
+					tablero[f][c] = lblNewLabel;
+				}
+			}
 			
-			ImageIcon LogoOriginal = new ImageIcon(getClass().getResource("SpIn.png"));
-			Image imagenLogo = LogoOriginal.getImage();
-
-			// Escalar al tamaño del panel (ancho x alto)
-			Image imagenLogoEscalada = imagenLogo.getScaledInstance(250, 100, Image.SCALE_SMOOTH);
-
-			// Crear un ImageIcon con la imagen escalada
-			ImageIcon logoEscalado = new ImageIcon(imagenLogoEscalada);
-
-			JLabel lblLogo = new JLabel(logoEscalado);
-			lblLogo.setBounds(96, 75, 250, 100);
-			
-			panel.add(lblLogo);
 			
 		}
 		return panel;
