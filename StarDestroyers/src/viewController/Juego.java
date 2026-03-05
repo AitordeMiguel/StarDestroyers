@@ -1,15 +1,21 @@
 package viewController;
 
 import java.awt.EventQueue;
+import java.awt.Image;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import java.awt.BorderLayout;
 
 public class Juego extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	private JPanel panel;
+	//private JLabel[][] tablero;
 
 	/**
 	 * Launch the application.
@@ -32,11 +38,50 @@ public class Juego extends JFrame {
 	 */
 	public Juego() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 600);
+		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
+		contentPane.setLayout(new BorderLayout(0, 0));
+		contentPane.add(getPanel(), BorderLayout.CENTER);
+		
+		ImageIcon EspacioOriginal = new ImageIcon(getClass().getResource("espacio.jpg"));
+		Image imagenEspacio = EspacioOriginal.getImage();
 
+		// Escalar al tamaño del panel (ancho x alto)
+		Image imagenEspacioEscalada = imagenEspacio.getScaledInstance(450, 300, Image.SCALE_SMOOTH);
+
+		// Crear un ImageIcon con la imagen escalada
+		ImageIcon espacioEscalado = new ImageIcon(imagenEspacioEscalada);
+
+		JLabel lblFondo = new JLabel(espacioEscalado);
+		lblFondo.setBounds(0, 0, 450, 300);
+			
+		//contentPane.add(lblFondo);
+		
+		
 	}
+	private JPanel getPanel() {
+		if (panel == null) {
+			panel = new JPanel();
+			panel.setLayout(new BorderLayout(0, 0));
+			panel.setOpaque(false);
+			
+			ImageIcon LogoOriginal = new ImageIcon(getClass().getResource("SpIn.png"));
+			Image imagenLogo = LogoOriginal.getImage();
 
+			// Escalar al tamaño del panel (ancho x alto)
+			Image imagenLogoEscalada = imagenLogo.getScaledInstance(250, 100, Image.SCALE_SMOOTH);
+
+			// Crear un ImageIcon con la imagen escalada
+			ImageIcon logoEscalado = new ImageIcon(imagenLogoEscalada);
+
+			JLabel lblLogo = new JLabel(logoEscalado);
+			lblLogo.setBounds(96, 75, 250, 100);
+			
+			panel.add(lblLogo);
+			
+		}
+		return panel;
+	}
 }

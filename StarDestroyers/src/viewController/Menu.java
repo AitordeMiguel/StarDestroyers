@@ -12,9 +12,11 @@ import model.Espacio;
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import javax.swing.BoxLayout;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -34,8 +36,6 @@ public class Menu extends JFrame implements Observer{
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JLabel lblEspacio;
-	private JPanel panel;
-	private JLabel lblSI;
 	private Controlador controlador = null;
 	private String color = "";
 
@@ -65,38 +65,45 @@ public class Menu extends JFrame implements Observer{
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		contentPane.add(getLblEspacio());
-		contentPane.add(getPanel_1());
 		color = "red";
 		model.Espacio.getEspacio().addObserver(this);
-	}
-	private JLabel getLblEspacio() {
-		if (lblEspacio == null) {
-			lblEspacio = new JLabel("SPACE INVADERS"
-					+ "<Pulse espacio>");
-			lblEspacio.setBounds(5, 5, 612, 408);
-			//lblEspacio.setIcon(new ImageIcon(this.getClass().getResource("espacio.jpg")));
-		}
-		return lblEspacio;
-	}
-	private JPanel getPanel_1() {
-		if (panel == null) {
-			panel = new JPanel();
-			panel.setBounds(0, 0, 612, 408);
-			panel.setLayout(new BorderLayout(0, 0));
-			panel.add(getLblSI(), BorderLayout.CENTER);
-			panel.requestFocusInWindow();
-			panel.setFocusable(true);
-			panel.addKeyListener(getControlador());
-		}
-		return panel;
-	}
-	private JLabel getLblSI() {
-		if (lblSI == null) {
-			lblSI = new JLabel("");
-			//lblSI.setIcon(new ImageIcon(this.getClass().getResource("spaceInvaders.png")));
-		}
-		return lblSI;
+		contentPane.requestFocusInWindow();
+		contentPane.setFocusable(true);
+		contentPane.addKeyListener(getControlador());
+		
+		//JLabel lblFondo = new JLabel(new ImageIcon(getClass().getResource("espacio.jpg")));
+		//lblFondo.setBounds(0, 0, 450, 300);
+		ImageIcon EspacioOriginal = new ImageIcon(getClass().getResource("espacio.jpg"));
+		Image imagenEspacio = EspacioOriginal.getImage();
+
+		// Escalar al tamaño del panel (ancho x alto)
+		Image imagenEspacioEscalada = imagenEspacio.getScaledInstance(450, 300, Image.SCALE_SMOOTH);
+
+		// Crear un ImageIcon con la imagen escalada
+		ImageIcon espacioEscalado = new ImageIcon(imagenEspacioEscalada);
+
+		JLabel lblFondo = new JLabel(espacioEscalado);
+		lblFondo.setBounds(0, 0, 450, 300);
+		
+		ImageIcon LogoOriginal = new ImageIcon(getClass().getResource("SpIn.png"));
+		Image imagenLogo = LogoOriginal.getImage();
+
+		// Escalar al tamaño del panel (ancho x alto)
+		Image imagenLogoEscalada = imagenLogo.getScaledInstance(250, 100, Image.SCALE_SMOOTH);
+
+		// Crear un ImageIcon con la imagen escalada
+		ImageIcon logoEscalado = new ImageIcon(imagenLogoEscalada);
+
+		JLabel lblLogo = new JLabel(logoEscalado);
+		lblLogo.setBounds(96, 75, 250, 100);
+		
+		JLabel lblTexto = new JLabel("Presiona <SPACE> para jugar");
+		lblTexto.setForeground(Color.WHITE);
+		lblTexto.setBounds(150, 220, 250, 15);
+		
+		contentPane.add(lblTexto);
+		contentPane.add(lblLogo);
+		contentPane.add(lblFondo);
 	}
 
 	@Override
