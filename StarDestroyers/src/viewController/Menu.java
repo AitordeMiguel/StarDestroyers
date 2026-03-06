@@ -7,38 +7,40 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import model.Espacio;
+//import model.Espacio;
 
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
-import java.awt.CardLayout;
+//import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.FlowLayout;
-import javax.swing.BoxLayout;
-import java.awt.GridBagLayout;
+//import java.awt.FlowLayout;
+//import javax.swing.BoxLayout;
+//import java.awt.GridBagLayout;
 import java.awt.Image;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
+//import java.awt.GridBagConstraints;
+//import java.awt.Insets;
+//import java.awt.event.ActionEvent;
+//import java.awt.event.ActionListener;
+//import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.ArrayList;
+//import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
-
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
+import java.awt.Graphics;
+//import javax.swing.GroupLayout;
+//import javax.swing.GroupLayout.Alignment;
 
 public class Menu extends JFrame implements Observer{
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JLabel lblEspacio;
+	//private JLabel lblEspacio;
 	private Controlador controlador = null;
 	private String color = "";
-
+	//Ponemos las imagenes como atributo
+	private Image imagenEspacio;
+	private Image imagenLogo;
 	/**
 	 * Launch the application.
 	 */
@@ -61,42 +63,62 @@ public class Menu extends JFrame implements Observer{
 	public Menu() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
+		color = "red";
+		
+		imagenEspacio = new ImageIcon(getClass().getResource("espacio.jpg")).getImage();
+		imagenLogo = new ImageIcon(getClass().getResource("SpIn.png")).getImage(); 
+		/*
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		color = "red";
+		contentPane.setLayout(null); 
+		
+		ImageIcon EspacioOriginal = new ImageIcon(getClass().getResource("espacio.jpg"));
+		Image imagenEspacioAntigua = EspacioOriginal.getImage();
+		Image imagenEspacioEscalada = imagenEspacioAntigua.getScaledInstance(450, 300, Image.SCALE_SMOOTH);
+		ImageIcon espacioEscalado = new ImageIcon(imagenEspacioEscalada);
+		JLabel lblFondo = new JLabel(espacioEscalado);
+		lblFondo.setBounds(0, 0, 450, 300);
+		
+		ImageIcon LogoOriginal = new ImageIcon(getClass().getResource("SpIn.png"));
+		Image imagenLogoAntigua = LogoOriginal.getImage();
+		Image imagenLogoEscalada = imagenLogoAntigua.getScaledInstance(250, 100, Image.SCALE_SMOOTH);
+		ImageIcon logoEscalado = new ImageIcon(imagenLogoEscalada);
+		JLabel lblLogo = new JLabel(logoEscalado);
+		lblLogo.setBounds(96, 75, 250, 100);
+		*/
+
+
+		contentPane = new JPanel(new BorderLayout()) {
+			@Override
+			protected void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				
+				// Dibuja el fondo adaptándose siempre al ancho y alto actual de la ventana
+				if (imagenEspacio != null) {
+					g.drawImage(imagenEspacio, 0, 0, getWidth(), getHeight(), this);
+				}
+				
+				// Dibuja el logo escalado al 60% del ancho y lo mantiene centrado
+				if (imagenLogo != null) {
+					int anchoLogo = (int) (getWidth() * 0.6); 
+					int altoLogo = (imagenLogo.getHeight(null) * anchoLogo) / imagenLogo.getWidth(null);
+					int posX = (getWidth() - anchoLogo) / 2;
+					int posY = (getHeight() - altoLogo) / 3; 
+					g.drawImage(imagenLogo, posX, posY, anchoLogo, altoLogo, this);
+				}
+			}
+		};
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+
+	
 		model.Espacio.getEspacio().addObserver(this);
 		contentPane.requestFocusInWindow();
 		contentPane.setFocusable(true);
 		contentPane.addKeyListener(getControlador());
 		
-		//JLabel lblFondo = new JLabel(new ImageIcon(getClass().getResource("espacio.jpg")));
-		//lblFondo.setBounds(0, 0, 450, 300);
-		ImageIcon EspacioOriginal = new ImageIcon(getClass().getResource("espacio.jpg"));
-		Image imagenEspacio = EspacioOriginal.getImage();
-
-		// Escalar al tamaño del panel (ancho x alto)
-		Image imagenEspacioEscalada = imagenEspacio.getScaledInstance(450, 300, Image.SCALE_SMOOTH);
-
-		// Crear un ImageIcon con la imagen escalada
-		ImageIcon espacioEscalado = new ImageIcon(imagenEspacioEscalada);
-
-		JLabel lblFondo = new JLabel(espacioEscalado);
-		lblFondo.setBounds(0, 0, 450, 300);
-		
-		ImageIcon LogoOriginal = new ImageIcon(getClass().getResource("SpIn.png"));
-		Image imagenLogo = LogoOriginal.getImage();
-
-		// Escalar al tamaño del panel (ancho x alto)
-		Image imagenLogoEscalada = imagenLogo.getScaledInstance(250, 100, Image.SCALE_SMOOTH);
-
-		// Crear un ImageIcon con la imagen escalada
-		ImageIcon logoEscalado = new ImageIcon(imagenLogoEscalada);
-
-		JLabel lblLogo = new JLabel(logoEscalado);
-		lblLogo.setBounds(96, 75, 250, 100);
-		
+		/*
 		JLabel lblTexto = new JLabel("Presiona <SPACE> para jugar");
 		lblTexto.setForeground(Color.WHITE);
 		lblTexto.setBounds(150, 220, 250, 15);
@@ -104,6 +126,19 @@ public class Menu extends JFrame implements Observer{
 		contentPane.add(lblTexto);
 		contentPane.add(lblLogo);
 		contentPane.add(lblFondo);
+		*/
+
+	
+	    JLabel lblTexto = new JLabel("Presiona <SPACE> para jugar");
+	    lblTexto.setForeground(Color.YELLOW); // Cambiamos a amarillo arcade
+		lblTexto.setFont(new java.awt.Font("Monospaced", java.awt.Font.BOLD, 18)); // Letra retro y más grande
+		lblTexto.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+		lblTexto.setBorder(new EmptyBorder(0, 0, 30, 0)); 
+				
+				contentPane.add(lblTexto, BorderLayout.SOUTH);
+		
+		contentPane.add(lblTexto, BorderLayout.SOUTH);
+	
 	}
 
 	@Override
