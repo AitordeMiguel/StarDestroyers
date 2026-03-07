@@ -1,6 +1,9 @@
 package model;
 
 import java.util.Random;
+
+
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Observable;
 
@@ -9,6 +12,7 @@ public class Espacio extends Observable{
 	private static Espacio miEspacio;
 	private Espacio()
 	{
+		
 	}
 	public void inicializar(String color,ArrayList<int[]> posE)
 	{
@@ -31,9 +35,9 @@ public class Espacio extends Observable{
 					tablero[f][c] = new Casilla();
 				}
 			}
-		}
 		setChanged();
 		notifyObservers(new Object[] {});
+		}
 	}
 	public static Espacio getEspacio()
 	{
@@ -42,5 +46,12 @@ public class Espacio extends Observable{
 			miEspacio = new Espacio();
 		}
 		return miEspacio;
+	}
+	
+	public Casilla getCasilla(int x, int y) {
+		if(x >= 0 && x < 60 && y >= 0 && y < 100) {
+	        return tablero[x][y];
+	    }
+	    return null;
 	}
 }

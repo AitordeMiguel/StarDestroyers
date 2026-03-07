@@ -9,6 +9,13 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import model.Casilla;
+import model.Disparo;
+import model.Enemigo;
+import model.Espacio;
+import model.Nave;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -70,19 +77,35 @@ public class Juego extends JFrame {
 			panel.setOpaque(false);
 			panel.setLayout(new GridLayout(60, 100, 0, 0));
 			JLabel lblNewLabel;
+			tablero = new JLabel[60][100];
+			Espacio espacio = Espacio.getEspacio();
 			for(int f=0;f<60;f++)
 			{
 				for(int c=0;c<100;c++)
 				{
 					lblNewLabel = new JLabel("");
+					Casilla cas = espacio.getCasilla(f, c);
+					if(cas instanceof Enemigo) {
+					    lblNewLabel.setOpaque(true);
+					    lblNewLabel.setBackground(Color.RED);
+					}
+					else if(cas instanceof Nave) {
+					    lblNewLabel.setOpaque(true);
+					    lblNewLabel.setBackground(Color.DARK_GRAY);
+					}
+					else if(cas instanceof Disparo) {
+					    lblNewLabel.setOpaque(true);
+					    lblNewLabel.setBackground(Color.WHITE);
+					}
+					else {
+					    lblNewLabel.setOpaque(false);
+					}
 					//lblNewLabel.setOpaque(true);
 					//lblNewLabel.setBackground(Color.BLACK);
 					panel.add(lblNewLabel);
 					tablero[f][c] = lblNewLabel;
 				}
 			}
-			
-			
 		}
 		return panel;
 	}
