@@ -2,6 +2,10 @@ package viewController;
 
 import java.awt.EventQueue;
 import java.awt.Image;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -20,12 +24,15 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
 
-public class Juego extends JFrame {
+@SuppressWarnings("deprecation")
+public class Juego extends JFrame implements Observer {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JPanel panel;
 	private JLabel[][] tablero;
+	private Controlador controlador;
+
 
 	/**
 	 * Launch the application.
@@ -69,6 +76,14 @@ public class Juego extends JFrame {
 			
 		//contentPane.add(lblFondo);
 		
+		// Inicializar el controlador y asignarlo
+		contentPane.setFocusable(true);
+		contentPane.requestFocusInWindow();
+		contentPane.addKeyListener(getControlador());
+
+		// Agregar este frame como observer del modelo
+		Espacio.getEspacio().addObserver(this);
+		
 		
 	}
 	private JPanel getPanel() {
@@ -87,11 +102,21 @@ public class Juego extends JFrame {
 					Casilla cas = espacio.getCasilla(f, c);
 					if(cas instanceof Enemigo) {
 					    lblNewLabel.setOpaque(true);
-					    lblNewLabel.setBackground(Color.RED);
+					    lblNewLabel.setBackground(Color.DARK_GRAY);
 					}
 					else if(cas instanceof Nave) {
 					    lblNewLabel.setOpaque(true);
-					    lblNewLabel.setBackground(Color.DARK_GRAY);
+					    Nave n = (Nave) cas;
+
+						if(n.getColor().equals("green")) {
+							lblNewLabel.setBackground(Color.GREEN);
+						}
+						else if(n.getColor().equals("blue")) {
+							lblNewLabel.setBackground(Color.BLUE);
+						}
+						else {
+							lblNewLabel.setBackground(Color.RED);
+						}
 					}
 					else if(cas instanceof Disparo) {
 					    lblNewLabel.setOpaque(true);
@@ -108,5 +133,41 @@ public class Juego extends JFrame {
 			}
 		}
 		return panel;
+	}
+	
+	@Override
+	public void update(Observable o, Object arg) {
+		// Aquí puedes actualizar el tablero si hay cambios en Espacio
+		repaint();
+	}
+
+	// Instancia del controlador
+	private Controlador getControlador() {
+		if (controlador == null) {
+			controlador = new Controlador();
+		}
+		return controlador;
+	}
+
+	// Clase interna Controlador
+	private class Controlador implements KeyListener {
+
+		@Override
+		public void keyTyped(KeyEvent e) {
+			// vacío
+		}
+
+		@Override
+		public void keyPressed(KeyEvent e) {
+			if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+				// Inicializar disparos
+				model.ListaDisp.getListaDisp().inicializar("red"); // color por defecto de la nave
+			}
+		}
+
+		@Override
+		public void keyReleased(KeyEvent e) {
+			// vacío
+		}
 	}
 }

@@ -23,4 +23,8 @@ public class Nave extends Casilla{
 			cantF = 30;
 		}
 	}
+	
+	public String getColor() {
+		return color;
+	}
 }
