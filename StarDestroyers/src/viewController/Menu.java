@@ -38,6 +38,7 @@ public class Menu extends JFrame implements Observer{
 	//private JLabel lblEspacio;
 	private Controlador controlador = null;
 	private String color = "";
+	private boolean juegoIniciado = false;
 	//Ponemos las imagenes como atributo
 	private Image imagenEspacio;
 	private Image imagenLogo;
@@ -139,13 +140,17 @@ public class Menu extends JFrame implements Observer{
 		
 		contentPane.add(lblTexto, BorderLayout.SOUTH);
 	
-	}
+	} 
 
 	@Override
 	public void update(Observable o, Object arg) {
-		this.setVisible(false);
-		Juego juego = new Juego();
-		juego.setVisible(true);
+		if(!juegoIniciado)
+		{
+			this.setVisible(false);
+			Juego juego = new Juego();
+			juego.setVisible(true);
+			juegoIniciado = 1>0;
+		}
 	}
 	
 	//CONTROLER - INSTANCIA

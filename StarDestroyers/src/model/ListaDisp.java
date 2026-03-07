@@ -31,7 +31,14 @@ public class ListaDisp{
 	}
 	public void actualizarMov()
 	{
-		ListaNaves.getListaNaves().actualizarMov();;
-		
+		ListaNaves.getListaNaves().actualizarMov();
+	}
+	public void moverEnem()
+	{
+		ListaNaves.getListaNaves().moverEnem();	
+	}
+	public boolean moverNave(String dir)
+	{
+		return ListaNaves.getListaNaves().moverNave(dir);
 	}
 }

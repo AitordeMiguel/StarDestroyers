@@ -34,4 +34,12 @@ public class ListaNaves{
 	{
 		
 	}
+	public void moverEnem()
+	{
+		ListaEnem.getListaEnem().moverEnem();
+	}
+	public boolean moverNave(String dir)
+	{
+		return ListaEnem.getListaEnem().moverNave(dir,LNav);
+	}
 }

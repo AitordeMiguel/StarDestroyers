@@ -4,8 +4,11 @@ import java.awt.EventQueue;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -24,6 +27,9 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 @SuppressWarnings("deprecation")
 public class Juego extends JFrame implements Observer {
 
@@ -32,7 +38,8 @@ public class Juego extends JFrame implements Observer {
 	private JPanel panel;
 	private JLabel[][] tablero;
 	private Controlador controlador;
-
+	private Timer timer = null;
+	private int vueltas;
 
 	/**
 	 * Launch the application.
@@ -60,7 +67,7 @@ public class Juego extends JFrame implements Observer {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
-		contentPane.add(getPanel(), BorderLayout.CENTER);
+		
 		
 		ImageIcon EspacioOriginal = new ImageIcon(getClass().getResource("espacio.jpg"));
 		Image imagenEspacio = EspacioOriginal.getImage();
@@ -75,21 +82,31 @@ public class Juego extends JFrame implements Observer {
 		lblFondo.setBounds(0, 0, 450, 300);
 			
 		//contentPane.add(lblFondo);
-		
+		contentPane.add(getPanel(), BorderLayout.CENTER);
 		// Inicializar el controlador y asignarlo
 		contentPane.setFocusable(true);
 		contentPane.requestFocusInWindow();
 		contentPane.addKeyListener(getControlador());
 
 		// Agregar este frame como observer del modelo
-		Espacio.getEspacio().addObserver(this);
+		Espacio.getEspacio().addObserver(this);		
 		
-		
+		vueltas=0;
+		TimerTask timerTask = new TimerTask() {
+			@Override
+			public void run() {
+				vueltas++;
+				if(vueltas==4) {vueltas=0;}
+			}		
+		};
+		timer = new Timer();
+		timer.scheduleAtFixedRate(timerTask, 0, 50);
 	}
+	
 	private JPanel getPanel() {
 		if (panel == null) {
 			panel = new JPanel();
-			panel.setOpaque(false);
+			panel.setOpaque(true);
 			panel.setLayout(new GridLayout(60, 100, 0, 0));
 			JLabel lblNewLabel;
 			tablero = new JLabel[60][100];
@@ -99,12 +116,16 @@ public class Juego extends JFrame implements Observer {
 				for(int c=0;c<100;c++)
 				{
 					lblNewLabel = new JLabel("");
+					//lblNewLabel.setBorder(BorderFactory.createLineBorder(Color.WHITE));
 					Casilla cas = espacio.getCasilla(f, c);
-					if(cas instanceof Enemigo) {
+
+					if(cas instanceof Enemigo) 
+					{
 					    lblNewLabel.setOpaque(true);
-					    lblNewLabel.setBackground(Color.DARK_GRAY);
+					    lblNewLabel.setBackground(Color.GRAY);
 					}
-					else if(cas instanceof Nave) {
+					else if(cas instanceof Nave) 
+					{
 					    lblNewLabel.setOpaque(true);
 					    Nave n = (Nave) cas;
 
@@ -118,15 +139,15 @@ public class Juego extends JFrame implements Observer {
 							lblNewLabel.setBackground(Color.RED);
 						}
 					}
-					else if(cas instanceof Disparo) {
+					else if(cas instanceof Disparo) 
+					{
 					    lblNewLabel.setOpaque(true);
 					    lblNewLabel.setBackground(Color.WHITE);
 					}
 					else {
 					    lblNewLabel.setOpaque(false);
 					}
-					//lblNewLabel.setOpaque(true);
-					//lblNewLabel.setBackground(Color.BLACK);
+					
 					panel.add(lblNewLabel);
 					tablero[f][c] = lblNewLabel;
 				}
@@ -159,9 +180,22 @@ public class Juego extends JFrame implements Observer {
 
 		@Override
 		public void keyPressed(KeyEvent e) {
-			if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-				// Inicializar disparos
-				model.ListaDisp.getListaDisp().inicializar("red"); // color por defecto de la nave
+			if(vueltas==0)
+			{
+				boolean estado;
+				if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+					estado = model.ListaDisp.getListaDisp().moverNave("left");
+				}
+				if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+					estado = model.ListaDisp.getListaDisp().moverNave("right");
+				}
+				if (e.getKeyCode() == KeyEvent.VK_UP) {
+					estado = model.ListaDisp.getListaDisp().moverNave("up");
+				}
+				if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+					estado = model.ListaDisp.getListaDisp().moverNave("down");
+				}
+				model.ListaDisp.getListaDisp().moverEnem();
 			}
 		}
 

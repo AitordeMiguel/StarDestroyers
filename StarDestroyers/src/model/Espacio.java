@@ -35,9 +35,9 @@ public class Espacio extends Observable{
 					tablero[f][c] = new Casilla();
 				}
 			}
+		}
 		setChanged();
 		notifyObservers(new Object[] {});
-		}
 	}
 	public static Espacio getEspacio()
 	{
@@ -54,4 +54,86 @@ public class Espacio extends Observable{
 	    }
 	    return null;
 	}
+	public void moverEnem(ArrayList<int[]> posE)
+	{
+		for(int i=0;i<posE.size();i++)
+		{
+			int f=posE.get(i)[0];
+			int c=posE.get(i)[1];
+			Enemigo enem = (Enemigo) tablero[f][c];
+			if(tablero[f+1][c] instanceof Disparo)
+			{
+				//TODO eliminar a este de la colección de enemigos
+			}
+			else
+			{
+				tablero[f+1][c] = enem;
+			}
+			tablero[f][c] = new Casilla();
+		}
+	}
+	public boolean moverNave(String dir, ArrayList<int[]> posN)
+	{
+		boolean muerto = false;
+		for(int i=0;i<posN.size();i++)
+		{
+			int f=posN.get(i)[0];
+			int c=posN.get(i)[1];
+			Nave nave= (Nave) tablero[f][c];
+			if(dir == "up")
+			{
+				if(tablero[f-1][c] instanceof Enemigo)
+				{
+					muerto=true;
+				}
+				else
+				{
+					tablero[f-1][c] = nave;
+				}
+				tablero[f][c] = new Casilla();
+				
+			}
+			else if(dir == "down")
+			{
+				if(tablero[f+1][c] instanceof Enemigo)
+				{
+					muerto=true;
+				}
+				else
+				{
+					tablero[f+1][c] = nave;
+				}
+				tablero[f][c] = new Casilla();
+				
+			}
+			else if(dir == "right")
+			{
+				if(tablero[f][c+1] instanceof Enemigo)
+				{
+					muerto=true;
+				}
+				else
+				{
+					tablero[f][c+1] = nave;
+				}
+				tablero[f][c] = new Casilla();
+				
+			}
+			else if(dir == "left")
+			{
+				if(tablero[f][c-1] instanceof Enemigo)
+				{
+					muerto=true;
+				}
+				else
+				{
+					tablero[f][c-1] = nave;
+				}
+				tablero[f][c] = new Casilla();
+				
+			}
+		}
+		return muerto;
+	}
+	
 }

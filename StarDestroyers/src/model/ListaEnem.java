@@ -58,4 +58,12 @@ public class ListaEnem{
 	{
 		
 	}
+	public void moverEnem()
+	{
+		Espacio.getEspacio().moverEnem(LEnem);
+	}
+	public boolean moverNave(String dir, ArrayList<int[]> LNav)
+	{
+		return Espacio.getEspacio().moverNave(dir, LNav);
+	}
 }
