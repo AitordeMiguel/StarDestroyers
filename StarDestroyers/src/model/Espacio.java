@@ -135,5 +135,154 @@ public class Espacio extends Observable{
 		}
 		return muerto;
 	}
-	
+	public void moverDisp(ArrayList<int[]> LDisp,String tipo)
+	{
+		for(int i=0;i<LDisp.size();i++)
+		{
+			int f = LDisp.get(i)[0];
+			int c = LDisp.get(i)[1];
+			Disparo disp = (Disparo) tablero[f][c];
+			if(disp.getTipo()=="punto")
+			{
+				tablero[f][c] = new Casilla();
+				tablero[f][c] = disp;
+			}
+			else if(disp.getTipo()=="flecha")
+			{
+				if(f==1)
+				{
+					tablero[f-1][c] = new Casilla();//borrar antigua punta
+					//pintar lados nuevos
+					Disparo izq = (Disparo) tablero[f][c-1];
+					Disparo der = (Disparo) tablero[f][c+1];
+					tablero[f-1][c-1] = izq;
+					tablero[f-1][c+1] = der;
+					//borrar lados antiguos
+					tablero[f][c-1] = new Casilla();
+					tablero[f][c+1] = new Casilla();
+					
+					//TODO actualizar pos disp
+				}
+				else if(f==0)
+				{
+					//borrar lados antiguos
+					tablero[f][c-1] = new Casilla();
+					tablero[f][c+1] = new Casilla();
+					//TODO borrar disparo
+				}
+				else if(f>1)
+				{
+					Disparo punta = (Disparo) tablero[f-1][c];
+					Disparo izq = (Disparo) tablero[f][c-1];
+					Disparo der = (Disparo) tablero[f][c+1];
+					tablero[f-2][c] = punta;
+					tablero[f-1][c] = new Casilla();
+					//pintar lados nuevos
+					tablero[f-1][c-1] = izq;
+					tablero[f-1][c+1] = der;
+					//borrar lados antiguos
+					tablero[f][c-1] = new Casilla();
+					tablero[f][c+1] = new Casilla();
+				}
+			}
+			else if(disp.getTipo()=="rombo")
+			{
+				if(f==4)
+				{
+					//primera fila
+					tablero[0][c-1] = new Disparo();
+					tablero[0][c+1] = new Disparo();
+					//segunda fila
+					tablero[1][c-2] = new Disparo();
+					tablero[1][c+2] = new Disparo();
+					//tercera fila
+					tablero[2][c-2] = new Casilla();
+					tablero[2][c+2] = new Casilla();
+					//cuarta fila
+					tablero[3][c-1] = new Casilla();
+					tablero[3][c+1] = new Casilla();
+					//quinta fila
+					tablero[4][c] = new Casilla();
+					//nuevo f
+					//TODO que la nueva pos sea una menos
+				}
+				else if(f==3)
+				{
+					//primera fila
+					tablero[0][c-2] = new Disparo();
+					tablero[0][c+2] = new Disparo();
+					//segunda fila
+					tablero[1][c-2] = new Casilla();
+					tablero[1][c+2] = new Casilla();
+					//tercera fila
+					tablero[2][c-1] = new Casilla();
+					tablero[2][c+1] = new Casilla();
+					//cuarta fila
+					tablero[3][c] = new Casilla();
+					//nuevo f
+					//TODO que la nueva pos sea una menos
+				}
+				else if(f==2)
+				{
+					//primera fila
+					tablero[0][c-2] = new Disparo();
+					tablero[0][c+2] = new Disparo();
+					//segunda fila
+					tablero[1][c-1] = new Casilla();
+					tablero[1][c+1] = new Casilla();
+					//tercera fila
+					tablero[2][c] = new Casilla();
+					//nuevo f
+					//TODO que la nueva pos sea una menos
+				}
+				else if(f==1)
+				{
+					//primera fila
+					tablero[0][c-1] = new Casilla();
+					tablero[0][c+1] = new Casilla();
+					//segunda fila
+					tablero[1][c] = new Casilla();
+					//nuevo f
+					//TODO que la nueva pos sea una menos
+				}
+				else if(f==0)
+				{
+					//primera fila, punta
+					tablero[0][c] = new Casilla();
+					//nuevo f, que será -1
+					//TODO que la nueva pos sea una menos
+				}
+				else if(f>4)
+				{
+					//pintar
+					tablero[f-5][c] = new Disparo();//nueva punta
+					tablero[f-4][c-1] = new Disparo();//nueva fila 2 izq
+					tablero[f-4][c+1] = new Disparo();//nueva fila 2 der
+					tablero[f-3][c-2] = new Disparo();//nueva fila 3 izq
+					tablero[f-3][c+2] = new Disparo();//nueva fila 3 der
+					//borrar
+					tablero[f-2][c-2] = new Casilla();
+					tablero[f-2][c+2] = new Casilla();
+					tablero[f-1][c-1] = new Casilla();
+					tablero[f-1][c+1] = new Casilla();
+					tablero[f][c] = new Casilla();
+					//nuevo f
+					//TODO que la nueva pos sea una menos
+				}
+			}
+		}
+	}
+	public boolean crearDisp(int[] posN, String tipo)
+	{
+		int f = posN[0];
+		int c = posN[1];
+		boolean creado = false;
+		if(tipo=="normal" && f>=2)
+		{
+			creado = true;
+			tablero[f+2][c] = new Disparo();
+			//TODO añadir a la lista
+		}
+		return creado;
+	}
 }

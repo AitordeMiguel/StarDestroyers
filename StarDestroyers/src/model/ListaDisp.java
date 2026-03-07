@@ -41,4 +41,13 @@ public class ListaDisp{
 	{
 		return ListaNaves.getListaNaves().moverNave(dir);
 	}
+	public void moverDisp()
+	{
+		ListaNaves.getListaNaves().moverDisp(LDis);	
+	}
+	public void crearDisp(String tipo)
+	{
+		boolean creado = ListaNaves.getListaNaves().crearDisp(tipo);
+		//if(creado) {addDisp();}
+	}
 }

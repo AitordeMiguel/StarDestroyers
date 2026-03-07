@@ -66,4 +66,12 @@ public class ListaEnem{
 	{
 		return Espacio.getEspacio().moverNave(dir, LNav);
 	}
+	public void moverDisp(ArrayList<int[]> LDisp)
+	{
+		Espacio.getEspacio().moverEnem(LDisp);
+	}
+	public boolean crearDisp(String tipo,ArrayList<int[]> LNav)
+	{
+		return Espacio.getEspacio().crearDisp(LNav.get(0), tipo);
+	}
 }

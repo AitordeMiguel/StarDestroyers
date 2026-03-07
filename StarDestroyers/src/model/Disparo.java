@@ -7,4 +7,5 @@ public class Disparo extends Casilla{
 	{
 		
 	}
+	public String getTipo() {return tipo;}
 }

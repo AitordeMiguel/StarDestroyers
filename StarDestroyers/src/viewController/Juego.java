@@ -197,8 +197,12 @@ public class Juego extends JFrame implements Observer {
 				}
 				model.ListaDisp.getListaDisp().moverEnem();
 			}
+			model.ListaDisp.getListaDisp().moverDisp();
+			if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+				model.ListaDisp.getListaDisp().crearDisp("normal");
+			}
 		}
-
+	
 		@Override
 		public void keyReleased(KeyEvent e) {
 			// vacío
