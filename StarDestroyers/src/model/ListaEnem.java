@@ -70,7 +70,7 @@ public class ListaEnem{
 	{
 		Espacio.getEspacio().moverEnem(LDisp);
 	}
-	public boolean crearDisp(String tipo,ArrayList<int[]> LNav)
+	public boolean crearDisp(ArrayList<int[]> LNav,String tipo)
 	{
 		return Espacio.getEspacio().crearDisp(LNav.get(0), tipo);
 	}
