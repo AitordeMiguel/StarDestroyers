@@ -69,7 +69,7 @@ public class Menu extends JFrame implements Observer{
 		color = "red";
 		
 		imagenEspacio = new ImageIcon(getClass().getResource("espacio.jpg")).getImage();
-		imagenLogo = new ImageIcon(getClass().getResource("SpIn.png")).getImage(); 
+		imagenLogo = new ImageIcon(getClass().getResource("space_invaders_logo.png")).getImage(); 
 		/*
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
