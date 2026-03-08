@@ -159,7 +159,46 @@ public class Juego extends JFrame implements Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		// Aquí puedes actualizar el tablero si hay cambios en Espacio
-		repaint();
+		Espacio espacio = Espacio.getEspacio();
+
+	    for(int f=0;f<60;f++)
+	    {
+	        for(int c=0;c<100;c++)
+	        {
+	            Casilla cas = espacio.getCasilla(f,c);
+	            JLabel lbl = tablero[f][c];
+
+	            if(cas instanceof Enemigo)
+	            {
+	                lbl.setOpaque(true);
+	                lbl.setBackground(Color.DARK_GRAY);
+	            }
+	            else if(cas instanceof Nave)
+	            {
+	                lbl.setOpaque(true);
+
+	                Nave n = (Nave) cas;
+
+	                if(n.getColor().equals("green"))
+	                    lbl.setBackground(Color.GREEN);
+	                else if(n.getColor().equals("blue"))
+	                    lbl.setBackground(Color.BLUE);
+	                else
+	                    lbl.setBackground(Color.RED);
+	            }
+	            else if(cas instanceof Disparo)
+	            {
+	                lbl.setOpaque(true);
+	                lbl.setBackground(Color.WHITE);
+	            }
+	            else
+	            {
+	                lbl.setOpaque(false);
+	            }
+	        }
+	    }
+
+	    panel.repaint();
 	}
 
 	// Instancia del controlador

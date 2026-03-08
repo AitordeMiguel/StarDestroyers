@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 //import model.Espacio;
@@ -42,6 +43,7 @@ public class Menu extends JFrame implements Observer{
 	//Ponemos las imagenes como atributo
 	private Image imagenEspacio;
 	private Image imagenLogo;
+	private JLabel lblColor;
 	/**
 	 * Launch the application.
 	 */
@@ -139,6 +141,11 @@ public class Menu extends JFrame implements Observer{
 				contentPane.add(lblTexto, BorderLayout.SOUTH);
 		
 		contentPane.add(lblTexto, BorderLayout.SOUTH);
+		
+		lblColor = new JLabel("Color actual: RED");
+		lblColor.setForeground(Color.WHITE);
+		lblColor.setHorizontalAlignment(SwingConstants.CENTER);
+		contentPane.add(lblColor, BorderLayout.NORTH);
 	
 	} 
 
@@ -173,10 +180,34 @@ public class Menu extends JFrame implements Observer{
 
 		@Override
 		public void keyPressed(KeyEvent e) {
-			 if (e.getKeyCode() == KeyEvent.VK_SPACE) 
-			 {
-				 model.ListaDisp.getListaDisp().inicializar(color);
-			 }			
+			
+			// elegir color
+		    if(e.getKeyCode() == KeyEvent.VK_R)
+		        color = "red";
+		    if(e.getKeyCode() == KeyEvent.VK_G)
+		        color = "green";
+		    if(e.getKeyCode() == KeyEvent.VK_B)
+		        color = "blue";
+		    
+		    // actualizar color en el menu
+		    if(e.getKeyCode() == KeyEvent.VK_R) {
+		        color = "red";
+		        lblColor.setText("Color actual: RED");
+		    }
+		    if(e.getKeyCode() == KeyEvent.VK_G) {
+		        color = "green";
+		        lblColor.setText("Color actual: GREEN");
+		    }
+		    if(e.getKeyCode() == KeyEvent.VK_B) {
+		        color = "blue";
+		        lblColor.setText("Color actual: BLUE");
+		    }
+		    
+		    // iniciar juego
+			if (e.getKeyCode() == KeyEvent.VK_SPACE) 
+			{
+				model.ListaDisp.getListaDisp().inicializar(color);
+			}			
 		}
 
 		@Override
@@ -184,11 +215,6 @@ public class Menu extends JFrame implements Observer{
 			// TODO Auto-generated method stub
 			
 		}
-
-		
-
-			
-		
 		
 	}
 	

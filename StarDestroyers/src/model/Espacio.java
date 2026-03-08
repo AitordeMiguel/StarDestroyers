@@ -71,6 +71,8 @@ public class Espacio extends Observable{
 			}
 			tablero[f][c] = new Casilla();
 		}
+		setChanged();
+		notifyObservers();
 	}
 	public boolean moverNave(String dir, ArrayList<int[]> posN)
 	{
@@ -79,60 +81,48 @@ public class Espacio extends Observable{
 		{
 			int f=posN.get(i)[0];
 			int c=posN.get(i)[1];
-			Nave nave= (Nave) tablero[f][c];
-			if(dir == "up")
+			Nave nave = (Nave) tablero[f][c];
+			
+			int navef = f;
+			int navec = c;
+			if(dir.equals("up"))
 			{
-				if(tablero[f-1][c] instanceof Enemigo)
-				{
-					muerto=true;
-				}
-				else
-				{
-					tablero[f-1][c] = nave;
-				}
-				tablero[f][c] = new Casilla();
-				
+				navef--;
 			}
-			else if(dir == "down")
+			else if(dir.equals("down"))
 			{
-				if(tablero[f+1][c] instanceof Enemigo)
-				{
-					muerto=true;
-				}
-				else
-				{
-					tablero[f+1][c] = nave;
-				}
-				tablero[f][c] = new Casilla();
-				
+				navef++;
 			}
-			else if(dir == "right")
+			else if(dir.equals("right"))
 			{
-				if(tablero[f][c+1] instanceof Enemigo)
-				{
-					muerto=true;
-				}
-				else
-				{
-					tablero[f][c+1] = nave;
-				}
-				tablero[f][c] = new Casilla();
-				
+				navec++;
 			}
-			else if(dir == "left")
+			else if(dir.equals("left"))
 			{
-				if(tablero[f][c-1] instanceof Enemigo)
-				{
-					muerto=true;
-				}
-				else
-				{
-					tablero[f][c-1] = nave;
-				}
-				tablero[f][c] = new Casilla();
-				
+				navec--;
 			}
-		}
+			
+			if(navef < 0 || navef >= 60 || navec < 0 || navec >= 100) {
+				return false;
+			}
+			if(tablero[navef][navec] instanceof Enemigo)
+	        {
+	            muerto = true;
+	        }
+	        else
+	        {
+	            tablero[navef][navec] = nave;
+	        }
+
+	        tablero[f][c] = new Casilla();
+
+	        posN.get(i)[0] = navef;
+	        posN.get(i)[1] = navec;
+	    }
+
+	    setChanged();
+	    notifyObservers();
+
 		return muerto;
 	}
 	public void moverDisp(ArrayList<int[]> LDisp,String tipo)
@@ -283,6 +273,10 @@ public class Espacio extends Observable{
 			tablero[f+2][c] = new Disparo();
 			//TODO añadir a la lista
 		}
+		
+		setChanged();
+		notifyObservers();
+		
 		return creado;
 	}
 }
