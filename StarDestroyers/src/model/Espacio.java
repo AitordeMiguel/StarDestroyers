@@ -65,6 +65,7 @@ public class Espacio extends Observable{
 			{
 				//TODO eliminar a este de la colección de enemigos
 			}
+			//TODO si llega hasta abajo
 			else
 			{
 				tablero[f+1][c] = enem;
@@ -270,7 +271,7 @@ public class Espacio extends Observable{
 		if(tipo=="normal" && f>=2)
 		{
 			creado = true;
-			tablero[f+2][c] = new Disparo();
+			tablero[f-2][c] = new Disparo();
 			//TODO añadir a la lista
 		}
 		

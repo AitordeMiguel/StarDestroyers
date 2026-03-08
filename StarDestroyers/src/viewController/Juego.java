@@ -2,6 +2,7 @@ package viewController;
 
 import java.awt.EventQueue;
 import java.awt.Image;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
@@ -40,6 +41,7 @@ public class Juego extends JFrame implements Observer {
 	private Controlador controlador;
 	private Timer timer = null;
 	private int vueltas;
+	private boolean up,down,left,right,m = false;
 
 	/**
 	 * Launch the application.
@@ -84,12 +86,12 @@ public class Juego extends JFrame implements Observer {
 		//contentPane.add(lblFondo);
 		contentPane.add(getPanel(), BorderLayout.CENTER);
 		// Inicializar el controlador y asignarlo
-		contentPane.setFocusable(true);
-		contentPane.requestFocusInWindow();
-		contentPane.addKeyListener(getControlador());
+		panel.setFocusable(true);
+		panel.requestFocusInWindow();
+		//contentPane.addKeyListener(getControlador());
 
 		// Agregar este frame como observer del modelo
-		Espacio.getEspacio().addObserver(this);		
+		Espacio.getEspacio().addObserver(this);	//TODO ¿No debería ser Casilla?	
 		
 		vueltas=0;
 		TimerTask timerTask = new TimerTask() {
@@ -97,6 +99,7 @@ public class Juego extends JFrame implements Observer {
 			public void run() {
 				vueltas++;
 				if(vueltas==4) {vueltas=0;}
+				getControlador().ejecutar();
 			}		
 		};
 		timer = new Timer();
@@ -142,7 +145,7 @@ public class Juego extends JFrame implements Observer {
 					else if(cas instanceof Disparo) 
 					{
 					    lblNewLabel.setOpaque(true);
-					    lblNewLabel.setBackground(Color.WHITE);
+					    lblNewLabel.setBackground(Color.YELLOW);
 					}
 					else {
 					    lblNewLabel.setOpaque(false);
@@ -152,6 +155,25 @@ public class Juego extends JFrame implements Observer {
 					tablero[f][c] = lblNewLabel;
 				}
 			}
+			
+			panel.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyPressed(KeyEvent e) {
+					if (e.getKeyCode() == KeyEvent.VK_LEFT) {left=true;}
+					if (e.getKeyCode() == KeyEvent.VK_RIGHT) {right=true;}
+					if (e.getKeyCode() == KeyEvent.VK_UP) {up=true;}
+					if (e.getKeyCode() == KeyEvent.VK_DOWN) {down=true;}
+					if (e.getKeyCode() == KeyEvent.VK_M) {m=true;}
+				}
+				@Override
+				public void keyReleased(KeyEvent e) 
+				{
+					if (e.getKeyCode() == KeyEvent.VK_UP) {up=false;}
+				    if (e.getKeyCode() == KeyEvent.VK_DOWN) {down=false;}
+				    if (e.getKeyCode() == KeyEvent.VK_LEFT) {left=false;}
+				    if (e.getKeyCode() == KeyEvent.VK_RIGHT) {right=false;}
+				}
+			});
 		}
 		return panel;
 	}
@@ -189,7 +211,7 @@ public class Juego extends JFrame implements Observer {
 	            else if(cas instanceof Disparo)
 	            {
 	                lbl.setOpaque(true);
-	                lbl.setBackground(Color.WHITE);
+	                lbl.setBackground(Color.YELLOW);
 	            }
 	            else
 	            {
@@ -210,41 +232,35 @@ public class Juego extends JFrame implements Observer {
 	}
 
 	// Clase interna Controlador
-	private class Controlador implements KeyListener {
-
-		@Override
-		public void keyTyped(KeyEvent e) {
-			// vacío
-		}
-
-		@Override
-		public void keyPressed(KeyEvent e) {
-			if(vueltas==0)
+	private class Controlador
+	{
+		public void ejecutar()
+		{
+			if(vueltas==0 || vueltas==2)
 			{
 				boolean estado;
-				if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+				if (left) {
 					estado = model.ListaDisp.getListaDisp().moverNave("left");
 				}
-				if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+				if (right) {
 					estado = model.ListaDisp.getListaDisp().moverNave("right");
 				}
-				if (e.getKeyCode() == KeyEvent.VK_UP) {
+				if (up) {
 					estado = model.ListaDisp.getListaDisp().moverNave("up");
 				}
-				if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+				if (down) {
 					estado = model.ListaDisp.getListaDisp().moverNave("down");
 				}
-				model.ListaDisp.getListaDisp().moverEnem();
+				
 			}
+			if(vueltas==0) {model.ListaDisp.getListaDisp().moverEnem();}
 			model.ListaDisp.getListaDisp().moverDisp();
-			if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+			if (m) 
+			{
 				model.ListaDisp.getListaDisp().crearDisp("normal");
+				m=false;
 			}
-		}
-	
-		@Override
-		public void keyReleased(KeyEvent e) {
-			// vacío
 		}
 	}
+
 }
