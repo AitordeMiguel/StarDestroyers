@@ -30,17 +30,12 @@ public class ListaNaves{
 		int[] coor = {x,y};
 		LNav.remove(coor);
 	}
-	public void actualizarMov()
-	{
-		
-	}
-	public void moverEnem()
-	{
-		ListaEnem.getListaEnem().moverEnem();
-	}
+	
+	
 	public boolean moverNave(String dir)
 	{
 		return ListaEnem.getListaEnem().moverNave(dir,LNav);
+		
 	}
 	public void moverDisp(ArrayList<int[]> LDisp)
 	{

@@ -150,11 +150,14 @@ public class Menu extends JFrame implements Observer{
 	} 
 
 	@Override
-	public void update(Observable o, Object arg) {
+	public void update(Observable o, Object arg) {//que pase el color, y el array en forma numérica
+		Object[] conv = (Object[]) arg;
+		String col = (String) conv[0];
+		int[][] mat = (int[][]) conv[1];
 		if(!juegoIniciado)
 		{
 			this.setVisible(false);
-			Juego juego = new Juego();
+			Juego juego = new Juego(col,mat);
 			juego.setVisible(true);
 			juegoIniciado = 1>0;
 		}

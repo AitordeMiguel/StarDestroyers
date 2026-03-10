@@ -54,10 +54,6 @@ public class ListaEnem{
 			}
 		}
 	}
-	public void actualizarMov()
-	{
-		
-	}
 	public void moverEnem()
 	{
 		Espacio.getEspacio().moverEnem(LEnem);

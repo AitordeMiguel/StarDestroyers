@@ -37,7 +37,7 @@ public class Espacio extends Observable{
 			}
 		}
 		setChanged();
-		notifyObservers(new Object[] {});
+		notifyObservers(new Object[] {color,tablero});
 	}
 	public static Espacio getEspacio()
 	{
@@ -66,6 +66,7 @@ public class Espacio extends Observable{
 				//TODO eliminar a este de la colección de enemigos
 			}
 			//TODO si llega hasta abajo
+			//TODO cambiar pos de la Lista
 			else
 			{
 				tablero[f+1][c] = enem;
@@ -122,7 +123,7 @@ public class Espacio extends Observable{
 	    }
 
 	    setChanged();
-	    notifyObservers();
+	    notifyObservers(new Object[] {});
 
 		return muerto;
 	}
@@ -274,6 +275,7 @@ public class Espacio extends Observable{
 			tablero[f-2][c] = new Disparo();
 			//TODO añadir a la lista
 		}
+		//TODO if tablero[f-2][c] es enemigo
 		
 		setChanged();
 		notifyObservers();

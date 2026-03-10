@@ -22,6 +22,7 @@ import model.Casilla;
 import model.Disparo;
 import model.Enemigo;
 import model.Espacio;
+import model.ListaEnem;
 import model.Nave;
 
 import java.awt.BorderLayout;
@@ -41,28 +42,18 @@ public class Juego extends JFrame implements Observer {
 	private Controlador controlador;
 	private Timer timer = null;
 	private int vueltas;
-	private boolean up,down,left,right,m = false;
+	private boolean win,loose = false;
+	private String colorN;  //TODO determinar si no me paso al hacerlo así
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Juego frame = new Juego();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	
 
 	/**
 	 * Create the frame.
 	 */
-	public Juego() {
+	public Juego(String colorNave, int[][] mat) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -70,6 +61,7 @@ public class Juego extends JFrame implements Observer {
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
 		
+		colorN = colorNave;
 		
 		ImageIcon EspacioOriginal = new ImageIcon(getClass().getResource("espacio.jpg"));
 		Image imagenEspacio = EspacioOriginal.getImage();
@@ -84,14 +76,14 @@ public class Juego extends JFrame implements Observer {
 		lblFondo.setBounds(0, 0, 450, 300);
 			
 		//contentPane.add(lblFondo);
-		contentPane.add(getPanel(), BorderLayout.CENTER);
+		contentPane.add(getPanel(mat), BorderLayout.CENTER);
 		// Inicializar el controlador y asignarlo
 		panel.setFocusable(true);
 		panel.requestFocusInWindow();
-		//contentPane.addKeyListener(getControlador());
+		contentPane.addKeyListener(getControlador());
 
 		// Agregar este frame como observer del modelo
-		Espacio.getEspacio().addObserver(this);	//TODO ¿No debería ser Casilla?	
+		Espacio.getEspacio().addObserver(this);	//TODO ¿No debería ser Casilla?	No necesariamente, también va bien así.
 		
 		vueltas=0;
 		TimerTask timerTask = new TimerTask() {
@@ -99,56 +91,53 @@ public class Juego extends JFrame implements Observer {
 			public void run() {
 				vueltas++;
 				if(vueltas==4) {vueltas=0;}
-				getControlador().ejecutar();
+				//getControlador();
 			}		
 		};
 		timer = new Timer();
 		timer.scheduleAtFixedRate(timerTask, 0, 50);
 	}
 	
-	private JPanel getPanel() {
+	private JPanel getPanel(int[][] tabEsp) {//tabEsp:  0=nave 1=disp 2=enem 3=vacío
 		if (panel == null) {
 			panel = new JPanel();
 			panel.setOpaque(true);
 			panel.setLayout(new GridLayout(60, 100, 0, 0));
 			JLabel lblNewLabel;
 			tablero = new JLabel[60][100];
-			Espacio espacio = Espacio.getEspacio();
 			for(int f=0;f<60;f++)
 			{
 				for(int c=0;c<100;c++)
 				{
 					lblNewLabel = new JLabel("");
 					//lblNewLabel.setBorder(BorderFactory.createLineBorder(Color.WHITE));
-					Casilla cas = espacio.getCasilla(f, c);
-
-					if(cas instanceof Enemigo) 
+					//Casilla cas = espacio.getCasilla(f, c);
+					if(tabEsp[f][c]==0)//es la nave
 					{
-					    lblNewLabel.setOpaque(true);
-					    lblNewLabel.setBackground(Color.GRAY);
-					}
-					else if(cas instanceof Nave) 
-					{
-					    lblNewLabel.setOpaque(true);
-					    Nave n = (Nave) cas;
-
-						if(n.getColor().equals("green")) {
+						lblNewLabel.setOpaque(true);
+						if(colorN.equals("green")) {
 							lblNewLabel.setBackground(Color.GREEN);
 						}
-						else if(n.getColor().equals("blue")) {
+						else if(colorN.equals("blue")) {
 							lblNewLabel.setBackground(Color.BLUE);
 						}
 						else {
 							lblNewLabel.setBackground(Color.RED);
 						}
 					}
-					else if(cas instanceof Disparo) 
+					else if(tabEsp[f][c]==1)//es un disparo
 					{
-					    lblNewLabel.setOpaque(true);
+						lblNewLabel.setOpaque(true);
 					    lblNewLabel.setBackground(Color.YELLOW);
 					}
-					else {
-					    lblNewLabel.setOpaque(false);
+					else if(tabEsp[f][c]==2)//es un enemigo
+					{
+						lblNewLabel.setOpaque(true);
+					    lblNewLabel.setBackground(Color.GRAY);
+					}
+					else//if(tabEsp[f][c]==3) es espacio vacio
+					{
+						lblNewLabel.setOpaque(false);
 					}
 					
 					panel.add(lblNewLabel);
@@ -156,71 +145,91 @@ public class Juego extends JFrame implements Observer {
 				}
 			}
 			
-			panel.addKeyListener(new KeyAdapter() {
-				@Override
-				public void keyPressed(KeyEvent e) {
-					if (e.getKeyCode() == KeyEvent.VK_LEFT) {left=true;}
-					if (e.getKeyCode() == KeyEvent.VK_RIGHT) {right=true;}
-					if (e.getKeyCode() == KeyEvent.VK_UP) {up=true;}
-					if (e.getKeyCode() == KeyEvent.VK_DOWN) {down=true;}
-					if (e.getKeyCode() == KeyEvent.VK_M) {m=true;}
-				}
-				@Override
-				public void keyReleased(KeyEvent e) 
-				{
-					if (e.getKeyCode() == KeyEvent.VK_UP) {up=false;}
-				    if (e.getKeyCode() == KeyEvent.VK_DOWN) {down=false;}
-				    if (e.getKeyCode() == KeyEvent.VK_LEFT) {left=false;}
-				    if (e.getKeyCode() == KeyEvent.VK_RIGHT) {right=false;}
-				}
-			});
 		}
 		return panel;
 	}
 	
 	@Override
 	public void update(Observable o, Object arg) {
-		// Aquí puedes actualizar el tablero si hay cambios en Espacio
-		Espacio espacio = Espacio.getEspacio();
+		Object[] res = (Object[]) arg;//arg: acción,estado,posAnt,posNueva,tipo
+		int accion = (int) res[0];
+		int estado = (int) res[1];
+		int[] posAnt = (int[]) res[2];
+		int[] posNueva = (int[]) res[3];
+		int tipo = (int) res[4];
 
-	    for(int f=0;f<60;f++)
-	    {
-	        for(int c=0;c<100;c++)
-	        {
-	            Casilla cas = espacio.getCasilla(f,c);
-	            JLabel lbl = tablero[f][c];
+		if(estado==0) {loose=true;}//perder
+		else if(estado==1) //ganar
+		{
+			if(loose==false)
+			{
+				win = true;
+			}
+		}
+		else//seguir normal
+		{
+			int fN=posNueva[0];
+			int cN=posNueva[1];
+			int fA=posAnt[0];
+			int cA=posAnt[1];
+			
+			if(accion==0)//se quiere mover
+			{
+				JLabel lblA = tablero[fA][cA];
+				JLabel lblN = tablero[fN][cN];
+				//borrar la casilla antigua
+				lblA.setOpaque(false);
+				//dibujar la nueva
+				lblN.setOpaque(true);
+				if(tipo==0)//lo que se mueve es nave
+				{
+					if(colorN.equals("green")) {
+						lblN.setBackground(Color.GREEN);
+					}
+					else if(colorN.equals("blue")) {
+						lblN.setBackground(Color.BLUE);
+					}
+					else {
+						lblN.setBackground(Color.RED);
+					}
+				}
+				else if(tipo==1)//lo que se mueve es disparo
+				{
+					lblN.setBackground(Color.YELLOW);
+				}
+				else//if (tipo==2) vamos, que es enemigo
+				{
+					lblN.setBackground(Color.GRAY);
+				}
+				
+			}
+			else if(accion==1)//se borra lo que sea
+			{
+				JLabel lblA = tablero[fA][cA];
+				//borrar la casilla antigua
+				lblA.setOpaque(false);
+				//TODO notificar que se ha borrado, hay que usar ifs, para cada tipo
+			}
+			else//if(accion==2) se crea algo nuevo
+			{
+				JLabel lblN = tablero[fN][cN];
+				lblN.setOpaque(true);
+				if(tipo==0)//lo que se crea es nave
+				{
+					lblN.setBackground(Color.RED);
+				}
+				else if(tipo==1)//lo que se crea es disparo
+				{
+					lblN.setBackground(Color.YELLOW);
+				}
+				else//if (tipo==2) vamos, que es enemigo, aunque no deberían poder crearse más enemigos
+				{
+					lblN.setBackground(Color.GRAY);
+				}
+			}
+		}
 
-	            if(cas instanceof Enemigo)
-	            {
-	                lbl.setOpaque(true);
-	                lbl.setBackground(Color.DARK_GRAY);
-	            }
-	            else if(cas instanceof Nave)
-	            {
-	                lbl.setOpaque(true);
-
-	                Nave n = (Nave) cas;
-
-	                if(n.getColor().equals("green"))
-	                    lbl.setBackground(Color.GREEN);
-	                else if(n.getColor().equals("blue"))
-	                    lbl.setBackground(Color.BLUE);
-	                else
-	                    lbl.setBackground(Color.RED);
-	            }
-	            else if(cas instanceof Disparo)
-	            {
-	                lbl.setOpaque(true);
-	                lbl.setBackground(Color.YELLOW);
-	            }
-	            else
-	            {
-	                lbl.setOpaque(false);
-	            }
-	        }
-	    }
-
-	    panel.repaint();
+	    panel.repaint();//TODO ¿Realmente necesario?
 	}
 
 	// Instancia del controlador
@@ -232,34 +241,31 @@ public class Juego extends JFrame implements Observer {
 	}
 
 	// Clase interna Controlador
-	private class Controlador
+	private class Controlador implements KeyListener
 	{
-		public void ejecutar()
-		{
+		@Override
+		public void keyTyped(KeyEvent e) {
+		}
+
+		@Override
+		public void keyPressed(KeyEvent e) {
 			if(vueltas==0 || vueltas==2)
 			{
-				boolean estado;
-				if (left) {
-					estado = model.ListaDisp.getListaDisp().moverNave("left");
-				}
-				if (right) {
-					estado = model.ListaDisp.getListaDisp().moverNave("right");
-				}
-				if (up) {
-					estado = model.ListaDisp.getListaDisp().moverNave("up");
-				}
-				if (down) {
-					estado = model.ListaDisp.getListaDisp().moverNave("down");
-				}
-				
+				if (e.getKeyCode() == KeyEvent.VK_LEFT) {model.ListaNaves.getListaNaves().moverNave("left");}
+				if (e.getKeyCode() == KeyEvent.VK_RIGHT) {model.ListaNaves.getListaNaves().moverNave("right");}
+				if (e.getKeyCode() == KeyEvent.VK_UP) {model.ListaNaves.getListaNaves().moverNave("up");}
+				if (e.getKeyCode() == KeyEvent.VK_DOWN) {model.ListaNaves.getListaNaves().moverNave("down");}
 			}
-			if(vueltas==0) {model.ListaDisp.getListaDisp().moverEnem();}
+			if(vueltas==0) {model.ListaEnem.getListaEnem().moverEnem();}
 			model.ListaDisp.getListaDisp().moverDisp();
-			if (m) 
-			{
-				model.ListaDisp.getListaDisp().crearDisp("normal");
-				m=false;
-			}
+			if (e.getKeyCode() == KeyEvent.VK_M) {model.ListaDisp.getListaDisp().crearDisp("normal");}
+			
+			
+		}
+
+		@Override
+		public void keyReleased(KeyEvent e) {
+			
 		}
 	}
 
