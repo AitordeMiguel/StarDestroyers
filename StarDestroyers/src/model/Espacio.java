@@ -17,6 +17,7 @@ public class Espacio extends Observable{
 	public void inicializar(String color,ArrayList<int[]> posE)
 	{
 		tablero = new Casilla[60][100];
+		int[][] tabNum = new int[60][100];//0=nave, 1=disp, 2=enem, 3=vacio
 		for(int f=0;f<60;f++)
 		{
 			for(int c=0;c<100;c++)
@@ -25,19 +26,22 @@ public class Espacio extends Observable{
 				{
 					posE.remove(0);
 					tablero[f][c] = new Enemigo();
+					tabNum[f][c]=2;
 				}
 				else if(f==55 && c==50)
 				{
 					tablero[f][c] = new Nave(color);
+					tabNum[f][c]=0;
 				}
 				else
 				{
 					tablero[f][c] = new Casilla();
+					tabNum[f][c]=3;
 				}
 			}
 		}
 		setChanged();
-		notifyObservers(new Object[] {color,tablero});
+		notifyObservers(new Object[] {color,tabNum});
 	}
 	public static Espacio getEspacio()
 	{
