@@ -1,10 +1,24 @@
 package model;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class ListaDisp{
 	private ArrayList<int[]> LDis;
 	private static ListaDisp miListaDisp;
-	private ListaDisp(){}
+	private Timer timer = null;
+	
+	private ListaDisp()
+	{
+		TimerTask timerTask = new TimerTask() {
+			@Override
+			public void run() {
+				//moverDisp();
+			}		
+		};
+		timer = new Timer();
+		timer.scheduleAtFixedRate(timerTask, 0, 50);
+	}
 	
 	public static ListaDisp getListaDisp()
 	{
@@ -35,24 +49,22 @@ public class ListaDisp{
 		}
 	}
 	
-	public void actMovDisp(int x, int y)
+	public void moverDisp()
 	{
-		for(int i=0;i<LDis.size();i++)
+		ArrayList<int[]> rdo = ListaNaves.getListaNaves().moverDisp(LDis);
+		for (int i=0;i<rdo.size();i++)
 		{
-			if(LDis.get(i)[0]==x && LDis.get(i)[1]==y)
+			if(rdo.get(i)[0]==1)//si se ha movido
 			{
-				LDis.get(i)[0]=x-1;//sube una pos
+				LDis.get(i)[0]--;//sube una pos
 			}
 		}
 	}
-	
-	public void moverDisp()
-	{
-		ListaNaves.getListaNaves().moverDisp(LDis);	
-	}
 	public void crearDisp(String tipo)
 	{
-		boolean creado = ListaNaves.getListaNaves().crearDisp(tipo);
-		//if(creado) {addDisp();}
+		//primer elem: 1=creado  0=no creado
+		//segundo y tercero: posX, posY
+		int[] sol = ListaNaves.getListaNaves().crearDisp(tipo);
+		if(sol[0]==1) {addDisp(sol[1],sol[2]);}
 	}
 }

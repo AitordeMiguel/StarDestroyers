@@ -40,10 +40,7 @@ public class Juego extends JFrame implements Observer {
 	private JPanel panel;
 	private JLabel[][] tablero;
 	private Controlador controlador;
-	private Timer timer = null;
-	private int vueltas;
-	private boolean win,loose = false;
-	private String colorN;  //TODO determinar si no me paso al hacerlo así
+	private String colorN; 
 
 	/**
 	 * Launch the application.
@@ -83,19 +80,7 @@ public class Juego extends JFrame implements Observer {
 		contentPane.addKeyListener(getControlador());
 
 		// Agregar este frame como observer del modelo
-		Espacio.getEspacio().addObserver(this);	//TODO ¿No debería ser Casilla?	No necesariamente, también va bien así.
-		
-		vueltas=0;
-		TimerTask timerTask = new TimerTask() {
-			@Override
-			public void run() {
-				vueltas++;
-				if(vueltas==4) {vueltas=0;}
-				//getControlador();
-			}		
-		};
-		timer = new Timer();
-		timer.scheduleAtFixedRate(timerTask, 0, 50);
+		Espacio.getEspacio().addObserver(this);	
 	}
 	
 	private JPanel getPanel(int[][] tabEsp) {//tabEsp:  0=nave 1=disp 2=enem 3=vacío
@@ -150,107 +135,77 @@ public class Juego extends JFrame implements Observer {
 	
 	@Override
 	public void update(Observable o, Object arg) {
-		Object[] res = (Object[]) arg;//arg: acción,estado,posAnt,posNueva,tipo
+		Object[] res = (Object[]) arg;//arg: acción,posAnt,posNueva,tipo
 		int accion = (int) res[0];
-		int estado = (int) res[1];
-		int[] posAnt = (int[]) res[2];
-		int[] posNueva = (int[]) res[3];
-		int tipo = (int) res[4];
-
-		if(estado==0) {loose=true;}//perder
-		else if(estado==1) //ganar
+		int[] posAnt = (int[]) res[1];
+		int[] posNueva = (int[]) res[2];
+		int tipo = (int) res[3];
+		
+		int fN=posNueva[0];
+		int cN=posNueva[1];
+		int fA=posAnt[0];
+		int cA=posAnt[1];
+		
+		if(accion==0)//se quiere mover
 		{
-			if(loose==false)
+			JLabel lblA = tablero[fA][cA];
+			JLabel lblN = tablero[fN][cN];
+			//borrar la casilla antigua
+			lblA.setOpaque(false);
+			//dibujar la nueva
+			lblN.setOpaque(true);
+			if(tipo==0)//lo que se mueve es nave
 			{
-				win = true;
+				if(colorN.equals("green")) {
+					lblN.setBackground(Color.GREEN);
+				}
+				else if(colorN.equals("blue")) {
+					lblN.setBackground(Color.BLUE);
+				}
+				else {
+					lblN.setBackground(Color.RED);
+				}
 			}
-		}
-		else//seguir normal
-		{
-			int fN=posNueva[0];
-			int cN=posNueva[1];
-			int fA=posAnt[0];
-			int cA=posAnt[1];
+			else if(tipo==1)//lo que se mueve es disparo
+			{
+				lblN.setBackground(Color.YELLOW);
+			}
+			else//if (tipo==2) vamos, que es enemigo
+			{
+				lblN.setBackground(Color.GRAY);
+			}
 			
-			if(accion==0)//se quiere mover
+		}
+		else if(accion==1)//se borra algo
+		{
+			JLabel lblA = tablero[fA][cA];
+			lblA.setOpaque(true);
+		}
+		else if(accion==2) //se crea algo nuevo    //TODO hacer sus notificaciones a las listas
+		{
+			JLabel lblN = tablero[fN][cN];
+			lblN.setOpaque(true);
+			if(tipo==0)//lo que se crea es nave, aunque no deberían poder crearse más naves
 			{
-				JLabel lblA = tablero[fA][cA];
-				JLabel lblN = tablero[fN][cN];
-				//borrar la casilla antigua
-				lblA.setOpaque(false);
-				//dibujar la nueva
-				lblN.setOpaque(true);
-				if(tipo==0)//lo que se mueve es nave
-				{
-					if(colorN.equals("green")) {
-						lblN.setBackground(Color.GREEN);
-					}
-					else if(colorN.equals("blue")) {
-						lblN.setBackground(Color.BLUE);
-					}
-					else {
-						lblN.setBackground(Color.RED);
-					}
+				if(colorN.equals("green")) {
+					lblN.setBackground(Color.GREEN);
 				}
-				else if(tipo==1)//lo que se mueve es disparo
-				{
-					lblN.setBackground(Color.YELLOW);
-					getControlador().actMovDisp(fA,cA);
+				else if(colorN.equals("blue")) {
+					lblN.setBackground(Color.BLUE);
 				}
-				else//if (tipo==2) vamos, que es enemigo
-				{
-					lblN.setBackground(Color.GRAY);
-					getControlador().actMovEnem(fA,cA);
-				}
-				
-			}
-			else if(accion==1)//se borra lo que sea
-			{
-				JLabel lblA = tablero[fA][cA];
-				//borrar la casilla antigua
-				lblA.setOpaque(false);
-				if(tipo==0)//se borra nave
-				{
-					getControlador().borrarNave(fA, cA);
-				}
-				else if(tipo==1)//se borra disp
-				{
-					getControlador().borrarDisp(fA, cA);
-				}
-				else //if(tipo==1) se borra enem
-				{
-					getControlador().borrarEnem(fA, cA);
+				else {
+					lblN.setBackground(Color.RED);
 				}
 			}
-			else if(accion==2) //se crea algo nuevo    //TODO hacer sus notificaciones a las listas
+			else if(tipo==1)//lo que se crea es disparo
 			{
-				JLabel lblN = tablero[fN][cN];
-				lblN.setOpaque(true);
-				if(tipo==0)//lo que se crea es nave, aunque no deberían poder crearse más naves
-				{
-					if(colorN.equals("green")) {
-						lblN.setBackground(Color.GREEN);
-					}
-					else if(colorN.equals("blue")) {
-						lblN.setBackground(Color.BLUE);
-					}
-					else {
-						lblN.setBackground(Color.RED);
-					}
-				}
-				else if(tipo==1)//lo que se crea es disparo
-				{
-					lblN.setBackground(Color.YELLOW);
-					getControlador().añadirDisp(fN, cN);
-				}
-				else//if (tipo==2) vamos, que es enemigo, aunque no deberían poder crearse más enemigos
-				{
-					lblN.setBackground(Color.GRAY);
-				}
+				lblN.setBackground(Color.YELLOW);
+			}
+			else//if (tipo==2) vamos, que es enemigo, aunque no deberían poder crearse más enemigos
+			{
+				lblN.setBackground(Color.GRAY);
 			}
 		}
-
-	    panel.repaint();//TODO ¿Realmente necesario?
 	}
 
 	// Instancia del controlador
@@ -263,32 +218,19 @@ public class Juego extends JFrame implements Observer {
 
 	// Clase interna Controlador
 	private class Controlador implements KeyListener
-	{
-		public void borrarEnem(int f, int c){model.ListaEnem.getListaEnem().removeEnem(f,c);}
-		public void borrarDisp(int f, int c){model.ListaDisp.getListaDisp().removeDisp(f, c);}
-		public void borrarNave(int f, int c){model.ListaNaves.getListaNaves().removeNave(f, c);}
-		
-		public void añadirDisp(int f, int c) {model.ListaDisp.getListaDisp().addDisp(f, c);}
-		public void actMovDisp(int f, int c) {model.ListaDisp.getListaDisp().actMovDisp(f, c);}
-		
-		public void actMovEnem(int f, int c) {model.ListaEnem.getListaEnem().actEnem(f, c);}
-		
+	{		
 		@Override
 		public void keyTyped(KeyEvent e) {
 		}
 
 		@Override
 		public void keyPressed(KeyEvent e) {
-			if(true)//(vueltas==0 || vueltas==2)
-			{
-				if (e.getKeyCode() == KeyEvent.VK_LEFT) {model.ListaNaves.getListaNaves().moverNave("left");}
-				if (e.getKeyCode() == KeyEvent.VK_RIGHT) {model.ListaNaves.getListaNaves().moverNave("right");}
-				if (e.getKeyCode() == KeyEvent.VK_UP) {model.ListaNaves.getListaNaves().moverNave("up");}
-				if (e.getKeyCode() == KeyEvent.VK_DOWN) {model.ListaNaves.getListaNaves().moverNave("down");}
-			}
-			if(vueltas==0) {model.ListaEnem.getListaEnem().moverEnem();}
-			model.ListaDisp.getListaDisp().moverDisp();//TODO no sería método fuera de key
-			if (e.getKeyCode() == KeyEvent.VK_M) {model.ListaDisp.getListaDisp().crearDisp("normal");}
+			if (e.getKeyCode() == KeyEvent.VK_LEFT) {model.ListaNaves.getListaNaves().moverNave("left");}
+			if (e.getKeyCode() == KeyEvent.VK_RIGHT) {model.ListaNaves.getListaNaves().moverNave("right");}
+			if (e.getKeyCode() == KeyEvent.VK_UP) {model.ListaNaves.getListaNaves().moverNave("up");}
+			if (e.getKeyCode() == KeyEvent.VK_DOWN) {model.ListaNaves.getListaNaves().moverNave("down");}
+			
+			if (e.getKeyCode() == KeyEvent.VK_SPACE) {model.ListaDisp.getListaDisp().crearDisp("normal");}
 			
 			
 		}

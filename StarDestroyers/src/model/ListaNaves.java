@@ -42,11 +42,11 @@ public class ListaNaves{
 		return ListaEnem.getListaEnem().moverNave(dir,LNav);
 		
 	}
-	public void moverDisp(ArrayList<int[]> LDisp)
+	public ArrayList<int[]> moverDisp(ArrayList<int[]> LDisp)
 	{
-		ListaEnem.getListaEnem().moverDisp(LDisp);
+		return ListaEnem.getListaEnem().moverDisp(LDisp);
 	}
-	public boolean crearDisp(String tipo)
+	public int[] crearDisp(String tipo)
 	{
 		return ListaEnem.getListaEnem().crearDisp(LNav,tipo);
 	}

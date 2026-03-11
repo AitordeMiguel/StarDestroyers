@@ -58,11 +58,12 @@ public class Espacio extends Observable{
 	    }
 	    return null;
 	}
-	public void moverEnem(ArrayList<int[]> posE)
+	public ArrayList<Boolean> moverEnem(ArrayList<int[]> posE)
 	{
+		ArrayList<Boolean> sol = new ArrayList<Boolean>();
 		for(int i=0;i<posE.size();i++)
 		{
-			int estado=2;//nada
+			boolean movido = false;
 			int accion=3;//nada
 			
 			int[] posNue = new int[2];
@@ -79,24 +80,25 @@ public class Espacio extends Observable{
 				//TODO eliminar a este de la colección de enemigos
 			}
 			//TODO si llega hasta abajo
-			//TODO cambiar pos de la Lista
-			else
+			else//se puede mover
 			{
 				accion=0;//mover
 				tablero[f+1][c] = enem;
 				posNue[0]=f+1;
 				posNue[1]=c;
+				movido = true;
 			}
 			tablero[f][c] = new Casilla();
 			
+			sol.add(movido);
 			setChanged();
-			notifyObservers(new Object[] {accion,estado,posA,posNue,2});
+			notifyObservers(new Object[] {accion,posA,posNue,2});
 		}
-		
+		return sol;
 	}
 	public boolean moverNave(String dir, ArrayList<int[]> posN)
 	{
-		int estado=2;//nada
+		int estado=2;//nada//TODO quitar esto
 		int accion=3;//nada
 		boolean muerto = false;
 		
@@ -158,62 +160,112 @@ public class Espacio extends Observable{
 
 		return muerto;
 	}
-	public void moverDisp(ArrayList<int[]> LDisp)
+	public ArrayList<int[]> moverDisp(ArrayList<int[]> LDisp)
 	{
+		ArrayList<int[]> sol = new ArrayList<int[]>();
 		for(int i=0;i<LDisp.size();i++)
 		{
+			//boolean movido = false;
+			
 			int f = LDisp.get(i)[0];
 			int c = LDisp.get(i)[1];
 			
 			int accion=3;//nada
-			int estado = 2;//nada
 			int tipo = 1;//disp
 			int[] posA = {f,c};
 			int[] posNue = new int[2];
+			
+			int[] valores = new int[4];//se ha movido nave?, se borra enem?, posX, posY   --pos solo para enem
 			
 			Disparo disp = (Disparo) tablero[f][c];
 			
 			if(disp.getTipo()=="normal")
 			{
-				if(f==0)
+				if(f==0)//no puede haber enemigos más allá
 				{
+					valores[0] = 0;//no se ha movido
+					valores[1] = 0;//no se borra enem
 					tablero[f][c] = new Casilla();
 					accion=1; //borrar
 				}
+				else if(tablero[f-1][c] instanceof Enemigo)//directamente se borra el enemigo
+				{
+					valores[0] = 0;//no se ha movido
+					valores[1] = 1;//se borra enem
+					valores[2] = f-1;
+					valores[3] = c;
+					
+					accion=1;//borrar
+					tipo=2;//lo que se borrará será un enem
+					tablero[f][c] = new Casilla();
+					tablero[f-1][c] = new Casilla();
+					posA[0]--;
+				}
 				else if(f>0)
 				{
+					valores[0] = 1;//se ha movido
+					valores[1] = 0;//no se borra enem
+					
 					tablero[f][c] = new Casilla();
 					tablero[f-1][c] = disp;
 					accion = 0;//mover
 					posNue[0]=f-1;
 					posNue[1]=c;
-				}//TODO si al moverse mata enemigo
+				}//TODO si al moverse mata enemigo --seguramente tendra que ser ArrayList<Boolean[]> con un par de valores
 			}
+			sol.add(valores);
 			setChanged();
-			notifyObservers(new Object[] {accion,estado,posA,posNue,tipo});
+			notifyObservers(new Object[] {accion,posA,posNue,tipo});
 		}
+		return sol;
 	}
-	public boolean crearDisp(int[] posN, String tipo)
+	public int[] crearDisp(int[] posN, String tipo)
 	{
+		//boolean a int  --> 1=True, 0=False
+		int[] sol = new int[4];//boolean creado, pos x, pos y, borrarEnem?
 		int f = posN[0];
 		int c = posN[1];
 		int accion=3;//nada
-		boolean creado = false;
+		int tip =1;//disparo, aunque puede cambiar
+		sol[0] = 0;//de momento no creado
 		if(tipo=="normal" && f>=2)
 		{
-			creado = true;
-			tablero[f-2][c] = new Disparo(tipo);
-			accion=2;//crear
-			//TODO añadir a la lista
+			sol[1] = f-2;
+			sol[2] = c;
+			if(tablero[f-2][c] instanceof Enemigo)
+			{
+				//notificar que se borra Enemigo, pero no se crea
+				sol[0] = 0;// No creado
+				sol[3] = 1;
+				accion=1;//se va a borrar
+				tip=2;//se borrara un enem
+			}
+			else if(tablero[f-2][c] instanceof Disparo )//aunque como se mueve no debería poder ocurrir
+			{
+				sol[0] = 0;// No creado
+				sol[3] = 0;//No se elimina enem
+			}
+			else if(f-3>=0 && tablero[f-3][c] instanceof Disparo)//me aseguro de que haya espacios entre disp
+			{
+				sol[0] = 0;// No creado
+				sol[3] = 0;//No se elimina enem
+			}
+			else
+			{
+				sol[0] = 1;//creado
+				sol[3] = 0;
+				tablero[f-2][c] = new Disparo(tipo);
+				accion=2;//crear
+			}
 		}
-		//TODO if tablero[f-2][c] es enemigo --> habrá que decir que el tipo era disparo, y que se ha borrado, y directamente no se crea disp
+		
 		
 		int[] posA = {-1,-1};//porque no lo vamos a querer
 		int[] posNue = {f-2,c};
 		
 		setChanged();
-		notifyObservers(new Object[] {accion,2,posA,posNue,1});//crear,nada,posAnt,posNue,disp
+		notifyObservers(new Object[] {accion,posA,posNue,tip});//crear,nada,posAnt,posNue,
 		
-		return creado;
+		return sol;
 	}
 }

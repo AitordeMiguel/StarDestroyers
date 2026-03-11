@@ -2,16 +2,32 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class ListaEnem{
 	private ArrayList<int[]> LEnem;
 	private static ListaEnem miListaEnem;
-	private ListaEnem(){}
+	private Timer timer = null;
+	private ListaEnem()
+	{
+		TimerTask timerTask = new TimerTask() {
+			@Override
+			public void run() {
+				//moverEnem();
+			}		
+		};
+		timer = new Timer();
+		timer.scheduleAtFixedRate(timerTask, 0, 200);
+	}
+	
+	
 	//public void addEnem(int x, int y)
 	//{
 	//	int[] coor = {x,y};
 	//	LEnem.add(coor);
 	//}
+	
 	public static ListaEnem getListaEnem()
 	{
 		if(miListaEnem == null)
@@ -41,6 +57,7 @@ public class ListaEnem{
 				LEnem.remove(i);
 			}
 		}
+		//TODO comprobamos aquí si aún quedan enemigos? size()==0
 	}
 	public void comprobarColNave(ArrayList<int[]> LNav)//TODO determinar si realmente se necesita o si ya se hace con notify
 	{
@@ -69,20 +86,45 @@ public class ListaEnem{
 			}
 		}
 	}
-	public void moverEnem()
+	public void moverEnem()//version postLabo
 	{
-		Espacio.getEspacio().moverEnem(LEnem);
+		ArrayList<Boolean> rdo = Espacio.getEspacio().moverEnem(LEnem);
+		for(int i=0;i<rdo.size();i++)
+		{
+			if(rdo.get(i))//si se ha movido
+			{
+				LEnem.get(i)[0]++; //Baja una posición
+			}
+			else
+			{
+				LEnem.remove(i); //Se elimina este
+				i--;
+			}
+		}
 	}
 	public boolean moverNave(String dir, ArrayList<int[]> LNav)
 	{
 		return Espacio.getEspacio().moverNave(dir, LNav);
 	}
-	public void moverDisp(ArrayList<int[]> LDisp)
+	public ArrayList<int[]> moverDisp(ArrayList<int[]> LDisp)
 	{
-		Espacio.getEspacio().moverDisp(LDisp);
+		ArrayList<int[]> rdo = Espacio.getEspacio().moverDisp(LDisp);
+		for(int i=0;i<rdo.size();i++)
+		{
+			if(rdo.get(i)[2]==1)//se borra enemigo
+			{
+				removeEnem(rdo.get(i)[3], rdo.get(i)[4]);
+			}
+		}
+		return rdo;
 	}
-	public boolean crearDisp(ArrayList<int[]> LNav,String tipo)
+	public int[] crearDisp(ArrayList<int[]> LNav,String tipo)
 	{
-		return Espacio.getEspacio().crearDisp(LNav.get(0), tipo);
+		int[] rdo = Espacio.getEspacio().crearDisp(LNav.get(0), tipo);
+		if(rdo[3]==1)//se borra este enem
+		{
+			removeEnem(rdo[1],rdo[2]);
+		}
+		return rdo;
 	}
 }
