@@ -219,6 +219,7 @@ public class Juego extends JFrame implements Observer {
 				else //if(tipo==1) se borra enem
 				{
 					//TODO ListaEnem.removeEnem(fA,cA);
+					getControlador().borrarEnem(fA, cA);
 				}
 			}
 			else if(accion==2) //se crea algo nuevo    //TODO hacer sus notificaciones a las listas
@@ -254,6 +255,10 @@ public class Juego extends JFrame implements Observer {
 	// Clase interna Controlador
 	private class Controlador implements KeyListener
 	{
+		public void borrarEnem(int f, int c)
+		{
+			model.ListaEnem.getListaEnem().removeEnem(f,c);
+		}
 		@Override
 		public void keyTyped(KeyEvent e) {
 		}

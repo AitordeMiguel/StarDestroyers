@@ -34,10 +34,15 @@ public class ListaEnem{
 	}
 	public void removeEnem(int x, int y)
 	{
-		int[] coor = {x,y};
-		LEnem.remove(coor);
+		for(int i=0;i<LEnem.size();i++)
+		{
+			if(LEnem.get(i)[0]==x && LEnem.get(i)[1]==y)//basta con y
+			{
+				LEnem.remove(i);
+			}
+		}
 	}
-	public void comprobarColNave(ArrayList<int[]> LNav)
+	public void comprobarColNave(ArrayList<int[]> LNav)//TODO determinar si realmente se necesita o si ya se hace con notify
 	{
 		for(int i=0;i<LNav.size();i++)
 		{
