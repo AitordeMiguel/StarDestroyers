@@ -78,8 +78,8 @@ public class Juego extends JFrame implements Observer {
 		//contentPane.add(lblFondo);
 		contentPane.add(getPanel(mat), BorderLayout.CENTER);
 		// Inicializar el controlador y asignarlo
-		panel.setFocusable(true);
-		panel.requestFocusInWindow();
+		contentPane.setFocusable(true);
+		contentPane.requestFocusInWindow();
 		contentPane.addKeyListener(getControlador());
 
 		// Agregar este frame como observer del modelo
@@ -111,7 +111,6 @@ public class Juego extends JFrame implements Observer {
 				{
 					lblNewLabel = new JLabel("");
 					//lblNewLabel.setBorder(BorderFactory.createLineBorder(Color.WHITE));
-					//Casilla cas = espacio.getCasilla(f, c);
 					if(tabEsp[f][c]==0)//es la nave
 					{
 						lblNewLabel.setOpaque(true);
@@ -209,12 +208,24 @@ public class Juego extends JFrame implements Observer {
 				//borrar la casilla antigua
 				lblA.setOpaque(false);
 				//TODO notificar que se ha borrado, hay que usar ifs, para cada tipo
+				if(tipo==0)//se borra nave
+				{
+					//TODO ListaNaves.removeNave(fA,cA);
+				}
+				else if(tipo==1)//se borra disp
+				{
+					//TODO ListaDisp.removeDisp(fA,cA);
+				}
+				else //if(tipo==1) se borra enem
+				{
+					//TODO ListaEnem.removeEnem(fA,cA);
+				}
 			}
-			else//if(accion==2) se crea algo nuevo
+			else if(accion==2) //se crea algo nuevo    //TODO hacer sus notificaciones a las listas
 			{
 				JLabel lblN = tablero[fN][cN];
 				lblN.setOpaque(true);
-				if(tipo==0)//lo que se crea es nave
+				if(tipo==0)//lo que se crea es nave, aunque no deberían poder crearse más naves
 				{
 					lblN.setBackground(Color.RED);
 				}

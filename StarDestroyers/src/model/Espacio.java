@@ -62,31 +62,53 @@ public class Espacio extends Observable{
 	{
 		for(int i=0;i<posE.size();i++)
 		{
+			int estado=2;//nada
+			int accion=3;//nada
+			
+			int[] posNue = new int[2];
+			
 			int f=posE.get(i)[0];
 			int c=posE.get(i)[1];
+			
+			int[] posA = {f,c};
+			
 			Enemigo enem = (Enemigo) tablero[f][c];
 			if(tablero[f+1][c] instanceof Disparo)
 			{
+				accion=1;//borrar
 				//TODO eliminar a este de la colección de enemigos
 			}
 			//TODO si llega hasta abajo
 			//TODO cambiar pos de la Lista
 			else
 			{
+				accion=0;//mover
 				tablero[f+1][c] = enem;
+				posNue[0]=f+1;
+				posNue[1]=c;
 			}
 			tablero[f][c] = new Casilla();
+			
+			setChanged();
+			notifyObservers(new Object[] {accion,estado,posA,posNue,2});
 		}
-		setChanged();
-		notifyObservers();
+		
 	}
 	public boolean moverNave(String dir, ArrayList<int[]> posN)
 	{
+		int estado=2;//nada
+		int accion=3;//nada
 		boolean muerto = false;
+		
+		int[] posA = new int[2];
+		int[] posNue = new int[2];
+		
 		for(int i=0;i<posN.size();i++)
 		{
 			int f=posN.get(i)[0];
 			int c=posN.get(i)[1];
+			posA[0]=f;
+			posA[1]=c;
 			Nave nave = (Nave) tablero[f][c];
 			
 			int navef = f;
@@ -107,17 +129,20 @@ public class Espacio extends Observable{
 			{
 				navec--;
 			}
-			
+			posNue[0]=navef;
+			posNue[1]=navec;
 			if(navef < 0 || navef >= 60 || navec < 0 || navec >= 100) {
 				return false;
 			}
 			if(tablero[navef][navec] instanceof Enemigo)
 	        {
 	            muerto = true;
+	            estado=0;
 	        }
 	        else
 	        {
 	            tablero[navef][navec] = nave;
+	            accion=0;//mover
 	        }
 
 	        tablero[f][c] = new Casilla();
@@ -125,9 +150,11 @@ public class Espacio extends Observable{
 	        posN.get(i)[0] = navef;
 	        posN.get(i)[1] = navec;
 	    }
-
+		
+		
+		
 	    setChanged();
-	    notifyObservers(new Object[] {});
+	    notifyObservers(new Object[] {accion,estado,posA,posNue,0});
 
 		return muerto;
 	}
@@ -137,135 +164,32 @@ public class Espacio extends Observable{
 		{
 			int f = LDisp.get(i)[0];
 			int c = LDisp.get(i)[1];
+			
+			int accion=3;//nada
+			int estado = 2;//nada
+			int tip = 1;//disp
+			int[] posA = {f,c};
+			int[] posNue = new int[2];
+			
 			Disparo disp = (Disparo) tablero[f][c];
-			if(disp.getTipo()=="punto")
+			if(disp.getTipo()=="normal")
 			{
-				tablero[f][c] = new Casilla();
-				tablero[f][c] = disp;
-			}
-			else if(disp.getTipo()=="flecha")
-			{
-				if(f==1)
+				if(f==0)
 				{
-					tablero[f-1][c] = new Casilla();//borrar antigua punta
-					//pintar lados nuevos
-					Disparo izq = (Disparo) tablero[f][c-1];
-					Disparo der = (Disparo) tablero[f][c+1];
-					tablero[f-1][c-1] = izq;
-					tablero[f-1][c+1] = der;
-					//borrar lados antiguos
-					tablero[f][c-1] = new Casilla();
-					tablero[f][c+1] = new Casilla();
-					
-					//TODO actualizar pos disp
-				}
-				else if(f==0)
-				{
-					//borrar lados antiguos
-					tablero[f][c-1] = new Casilla();
-					tablero[f][c+1] = new Casilla();
-					//TODO borrar disparo
-				}
-				else if(f>1)
-				{
-					Disparo punta = (Disparo) tablero[f-1][c];
-					Disparo izq = (Disparo) tablero[f][c-1];
-					Disparo der = (Disparo) tablero[f][c+1];
-					tablero[f-2][c] = punta;
-					tablero[f-1][c] = new Casilla();
-					//pintar lados nuevos
-					tablero[f-1][c-1] = izq;
-					tablero[f-1][c+1] = der;
-					//borrar lados antiguos
-					tablero[f][c-1] = new Casilla();
-					tablero[f][c+1] = new Casilla();
-				}
-			}
-			else if(disp.getTipo()=="rombo")
-			{
-				if(f==4)
-				{
-					//primera fila
-					tablero[0][c-1] = new Disparo();
-					tablero[0][c+1] = new Disparo();
-					//segunda fila
-					tablero[1][c-2] = new Disparo();
-					tablero[1][c+2] = new Disparo();
-					//tercera fila
-					tablero[2][c-2] = new Casilla();
-					tablero[2][c+2] = new Casilla();
-					//cuarta fila
-					tablero[3][c-1] = new Casilla();
-					tablero[3][c+1] = new Casilla();
-					//quinta fila
-					tablero[4][c] = new Casilla();
-					//nuevo f
-					//TODO que la nueva pos sea una menos
-				}
-				else if(f==3)
-				{
-					//primera fila
-					tablero[0][c-2] = new Disparo();
-					tablero[0][c+2] = new Disparo();
-					//segunda fila
-					tablero[1][c-2] = new Casilla();
-					tablero[1][c+2] = new Casilla();
-					//tercera fila
-					tablero[2][c-1] = new Casilla();
-					tablero[2][c+1] = new Casilla();
-					//cuarta fila
-					tablero[3][c] = new Casilla();
-					//nuevo f
-					//TODO que la nueva pos sea una menos
-				}
-				else if(f==2)
-				{
-					//primera fila
-					tablero[0][c-2] = new Disparo();
-					tablero[0][c+2] = new Disparo();
-					//segunda fila
-					tablero[1][c-1] = new Casilla();
-					tablero[1][c+1] = new Casilla();
-					//tercera fila
-					tablero[2][c] = new Casilla();
-					//nuevo f
-					//TODO que la nueva pos sea una menos
-				}
-				else if(f==1)
-				{
-					//primera fila
-					tablero[0][c-1] = new Casilla();
-					tablero[0][c+1] = new Casilla();
-					//segunda fila
-					tablero[1][c] = new Casilla();
-					//nuevo f
-					//TODO que la nueva pos sea una menos
-				}
-				else if(f==0)
-				{
-					//primera fila, punta
-					tablero[0][c] = new Casilla();
-					//nuevo f, que será -1
-					//TODO que la nueva pos sea una menos
-				}
-				else if(f>4)
-				{
-					//pintar
-					tablero[f-5][c] = new Disparo();//nueva punta
-					tablero[f-4][c-1] = new Disparo();//nueva fila 2 izq
-					tablero[f-4][c+1] = new Disparo();//nueva fila 2 der
-					tablero[f-3][c-2] = new Disparo();//nueva fila 3 izq
-					tablero[f-3][c+2] = new Disparo();//nueva fila 3 der
-					//borrar
-					tablero[f-2][c-2] = new Casilla();
-					tablero[f-2][c+2] = new Casilla();
-					tablero[f-1][c-1] = new Casilla();
-					tablero[f-1][c+1] = new Casilla();
 					tablero[f][c] = new Casilla();
-					//nuevo f
-					//TODO que la nueva pos sea una menos
+					accion=1; //borrar
 				}
+				else if(f>0)
+				{
+					tablero[f][c] = new Casilla();
+					tablero[f-1][c] = disp;
+					accion = 0;//mover
+					posNue[0]=f-1;
+					posNue[1]=c;
+				}//TODO si al moverse mata enemigo
 			}
+			setChanged();
+			notifyObservers(new Object[] {accion,estado,posA,posNue,tip});
 		}
 	}
 	public boolean crearDisp(int[] posN, String tipo)
@@ -276,13 +200,16 @@ public class Espacio extends Observable{
 		if(tipo=="normal" && f>=2)
 		{
 			creado = true;
-			tablero[f-2][c] = new Disparo();
+			tablero[f-2][c] = new Disparo(tipo);
 			//TODO añadir a la lista
 		}
-		//TODO if tablero[f-2][c] es enemigo
+		//TODO if tablero[f-2][c] es enemigo --> habrá que decir que el tipo era disparo, y que se ha borrado, y directamente no se crea disp
+		
+		int[] posA = {-1,-1};//porque no lo vamos a querer
+		int[] posNue = {f-2,c};
 		
 		setChanged();
-		notifyObservers();
+		notifyObservers(new Object[] {2,2,posA,posNue,1});//crear,nada,posAnt,posNue,disp
 		
 		return creado;
 	}
