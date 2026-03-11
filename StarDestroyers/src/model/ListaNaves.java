@@ -27,8 +27,13 @@ public class ListaNaves{
 	}
 	public void removeNave(int x, int y)
 	{
-		int[] coor = {x,y};
-		LNav.remove(coor);
+		for (int i=0;i<LNav.size();i++)
+		{
+			if(LNav.get(i)[0]==x && LNav.get(i)[1]==y)
+			{
+				LNav.remove(i);
+			}
+		}
 	}
 	
 	

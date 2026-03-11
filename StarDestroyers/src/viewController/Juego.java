@@ -210,15 +210,14 @@ public class Juego extends JFrame implements Observer {
 				//TODO notificar que se ha borrado, hay que usar ifs, para cada tipo
 				if(tipo==0)//se borra nave
 				{
-					//TODO ListaNaves.removeNave(fA,cA);
+					getControlador().borrarNave(fA, cA);
 				}
 				else if(tipo==1)//se borra disp
 				{
-					//TODO ListaDisp.removeDisp(fA,cA);
+					getControlador().borrarDisp(fA, cA);
 				}
 				else //if(tipo==1) se borra enem
 				{
-					//TODO ListaEnem.removeEnem(fA,cA);
 					getControlador().borrarEnem(fA, cA);
 				}
 			}
@@ -255,10 +254,9 @@ public class Juego extends JFrame implements Observer {
 	// Clase interna Controlador
 	private class Controlador implements KeyListener
 	{
-		public void borrarEnem(int f, int c)
-		{
-			model.ListaEnem.getListaEnem().removeEnem(f,c);
-		}
+		public void borrarEnem(int f, int c){model.ListaEnem.getListaEnem().removeEnem(f,c);}
+		public void borrarDisp(int f, int c) {model.ListaDisp.getListaDisp().removeDisp(f, c);}
+		public void borrarNave(int f, int c) {model.ListaNaves.getListaNaves().removeNave(f, c);}
 		@Override
 		public void keyTyped(KeyEvent e) {
 		}

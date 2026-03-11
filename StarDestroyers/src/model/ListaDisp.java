@@ -24,10 +24,15 @@ public class ListaDisp{
 		int[] coor = {x,y};
 		LDis.add(coor);
 	}
-	public void removeDisp(int x, int y)
+	public void removeDisp(int x, int y)//TODO tener cuidado cuando sean disparos multi-pixel, pues habrá que cambiarlo
 	{
-		int[] coor = {x,y};
-		LDis.remove(coor);
+		for(int i=0;i<LDis.size();i++)
+		{
+			if(LDis.get(i)[0]==x && LDis.get(i)[1]==y)
+			{
+				LDis.remove(i);
+			}
+		}
 	}
 	
 	
