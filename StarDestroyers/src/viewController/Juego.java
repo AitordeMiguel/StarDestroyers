@@ -152,8 +152,10 @@ public class Juego extends JFrame implements Observer {
 			JLabel lblN = tablero[fN][cN];
 			//borrar la casilla antigua
 			lblA.setOpaque(false);
+			lblA.repaint();//TODO he probado a poner esto basado en lo visto en otro commit, si no, se queda invisible
 			//dibujar la nueva
 			lblN.setOpaque(true);
+			lblN.repaint();//TODO aquí igual, pero no sé si no le gusta
 			if(tipo==0)//lo que se mueve es nave
 			{
 				if(colorN.equals("green")) {

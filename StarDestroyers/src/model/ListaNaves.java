@@ -37,9 +37,29 @@ public class ListaNaves{
 	}
 	
 	
-	public boolean moverNave(String dir)
+	public void moverNave(String dir)
 	{
-		return ListaEnem.getListaEnem().moverNave(dir,LNav);
+		boolean rdo = ListaEnem.getListaEnem().moverNave(dir,LNav);
+		if(rdo)
+		{
+			if(dir.equals("left"))
+			{
+				LNav.get(0)[1]--;
+			}
+			else if(dir.equals("right"))
+			{
+				LNav.get(0)[1]++;
+			}
+			else if(dir.equals("down"))
+			{
+				LNav.get(0)[0]++;
+			}
+			else if(dir.equals("up"))
+			{
+				LNav.get(0)[0]--;
+			}
+			
+		}
 		
 	}
 	public ArrayList<int[]> moverDisp(ArrayList<int[]> LDisp)

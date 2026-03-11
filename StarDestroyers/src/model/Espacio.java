@@ -146,7 +146,6 @@ public class Espacio extends Observable{
 	            tablero[navef][navec] = nave;
 	            accion=0;//mover
 	        }
-
 	        tablero[f][c] = new Casilla();
 
 	        posN.get(i)[0] = navef;
@@ -156,7 +155,7 @@ public class Espacio extends Observable{
 		
 		
 	    setChanged();
-	    notifyObservers(new Object[] {accion,estado,posA,posNue,0});
+	    notifyObservers(new Object[] {accion,posA,posNue,0});
 
 		return muerto;
 	}
@@ -228,6 +227,9 @@ public class Espacio extends Observable{
 		int accion=3;//nada
 		int tip =1;//disparo, aunque puede cambiar
 		sol[0] = 0;//de momento no creado
+		
+		int[] posA = {-1,-1};//porque no lo vamos a querer, al menos de momento
+		
 		if(tipo=="normal" && f>=2)
 		{
 			sol[1] = f-2;
@@ -238,6 +240,8 @@ public class Espacio extends Observable{
 				sol[0] = 0;// No creado
 				sol[3] = 1;
 				accion=1;//se va a borrar
+				posA[0] = f-2;
+				posA[1] = c;
 				tip=2;//se borrara un enem
 			}
 			else if(tablero[f-2][c] instanceof Disparo )//aunque como se mueve no debería poder ocurrir
@@ -259,8 +263,6 @@ public class Espacio extends Observable{
 			}
 		}
 		
-		
-		int[] posA = {-1,-1};//porque no lo vamos a querer
 		int[] posNue = {f-2,c};
 		
 		setChanged();
