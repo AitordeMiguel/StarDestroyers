@@ -195,10 +195,12 @@ public class Juego extends JFrame implements Observer {
 				else if(tipo==1)//lo que se mueve es disparo
 				{
 					lblN.setBackground(Color.YELLOW);
+					getControlador().actMovDisp(fA,cA);
 				}
 				else//if (tipo==2) vamos, que es enemigo
 				{
 					lblN.setBackground(Color.GRAY);
+					getControlador().actMovEnem(fA,cA);
 				}
 				
 			}
@@ -207,7 +209,6 @@ public class Juego extends JFrame implements Observer {
 				JLabel lblA = tablero[fA][cA];
 				//borrar la casilla antigua
 				lblA.setOpaque(false);
-				//TODO notificar que se ha borrado, hay que usar ifs, para cada tipo
 				if(tipo==0)//se borra nave
 				{
 					getControlador().borrarNave(fA, cA);
@@ -227,11 +228,20 @@ public class Juego extends JFrame implements Observer {
 				lblN.setOpaque(true);
 				if(tipo==0)//lo que se crea es nave, aunque no deberían poder crearse más naves
 				{
-					lblN.setBackground(Color.RED);
+					if(colorN.equals("green")) {
+						lblN.setBackground(Color.GREEN);
+					}
+					else if(colorN.equals("blue")) {
+						lblN.setBackground(Color.BLUE);
+					}
+					else {
+						lblN.setBackground(Color.RED);
+					}
 				}
 				else if(tipo==1)//lo que se crea es disparo
 				{
 					lblN.setBackground(Color.YELLOW);
+					getControlador().añadirDisp(fN, cN);
 				}
 				else//if (tipo==2) vamos, que es enemigo, aunque no deberían poder crearse más enemigos
 				{
@@ -255,15 +265,21 @@ public class Juego extends JFrame implements Observer {
 	private class Controlador implements KeyListener
 	{
 		public void borrarEnem(int f, int c){model.ListaEnem.getListaEnem().removeEnem(f,c);}
-		public void borrarDisp(int f, int c) {model.ListaDisp.getListaDisp().removeDisp(f, c);}
-		public void borrarNave(int f, int c) {model.ListaNaves.getListaNaves().removeNave(f, c);}
+		public void borrarDisp(int f, int c){model.ListaDisp.getListaDisp().removeDisp(f, c);}
+		public void borrarNave(int f, int c){model.ListaNaves.getListaNaves().removeNave(f, c);}
+		
+		public void añadirDisp(int f, int c) {model.ListaDisp.getListaDisp().addDisp(f, c);}
+		public void actMovDisp(int f, int c) {model.ListaDisp.getListaDisp().actMovDisp(f, c);}
+		
+		public void actMovEnem(int f, int c) {model.ListaEnem.getListaEnem().actEnem(f, c);}
+		
 		@Override
 		public void keyTyped(KeyEvent e) {
 		}
 
 		@Override
 		public void keyPressed(KeyEvent e) {
-			if(vueltas==0 || vueltas==2)
+			if(true)//(vueltas==0 || vueltas==2)
 			{
 				if (e.getKeyCode() == KeyEvent.VK_LEFT) {model.ListaNaves.getListaNaves().moverNave("left");}
 				if (e.getKeyCode() == KeyEvent.VK_RIGHT) {model.ListaNaves.getListaNaves().moverNave("right");}
@@ -271,7 +287,7 @@ public class Juego extends JFrame implements Observer {
 				if (e.getKeyCode() == KeyEvent.VK_DOWN) {model.ListaNaves.getListaNaves().moverNave("down");}
 			}
 			if(vueltas==0) {model.ListaEnem.getListaEnem().moverEnem();}
-			model.ListaDisp.getListaDisp().moverDisp();
+			model.ListaDisp.getListaDisp().moverDisp();//TODO no sería método fuera de key
 			if (e.getKeyCode() == KeyEvent.VK_M) {model.ListaDisp.getListaDisp().crearDisp("normal");}
 			
 			

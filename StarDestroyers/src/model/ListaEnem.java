@@ -59,6 +59,16 @@ public class ListaEnem{
 			}
 		}
 	}
+	public void actEnem(int x, int y)
+	{
+		for(int i=0;i<LEnem.size();i++)
+		{
+			if(LEnem.get(i)[0]==x && LEnem.get(i)[1]==y)
+			{
+				LEnem.get(i)[0]=x+1; //Baja una posición
+			}
+		}
+	}
 	public void moverEnem()
 	{
 		Espacio.getEspacio().moverEnem(LEnem);
@@ -69,7 +79,7 @@ public class ListaEnem{
 	}
 	public void moverDisp(ArrayList<int[]> LDisp)
 	{
-		Espacio.getEspacio().moverEnem(LDisp);
+		Espacio.getEspacio().moverDisp(LDisp);
 	}
 	public boolean crearDisp(ArrayList<int[]> LNav,String tipo)
 	{

@@ -158,7 +158,7 @@ public class Espacio extends Observable{
 
 		return muerto;
 	}
-	public void moverDisp(ArrayList<int[]> LDisp,String tipo)
+	public void moverDisp(ArrayList<int[]> LDisp)
 	{
 		for(int i=0;i<LDisp.size();i++)
 		{
@@ -167,11 +167,12 @@ public class Espacio extends Observable{
 			
 			int accion=3;//nada
 			int estado = 2;//nada
-			int tip = 1;//disp
+			int tipo = 1;//disp
 			int[] posA = {f,c};
 			int[] posNue = new int[2];
 			
 			Disparo disp = (Disparo) tablero[f][c];
+			
 			if(disp.getTipo()=="normal")
 			{
 				if(f==0)
@@ -189,18 +190,20 @@ public class Espacio extends Observable{
 				}//TODO si al moverse mata enemigo
 			}
 			setChanged();
-			notifyObservers(new Object[] {accion,estado,posA,posNue,tip});
+			notifyObservers(new Object[] {accion,estado,posA,posNue,tipo});
 		}
 	}
 	public boolean crearDisp(int[] posN, String tipo)
 	{
 		int f = posN[0];
 		int c = posN[1];
+		int accion=3;//nada
 		boolean creado = false;
 		if(tipo=="normal" && f>=2)
 		{
 			creado = true;
 			tablero[f-2][c] = new Disparo(tipo);
+			accion=2;//crear
 			//TODO añadir a la lista
 		}
 		//TODO if tablero[f-2][c] es enemigo --> habrá que decir que el tipo era disparo, y que se ha borrado, y directamente no se crea disp
@@ -209,7 +212,7 @@ public class Espacio extends Observable{
 		int[] posNue = {f-2,c};
 		
 		setChanged();
-		notifyObservers(new Object[] {2,2,posA,posNue,1});//crear,nada,posAnt,posNue,disp
+		notifyObservers(new Object[] {accion,2,posA,posNue,1});//crear,nada,posAnt,posNue,disp
 		
 		return creado;
 	}

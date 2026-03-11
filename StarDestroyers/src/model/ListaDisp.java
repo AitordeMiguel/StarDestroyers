@@ -35,6 +35,16 @@ public class ListaDisp{
 		}
 	}
 	
+	public void actMovDisp(int x, int y)
+	{
+		for(int i=0;i<LDis.size();i++)
+		{
+			if(LDis.get(i)[0]==x && LDis.get(i)[1]==y)
+			{
+				LDis.get(i)[0]=x-1;//sube una pos
+			}
+		}
+	}
 	
 	public void moverDisp()
 	{
