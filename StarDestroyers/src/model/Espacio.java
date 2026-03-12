@@ -186,6 +186,7 @@ public class Espacio extends Observable{
 					valores[1] = 0;//no se borra enem
 					tablero[f][c] = new Casilla();
 					accion=1; //borrar
+					//TODO eliminar a este de la colección de disparos
 				}
 				else if(tablero[f-1][c] instanceof Enemigo)//directamente se borra el enemigo
 				{
@@ -194,11 +195,14 @@ public class Espacio extends Observable{
 					valores[2] = f-1;
 					valores[3] = c;
 					
-					accion=1;//borrar
+					accion=4;//borrar2 (borra enemigo y disparo) //TODO experimental
 					tipo=2;//lo que se borrará será un enem
 					tablero[f][c] = new Casilla();
 					tablero[f-1][c] = new Casilla();
-					posA[0]--;
+					//posA[0]--;
+					posNue[0]=f-1;
+					posNue[1]=c;
+					//TODO eliminar a este de la colección de disparos
 				}
 				else if(f>0)
 				{

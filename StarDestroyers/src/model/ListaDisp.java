@@ -13,7 +13,7 @@ public class ListaDisp{
 		TimerTask timerTask = new TimerTask() {
 			@Override
 			public void run() {
-				//moverDisp();
+				moverDisp();
 			}		
 		};
 		timer = new Timer();
@@ -57,6 +57,12 @@ public class ListaDisp{
 			if(rdo.get(i)[0]==1)//si se ha movido
 			{
 				LDis.get(i)[0]--;//sube una pos
+			}
+			else//si no se ha movido, o sea, ha chocado con un enemigo o ha llegado al borde
+			{
+				LDis.remove(i);
+				rdo.remove(i);
+				i--;//para no saltarnos el siguiente disparo
 			}
 		}
 	}

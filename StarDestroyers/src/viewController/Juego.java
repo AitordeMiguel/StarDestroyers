@@ -95,7 +95,7 @@ public class Juego extends JFrame implements Observer {
 				for(int c=0;c<100;c++)
 				{
 					lblNewLabel = new JLabel("");
-					//lblNewLabel.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+					lblNewLabel.setBorder(BorderFactory.createLineBorder(Color.PINK));
 					if(tabEsp[f][c]==0)//es la nave
 					{
 						lblNewLabel.setOpaque(true);
@@ -181,7 +181,8 @@ public class Juego extends JFrame implements Observer {
 		else if(accion==1)//se borra algo
 		{
 			JLabel lblA = tablero[fA][cA];
-			lblA.setOpaque(true);
+			lblA.setOpaque(false);
+			lblA.repaint();
 		}
 		else if(accion==2) //se crea algo nuevo    //TODO hacer sus notificaciones a las listas
 		{
@@ -207,6 +208,16 @@ public class Juego extends JFrame implements Observer {
 			{
 				lblN.setBackground(Color.GRAY);
 			}
+		}
+		else if (accion==4)
+		{
+			JLabel lblA = tablero[fA][cA];
+			JLabel lblN = tablero[fN][cN];
+			lblA.setOpaque(false);
+			lblA.repaint();
+			lblN.setOpaque(false);
+			lblN.repaint();
+			
 		}
 	}
 
