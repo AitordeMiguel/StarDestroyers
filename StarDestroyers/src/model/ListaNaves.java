@@ -70,4 +70,8 @@ public class ListaNaves{
 	{
 		return ListaEnem.getListaEnem().crearDisp(LNav,tipo);
 	}
+	public ArrayList<int []> moverEnem() { 
+		return ListaEnem.getListaEnem().moverEnem();
+		
+	}
 }

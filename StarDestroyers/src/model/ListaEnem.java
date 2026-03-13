@@ -14,7 +14,7 @@ public class ListaEnem{
 		TimerTask timerTask = new TimerTask() {
 			@Override
 			public void run() {
-				//moverEnem();
+				moverEnem();
 			}		
 		};
 		timer = new Timer();
@@ -46,7 +46,7 @@ public class ListaEnem{
 			int[] pos = {2,5+i*dist};
 			LEnem.add(pos);
 		};
-		Espacio.getEspacio().inicializar(color,LEnem);
+		Espacio.getEspacio().inicializar(color,new ArrayList<>(LEnem));
 	}
 	public void removeEnem(int x, int y)
 	{
@@ -55,6 +55,7 @@ public class ListaEnem{
 			if(LEnem.get(i)[0]==x && LEnem.get(i)[1]==y)//basta con y
 			{
 				LEnem.remove(i);
+				break;
 			}
 		}
 		//TODO comprobamos aquí si aún quedan enemigos? size()==0
@@ -86,21 +87,27 @@ public class ListaEnem{
 			}
 		}
 	}
-	public void moverEnem()//version postLabo
+	public ArrayList<int []> moverEnem() //version postLabo
 	{
-		ArrayList<Boolean> rdo = Espacio.getEspacio().moverEnem(LEnem);
+		if (LEnem == null || Espacio.getEspacio() == null) { //el timer empieza a contar antes de que se cree la lista de Enemigos, por lo que daba error, le he añadido esto para que el contador empiece a dar vueltas solo cuando está creado la lista.
+			//return; 
+		}
+
+		ArrayList<int []> rdo = Espacio.getEspacio().moverEnem(LEnem);
 		for(int i=0;i<rdo.size();i++)
 		{
-			if(rdo.get(i))//si se ha movido
+			if(rdo.get(i)[0]==1)//si se ha movido
 			{
 				LEnem.get(i)[0]++; //Baja una posición
 			}
 			else
 			{
 				LEnem.remove(i); //Se elimina este
+				rdo.remove(i);
 				i--;
 			}
 		}
+		return rdo;
 	}
 	public boolean moverNave(String dir, ArrayList<int[]> LNav)
 	{
@@ -111,9 +118,9 @@ public class ListaEnem{
 		ArrayList<int[]> rdo = Espacio.getEspacio().moverDisp(LDisp);
 		for(int i=0;i<rdo.size();i++)
 		{
-			if(rdo.get(i)[2]==1)//se borra enemigo
+			if(rdo.get(i)[1]==1)//se borra enemigo
 			{
-				removeEnem(rdo.get(i)[3], rdo.get(i)[4]);
+				removeEnem(rdo.get(i)[2], rdo.get(i)[3]);
 			}
 		}
 		return rdo;

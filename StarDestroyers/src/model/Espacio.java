@@ -58,7 +58,7 @@ public class Espacio extends Observable{
 	    }
 	    return null;
 	}
-	public ArrayList<Boolean> moverEnem(ArrayList<int[]> posE)
+	/*public ArrayList<Boolean> moverEnem(ArrayList<int[]> posE)
 	{
 		ArrayList<Boolean> sol = new ArrayList<Boolean>();
 		for(int i=0;i<posE.size();i++)
@@ -76,9 +76,10 @@ public class Espacio extends Observable{
 			Enemigo enem = (Enemigo) tablero[f][c];
 			if(tablero[f+1][c] instanceof Disparo)
 			{
-				accion=1;//borrar
+				accion=4;//borrar el disparo enemigo
 				//TODO eliminar a este de la colección de enemigos
 			}
+			//
 			//TODO si llega hasta abajo
 			else//se puede mover
 			{
@@ -91,6 +92,70 @@ public class Espacio extends Observable{
 			tablero[f][c] = new Casilla();
 			
 			sol.add(movido);
+			setChanged();
+			notifyObservers(new Object[] {accion,posA,posNue,2});
+		}
+		return sol;
+	}*/
+	public ArrayList<int []> moverEnem(ArrayList<int[]> posE)
+	{
+		ArrayList<int []> sol = new ArrayList<int []>();
+		for(int i=0;i<posE.size();i++)
+		{
+			//boolean movido = false;
+			int accion=3;//nada
+			
+			int[] posNue = new int[2];
+			int[] valores = new int[4];//se ha movido el enemigo?, se borra disp?, posX, posY   --pos solo para disp
+			
+			int f=posE.get(i)[0];
+			int c=posE.get(i)[1];
+			
+			int[] posA = {f,c};
+			
+			Enemigo enem = (Enemigo) tablero[f][c];
+			tablero[f][c]= new Casilla();//se borra el enemigo o el enemigo deja de esatr en esta casilla
+			//  TODO: si llega hasta abajo (fuera de la matriz)
+			if(f + 1 >= 60) 
+			{
+				accion=1; // borrar en la vista
+				posNue[0]=f; 
+				posNue[1]=c;
+				valores[0]= 0;//no se ha movido el enem
+				valores[1]= 0;//no borra disp
+			}
+			// TODO: si choca con un disparo
+			else if(tablero[f+1][c] instanceof Disparo)
+			{
+				accion=4;//borrar el disparo enemigo
+				posNue[0]=f+1;
+				posNue[1]=c;
+				tablero[f+1][c] = new Casilla(); // Destruimos el disparo quitándolo de la matriz
+				valores[0]= 0;//no se ha movido el enem
+				valores[1]= 1;//se borra disp
+				valores[2]= f+1;
+				valores[3]= c;
+			}
+			// si choca con la Nave del jugador
+			else if(tablero[f+1][c] instanceof Nave)
+			{
+				accion=4; //borrar 
+				posNue[0]=f+1;
+				posNue[1]=c;
+				valores[0]= 0;//no se ha movido el enem
+				valores[1]= 0;//no borra disp
+			}
+			else
+			{
+				accion=0;//mover
+				tablero[f+1][c] = enem;
+				posNue[0]=f+1;
+				posNue[1]=c;
+				valores[0]= 1;// se ha movido el enem
+				valores[1]= 0;//no borra disp
+			}
+			
+			sol.add(valores);
 			setChanged();
 			notifyObservers(new Object[] {accion,posA,posNue,2});
 		}
@@ -174,7 +239,7 @@ public class Espacio extends Observable{
 			int[] posA = {f,c};
 			int[] posNue = new int[2];
 			
-			int[] valores = new int[4];//se ha movido nave?, se borra enem?, posX, posY   --pos solo para enem
+			int[] valores = new int[4];//se ha movido el disparo?, se borra enem?, posX, posY   --pos solo para enem
 			
 			Disparo disp = (Disparo) tablero[f][c];
 			

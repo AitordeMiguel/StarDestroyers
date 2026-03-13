@@ -7,13 +7,18 @@ public class ListaDisp{
 	private ArrayList<int[]> LDis;
 	private static ListaDisp miListaDisp;
 	private Timer timer = null;
+	private int cont=0;
+	private boolean inicializado=false;
 	
 	private ListaDisp()
 	{
 		TimerTask timerTask = new TimerTask() {
 			@Override
 			public void run() {
-				moverDisp();
+				if(inicializado) {
+					moverDisp();
+					moverEnem();
+				}
 			}		
 		};
 		timer = new Timer();
@@ -31,7 +36,8 @@ public class ListaDisp{
 	public void inicializar(String color) 
 	{
 		LDis = new ArrayList<int[]>();
-		ListaNaves.getListaNaves().inicializar(color);;
+		ListaNaves.getListaNaves().inicializar(color);
+		inicializado=true;
 	}
 	public void addDisp(int x, int y)
 	{
@@ -72,5 +78,19 @@ public class ListaDisp{
 		//segundo y tercero: posX, posY
 		int[] sol = ListaNaves.getListaNaves().crearDisp(tipo);
 		if(sol[0]==1) {addDisp(sol[1],sol[2]);}
+	}
+	public void moverEnem() {
+		cont++;
+		if (cont >= 4) {
+			ArrayList<int []> rdo =ListaNaves.getListaNaves().moverEnem(); 
+			for(int i=0; i<rdo.size(); i++) {
+				if (rdo.get(i)[1]==1){
+					//si se elimina disp
+					removeDisp(rdo.get(i)[2],rdo.get(i)[3]);
+				}
+			}
+			cont = 0; 
+		}
+		
 	}
 }

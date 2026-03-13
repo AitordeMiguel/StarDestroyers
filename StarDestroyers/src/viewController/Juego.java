@@ -23,6 +23,7 @@ import model.Disparo;
 import model.Enemigo;
 import model.Espacio;
 import model.ListaEnem;
+import model.ListaNaves;
 import model.Nave;
 
 import java.awt.BorderLayout;
@@ -95,7 +96,7 @@ public class Juego extends JFrame implements Observer {
 				for(int c=0;c<100;c++)
 				{
 					lblNewLabel = new JLabel("");
-					lblNewLabel.setBorder(BorderFactory.createLineBorder(Color.PINK));
+				//lblNewLabel.setBorder(BorderFactory.createLineBorder(Color.PINK));
 					if(tabEsp[f][c]==0)//es la nave
 					{
 						lblNewLabel.setOpaque(true);
@@ -209,7 +210,7 @@ public class Juego extends JFrame implements Observer {
 				lblN.setBackground(Color.GRAY);
 			}
 		}
-		else if (accion==4)
+		else if (accion==4) //borrar 2, disparoEnemigo o NaveEnemigo
 		{
 			JLabel lblA = tablero[fA][cA];
 			JLabel lblN = tablero[fN][cN];
@@ -231,7 +232,7 @@ public class Juego extends JFrame implements Observer {
 
 	// Clase interna Controlador
 	private class Controlador implements KeyListener
-	{		
+	{	
 		@Override
 		public void keyTyped(KeyEvent e) {
 		}
