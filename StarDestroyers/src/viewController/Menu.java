@@ -66,6 +66,7 @@ public class Menu extends JFrame implements Observer{
 	public Menu() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
+		setExtendedState(JFrame.MAXIMIZED_BOTH);	//inicializar a pantalla completa.
 		color = "red";
 		
 		imagenEspacio = new ImageIcon(getClass().getResource("espacio.jpg")).getImage();

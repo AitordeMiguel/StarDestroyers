@@ -58,6 +58,7 @@ public class Juego extends JFrame implements Observer {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
+		setExtendedState(JFrame.MAXIMIZED_BOTH);	//inicializar a pantalla completa.
 		
 		colorN = colorNave;
 		
