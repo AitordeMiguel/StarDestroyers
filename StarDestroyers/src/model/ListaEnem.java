@@ -14,7 +14,7 @@ public class ListaEnem{
 		TimerTask timerTask = new TimerTask() {
 			@Override
 			public void run() {
-				moverEnem();
+				//moverEnem();
 			}		
 		};
 		timer = new Timer();
