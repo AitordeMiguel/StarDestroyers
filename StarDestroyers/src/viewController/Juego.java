@@ -142,11 +142,19 @@ public class Juego extends JFrame implements Observer {
 		int[] posAnt = (int[]) res[1];
 		int[] posNueva = (int[]) res[2];
 		int tipo = (int) res[3];
+		int estado = (int) res[4];
 		
 		int fN=posNueva[0];
 		int cN=posNueva[1];
 		int fA=posAnt[0];
 		int cA=posAnt[1];
+		
+		if (estado != 2) {
+		    this.setVisible(false);
+		    Fin fin = new Fin(estado);
+		    fin.setVisible(true);
+		    return;
+		}
 		
 		if(accion==0)//se quiere mover
 		{
