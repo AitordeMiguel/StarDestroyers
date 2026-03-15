@@ -113,6 +113,8 @@ public class Espacio extends Observable{
 			
 			int[] posA = {f,c};
 			
+			int estado = 2;
+			
 			Enemigo enem = (Enemigo) tablero[f][c];
 			tablero[f][c]= new Casilla();//se borra el enemigo o el enemigo deja de esatr en esta casilla
 			//  TODO: si llega hasta abajo (fuera de la matriz)
@@ -144,6 +146,7 @@ public class Espacio extends Observable{
 				posNue[1]=c;
 				valores[0]= 0;//no se ha movido el enem
 				valores[1]= 0;//no borra disp
+				estado = 0; // jugador pierde
 			}
 			else
 			{
@@ -157,7 +160,7 @@ public class Espacio extends Observable{
 			
 			sol.add(valores);
 			setChanged();
-			notifyObservers(new Object[] {accion,posA,posNue,2});
+			notifyObservers(new Object[] {accion,posA,posNue,2,estado});
 		}
 		return sol;
 	}
@@ -220,7 +223,7 @@ public class Espacio extends Observable{
 		
 		
 	    setChanged();
-	    notifyObservers(new Object[] {accion,posA,posNue,0});
+	    notifyObservers(new Object[] {accion,posA,posNue,0,estado});
 
 		return muerto;
 	}
@@ -238,6 +241,7 @@ public class Espacio extends Observable{
 			int tipo = 1;//disp
 			int[] posA = {f,c};
 			int[] posNue = new int[2];
+			int estado = 2;
 			
 			int[] valores = new int[4];//se ha movido el disparo?, se borra enem?, posX, posY   --pos solo para enem
 			
@@ -283,7 +287,7 @@ public class Espacio extends Observable{
 			}
 			sol.add(valores);
 			setChanged();
-			notifyObservers(new Object[] {accion,posA,posNue,tipo});
+			notifyObservers(new Object[] {accion,posA,posNue,tipo,estado});
 		}
 		return sol;
 	}
@@ -295,6 +299,7 @@ public class Espacio extends Observable{
 		int c = posN[1];
 		int accion=3;//nada
 		int tip =1;//disparo, aunque puede cambiar
+		int estado = 2;
 		sol[0] = 0;//de momento no creado
 		
 		int[] posA = {-1,-1};//porque no lo vamos a querer, al menos de momento
@@ -335,7 +340,7 @@ public class Espacio extends Observable{
 		int[] posNue = {f-2,c};
 		
 		setChanged();
-		notifyObservers(new Object[] {accion,posA,posNue,tip});//crear,nada,posAnt,posNue,
+		notifyObservers(new Object[] {accion,posA,posNue,tip,estado});//crear,nada,posAnt,posNue,
 		
 		return sol;
 	}
