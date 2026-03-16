@@ -184,7 +184,7 @@ public class Espacio extends Observable{
 			
 			if(dir.equals("up"))
 			{
-				if(c>0)//puede ir hacia arriba
+				if(f>0)//puede ir hacia arriba
 				{
 					tablero[f][c] = new Casilla();
 					if(tablero[f-1][c] instanceof Enemigo)
@@ -203,7 +203,7 @@ public class Espacio extends Observable{
 			}
 			else if(dir.equals("down"))
 			{
-				if(c<59)
+				if(f<59)
 				{
 					tablero[f][c] = new Casilla();
 					if(tablero[f+1][c] instanceof Enemigo)
@@ -222,7 +222,7 @@ public class Espacio extends Observable{
 			}
 			else if(dir.equals("right"))
 			{
-				if(f<99)
+				if(c<99)
 				{
 					tablero[f][c] = new Casilla();
 					if(tablero[f][c+1] instanceof Enemigo)
@@ -241,7 +241,7 @@ public class Espacio extends Observable{
 			}
 			else if(dir.equals("left"))
 			{
-				if(f>0)
+				if(c>0)
 				{
 					tablero[f][c] = new Casilla();
 					if(tablero[f][c-1] instanceof Enemigo)
@@ -271,8 +271,6 @@ public class Espacio extends Observable{
 		ArrayList<int[]> sol = new ArrayList<int[]>();
 		for(int i=0;i<LDisp.size();i++)
 		{
-			//boolean movido = false;
-			
 			int f = LDisp.get(i)[0];
 			int c = LDisp.get(i)[1];
 			
@@ -284,45 +282,53 @@ public class Espacio extends Observable{
 			
 			int[] valores = new int[4];//se ha movido el disparo?, se borra enem?, posX, posY   --pos solo para enem
 			
-			Disparo disp = (Disparo) tablero[f][c];
-			
-			if(disp.getTipo()=="normal")
+			if(tablero[f][c] instanceof Disparo)
 			{
-				if(f==0)//no puede haber enemigos más allá
+				Disparo disp = (Disparo) tablero[f][c];
+				
+				if(disp.getTipo()=="normal")
 				{
-					valores[0] = 0;//no se ha movido
-					valores[1] = 0;//no se borra enem
-					tablero[f][c] = new Casilla();
-					accion=1; //borrar
-					//TODO eliminar a este de la colección de disparos
-				}
-				else if(tablero[f-1][c] instanceof Enemigo)//directamente se borra el enemigo
-				{
-					valores[0] = 0;//no se ha movido
-					valores[1] = 1;//se borra enem
-					valores[2] = f-1;
-					valores[3] = c;
-					
-					accion=4;//borrar2 (borra enemigo y disparo) //TODO experimental
-					tipo=2;//lo que se borrará será un enem
-					tablero[f][c] = new Casilla();
-					tablero[f-1][c] = new Casilla();
-					//posA[0]--;
-					posNue[0]=f-1;
-					posNue[1]=c;
-				}
-				else if(f>0)
-				{
-					valores[0] = 1;//se ha movido
-					valores[1] = 0;//no se borra enem
-					
-					tablero[f][c] = new Casilla();
-					tablero[f-1][c] = disp;
-					accion = 0;//mover
-					posNue[0]=f-1;
-					posNue[1]=c;
+					if(f==0)//no puede haber enemigos más allá
+					{
+						valores[0] = 0;//no se ha movido
+						valores[1] = 0;//no se borra enem
+						tablero[f][c] = new Casilla();
+						accion=1; //borrar
+						//TODO eliminar a este de la colección de disparos
+					}
+					else if(tablero[f-1][c] instanceof Enemigo)//directamente se borra el enemigo
+					{
+						valores[0] = 0;//no se ha movido
+						valores[1] = 1;//se borra enem
+						valores[2] = f-1;
+						valores[3] = c;
+						
+						accion=4;//borrar2 (borra enemigo y disparo) //TODO experimental
+						tipo=2;//lo que se borrará será un enem
+						tablero[f][c] = new Casilla();
+						tablero[f-1][c] = new Casilla();
+						//posA[0]--;
+						posNue[0]=f-1;
+						posNue[1]=c;
+					}
+					else if(f>0)
+					{
+						valores[0] = 1;//se ha movido
+						valores[1] = 0;//no se borra enem
+						
+						tablero[f][c] = new Casilla();
+						tablero[f-1][c] = disp;
+						accion = 0;//mover
+						posNue[0]=f-1;
+						posNue[1]=c;
+					}
 				}
 			}
+			else
+			{
+				System.out.println("Fallo en la fila: "+f+", y columna: "+c);
+			}
+			
 			sol.add(valores);
 			setChanged();
 			notifyObservers(new Object[] {accion,posA,posNue,tipo,estado});
