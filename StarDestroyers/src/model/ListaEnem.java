@@ -58,23 +58,14 @@ public class ListaEnem{
 				break;
 			}
 		}
+		compTamEnem();
 		//TODO comprobamos aquí si aún quedan enemigos? size()==0
 	}
-	public void comprobarColNave(ArrayList<int[]> LNav)//TODO determinar si realmente se necesita o si ya se hace con notify
+	public void compTamEnem()
 	{
-		for(int i=0;i<LNav.size();i++)
+		if(LEnem.size()==0)
 		{
-			int pXN=LNav.get(i)[0];
-			int pYN=LNav.get(i)[1];
-			for(int j=0;j<LEnem.size();j++)
-			{
-				int pXE=LEnem.get(j)[0];
-				int pYE=LEnem.get(j)[1];
-				if(pXE==pXN && pYE==pYN)
-				{
-					removeEnem(pXE,pYE);
-				}
-			}
+			Espacio.getEspacio().anunciarVictoria();
 		}
 	}
 	public void actEnem(int x, int y)
@@ -89,9 +80,9 @@ public class ListaEnem{
 	}
 	public ArrayList<int []> moverEnem() //version postLabo
 	{
-		if (LEnem == null || Espacio.getEspacio() == null) { //el timer empieza a contar antes de que se cree la lista de Enemigos, por lo que daba error, le he añadido esto para que el contador empiece a dar vueltas solo cuando está creado la lista.
+		//if (LEnem == null || Espacio.getEspacio() == null) { //el timer empieza a contar antes de que se cree la lista de Enemigos, por lo que daba error, le he añadido esto para que el contador empiece a dar vueltas solo cuando está creado la lista.
 			//return; 
-		}
+		//}
 
 		ArrayList<int []> rdo = Espacio.getEspacio().moverEnem(LEnem);
 		for(int i=0;i<rdo.size();i++)
@@ -99,6 +90,10 @@ public class ListaEnem{
 			if(rdo.get(i)[0]==1)//si se ha movido
 			{
 				LEnem.get(i)[0]++; //Baja una posición
+			}
+			else if(rdo.get(i)[0]==2)//ha perdido
+			{
+				compTamEnem();
 			}
 			else
 			{

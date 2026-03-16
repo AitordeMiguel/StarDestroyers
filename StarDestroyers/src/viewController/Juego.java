@@ -149,86 +149,88 @@ public class Juego extends JFrame implements Observer {
 		int fA=posAnt[0];
 		int cA=posAnt[1];
 		
-		if (estado != 2) {
+		if (estado != 2) {//0=perder, 1=ganar 
 		    this.setVisible(false);
 		    Fin fin = new Fin(estado);
 		    fin.setVisible(true);
-		    return;
+		}
+		else
+		{
+			if(accion==0)//se quiere mover
+			{
+				JLabel lblA = tablero[fA][cA];
+				JLabel lblN = tablero[fN][cN];
+				//borrar la casilla antigua
+				lblA.setOpaque(false);
+				lblA.repaint();//TODO he probado a poner esto basado en lo visto en otro commit, si no, se queda invisible
+				//dibujar la nueva
+				lblN.setOpaque(true);
+				lblN.repaint();//TODO aquí igual, pero no sé si no le gusta
+				if(tipo==0)//lo que se mueve es nave
+				{
+					if(colorN.equals("green")) {
+						lblN.setBackground(Color.GREEN);
+					}
+					else if(colorN.equals("blue")) {
+						lblN.setBackground(Color.BLUE);
+					}
+					else {
+						lblN.setBackground(Color.RED);
+					}
+				}
+				else if(tipo==1)//lo que se mueve es disparo
+				{
+					lblN.setBackground(Color.YELLOW);
+				}
+				else//if (tipo==2) vamos, que es enemigo
+				{
+					lblN.setBackground(Color.GRAY);
+				}
+				
+			}
+			else if(accion==1)//se borra algo
+			{
+				JLabel lblA = tablero[fA][cA];
+				lblA.setOpaque(false);
+				lblA.repaint();
+			}
+			else if(accion==2) //se crea algo nuevo    //TODO hacer sus notificaciones a las listas
+			{
+				JLabel lblN = tablero[fN][cN];
+				lblN.setOpaque(true);
+				if(tipo==0)//lo que se crea es nave, aunque no deberían poder crearse más naves
+				{
+					if(colorN.equals("green")) {
+						lblN.setBackground(Color.GREEN);
+					}
+					else if(colorN.equals("blue")) {
+						lblN.setBackground(Color.BLUE);
+					}
+					else {
+						lblN.setBackground(Color.RED);
+					}
+				}
+				else if(tipo==1)//lo que se crea es disparo
+				{
+					lblN.setBackground(Color.YELLOW);
+				}
+				else//if (tipo==2) vamos, que es enemigo, aunque no deberían poder crearse más enemigos
+				{
+					lblN.setBackground(Color.GRAY);
+				}
+			}
+			else if (accion==4) //borrar 2, disparoEnemigo o NaveEnemigo
+			{
+				JLabel lblA = tablero[fA][cA];
+				JLabel lblN = tablero[fN][cN];
+				lblA.setOpaque(false);
+				lblA.repaint();
+				lblN.setOpaque(false);
+				lblN.repaint();
+				
+			}
 		}
 		
-		if(accion==0)//se quiere mover
-		{
-			JLabel lblA = tablero[fA][cA];
-			JLabel lblN = tablero[fN][cN];
-			//borrar la casilla antigua
-			lblA.setOpaque(false);
-			lblA.repaint();//TODO he probado a poner esto basado en lo visto en otro commit, si no, se queda invisible
-			//dibujar la nueva
-			lblN.setOpaque(true);
-			lblN.repaint();//TODO aquí igual, pero no sé si no le gusta
-			if(tipo==0)//lo que se mueve es nave
-			{
-				if(colorN.equals("green")) {
-					lblN.setBackground(Color.GREEN);
-				}
-				else if(colorN.equals("blue")) {
-					lblN.setBackground(Color.BLUE);
-				}
-				else {
-					lblN.setBackground(Color.RED);
-				}
-			}
-			else if(tipo==1)//lo que se mueve es disparo
-			{
-				lblN.setBackground(Color.YELLOW);
-			}
-			else//if (tipo==2) vamos, que es enemigo
-			{
-				lblN.setBackground(Color.GRAY);
-			}
-			
-		}
-		else if(accion==1)//se borra algo
-		{
-			JLabel lblA = tablero[fA][cA];
-			lblA.setOpaque(false);
-			lblA.repaint();
-		}
-		else if(accion==2) //se crea algo nuevo    //TODO hacer sus notificaciones a las listas
-		{
-			JLabel lblN = tablero[fN][cN];
-			lblN.setOpaque(true);
-			if(tipo==0)//lo que se crea es nave, aunque no deberían poder crearse más naves
-			{
-				if(colorN.equals("green")) {
-					lblN.setBackground(Color.GREEN);
-				}
-				else if(colorN.equals("blue")) {
-					lblN.setBackground(Color.BLUE);
-				}
-				else {
-					lblN.setBackground(Color.RED);
-				}
-			}
-			else if(tipo==1)//lo que se crea es disparo
-			{
-				lblN.setBackground(Color.YELLOW);
-			}
-			else//if (tipo==2) vamos, que es enemigo, aunque no deberían poder crearse más enemigos
-			{
-				lblN.setBackground(Color.GRAY);
-			}
-		}
-		else if (accion==4) //borrar 2, disparoEnemigo o NaveEnemigo
-		{
-			JLabel lblA = tablero[fA][cA];
-			JLabel lblN = tablero[fN][cN];
-			lblA.setOpaque(false);
-			lblA.repaint();
-			lblN.setOpaque(false);
-			lblN.repaint();
-			
-		}
 	}
 
 	// Instancia del controlador
