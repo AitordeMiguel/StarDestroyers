@@ -8,14 +8,14 @@ public class ListaDisp{
 	private static ListaDisp miListaDisp;
 	private Timer timer = null;
 	private int cont=0;
-	private boolean inicializado=false;
+	private boolean inicializado,fin=false;
 	
 	private ListaDisp()
 	{
 		TimerTask timerTask = new TimerTask() {
 			@Override
 			public void run() {
-				if(inicializado) {
+				if(inicializado &&!fin) {
 					moverDisp();
 					moverEnem();
 				}
@@ -81,12 +81,20 @@ public class ListaDisp{
 	}
 	public void moverEnem() {
 		cont++;
-		if (cont >= 4) {
+		if (cont >= 4) 
+		{
+			//System.out.println("LLamado");
 			ArrayList<int []> rdo =ListaNaves.getListaNaves().moverEnem(); 
-			for(int i=0; i<rdo.size(); i++) {
-				if (rdo.get(i)[1]==1){
+			for(int i=0; i<rdo.size(); i++) 
+			{
+				if (rdo.get(i)[1]==1)
+				{
 					//si se elimina disp
 					removeDisp(rdo.get(i)[2],rdo.get(i)[3]);
+				}
+				if(rdo.get(i)[0]==2)//ha perdido
+				{
+					fin =true;//Se ha perdido
 				}
 			}
 			cont = 0; 

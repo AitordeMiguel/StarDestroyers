@@ -93,9 +93,9 @@ public class ListaEnem{
 			}
 			else if(rdo.get(i)[0]==2)//ha perdido
 			{
-				compTamEnem();
+				//Se ha perdido no anuncio victoria//compTamEnem();//TODO anunciar verdadera derrota
 			}
-			else
+			else//ha chocado
 			{
 				LEnem.remove(i); //Se elimina este
 				rdo.remove(i);
