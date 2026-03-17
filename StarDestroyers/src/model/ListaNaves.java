@@ -40,7 +40,7 @@ public class ListaNaves{
 	public void moverNave(String dir)
 	{
 		boolean rdo = ListaEnem.getListaEnem().moverNave(dir,LNav);
-		if(rdo)
+		if(rdo)//si se ha movido
 		{
 			if(dir.equals("left"))
 			{

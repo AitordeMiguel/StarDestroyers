@@ -1,6 +1,7 @@
 package viewController;
 
 import java.awt.EventQueue;
+
 import java.awt.Image;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -33,6 +34,10 @@ import java.awt.GridLayout;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
+
+
 @SuppressWarnings("deprecation")
 public class Juego extends JFrame implements Observer {
 
@@ -63,23 +68,18 @@ public class Juego extends JFrame implements Observer {
 		colorN = colorNave;
 		
 		ImageIcon EspacioOriginal = new ImageIcon(getClass().getResource("espacio.jpg"));
-		Image imagenEspacio = EspacioOriginal.getImage();
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		Image imagenEscalada = EspacioOriginal.getImage().getScaledInstance(dim.width, dim.height, Image.SCALE_SMOOTH);
+		JLabel lblFondo = new JLabel(new ImageIcon(imagenEscalada));
 
-		// Escalar al tamaño del panel (ancho x alto)
-		Image imagenEspacioEscalada = imagenEspacio.getScaledInstance(450, 300, Image.SCALE_SMOOTH);
-
-		// Crear un ImageIcon con la imagen escalada
-		ImageIcon espacioEscalado = new ImageIcon(imagenEspacioEscalada);
-
-		JLabel lblFondo = new JLabel(espacioEscalado);
-		lblFondo.setBounds(0, 0, 450, 300);
 			
-		//contentPane.add(lblFondo);
-		contentPane.add(getPanel(mat), BorderLayout.CENTER);
+		lblFondo.setLayout(new BorderLayout());  
+		setContentPane(lblFondo);  
+		lblFondo.add(getPanel(mat), BorderLayout.CENTER);
 		// Inicializar el controlador y asignarlo
-		contentPane.setFocusable(true);
-		contentPane.requestFocusInWindow();
-		contentPane.addKeyListener(getControlador());
+		setFocusable(true);
+		requestFocusInWindow();
+		addKeyListener(getControlador());
 
 		// Agregar este frame como observer del modelo
 		Espacio.getEspacio().addObserver(this);	
@@ -88,7 +88,7 @@ public class Juego extends JFrame implements Observer {
 	private JPanel getPanel(int[][] tabEsp) {//tabEsp:  0=nave 1=disp 2=enem 3=vacío
 		if (panel == null) {
 			panel = new JPanel();
-			panel.setOpaque(true);
+			panel.setOpaque(false);
 			panel.setLayout(new GridLayout(60, 100, 0, 0));
 			JLabel lblNewLabel;
 			tablero = new JLabel[60][100];
@@ -97,7 +97,6 @@ public class Juego extends JFrame implements Observer {
 				for(int c=0;c<100;c++)
 				{
 					lblNewLabel = new JLabel("");
-				//lblNewLabel.setBorder(BorderFactory.createLineBorder(Color.PINK));
 					if(tabEsp[f][c]==0)//es la nave
 					{
 						lblNewLabel.setOpaque(true);
@@ -148,87 +147,95 @@ public class Juego extends JFrame implements Observer {
 		int cN=posNueva[1];
 		int fA=posAnt[0];
 		int cA=posAnt[1];
+		boolean terminado = (boolean) res[8];
+		boolean iniciado = (boolean) res[5];
+		if(!terminado && iniciado)//Si no ha terminado el juego, y se ha empezado el juego
+		{
+			if (estado != 2) {//0=perder, 1=ganar 
+			    this.setVisible(false);
+			    Fin fin = new Fin(estado);
+			    fin.setVisible(true);
+			    terminado = true;
+			}
+			else
+			{
+				if(accion==0)//se quiere mover
+				{
+					JLabel lblA = tablero[fA][cA];
+					JLabel lblN = tablero[fN][cN];
+					//borrar la casilla antigua
+					lblA.setOpaque(false);
+					lblA.repaint();
+					//dibujar la nueva
+					lblN.setOpaque(true);
+					lblN.repaint();
+					if(tipo==0)//lo que se mueve es nave
+					{
+						if(colorN.equals("green")) {
+							lblN.setBackground(Color.GREEN);
+						}
+						else if(colorN.equals("blue")) {
+							lblN.setBackground(Color.BLUE);
+						}
+						else {
+							lblN.setBackground(Color.RED);
+						}
+					}
+					else if(tipo==1)//lo que se mueve es disparo
+					{
+						lblN.setBackground(Color.YELLOW);
+					}
+					else//if (tipo==2) vamos, que es enemigo
+					{
+						lblN.setBackground(Color.GRAY);
+					}
+					
+				}
+				else if(accion==1)//se borra algo
+				{
+					JLabel lblA = tablero[fA][cA];
+					lblA.setOpaque(false);
+					lblA.repaint();
+				}
+				else if(accion==2) //se crea algo nuevo    
+				{
+					JLabel lblN = tablero[fN][cN];
+					lblN.setOpaque(true);
+					if(tipo==0)//lo que se crea es nave, aunque no deberían poder crearse más naves
+					{
+						if(colorN.equals("green")) {
+							lblN.setBackground(Color.GREEN);
+						}
+						else if(colorN.equals("blue")) {
+							lblN.setBackground(Color.BLUE);
+						}
+						else {
+							lblN.setBackground(Color.RED);
+						}
+					}
+					else if(tipo==1)//lo que se crea es disparo
+					{
+						lblN.setBackground(Color.YELLOW);
+					}
+					else//if (tipo==2) vamos, que es enemigo, aunque no deberían poder crearse más enemigos
+					{
+						lblN.setBackground(Color.GRAY);
+					}
+				}
+				else if (accion==4) //borrar 2, disparoEnemigo o NaveEnemigo
+				{
+					JLabel lblA = tablero[fA][cA];
+					JLabel lblN = tablero[fN][cN];
+					lblA.setOpaque(false);
+					lblA.repaint();
+					lblN.setOpaque(false);
+					lblN.repaint();
+					
+				}
+			}
+		}
 		
-		if (estado != 2) {
-		    this.setVisible(false);
-		    Fin fin = new Fin(estado);
-		    fin.setVisible(true);
-		    return;
-		}
 		
-		if(accion==0)//se quiere mover
-		{
-			JLabel lblA = tablero[fA][cA];
-			JLabel lblN = tablero[fN][cN];
-			//borrar la casilla antigua
-			lblA.setOpaque(false);
-			lblA.repaint();//TODO he probado a poner esto basado en lo visto en otro commit, si no, se queda invisible
-			//dibujar la nueva
-			lblN.setOpaque(true);
-			lblN.repaint();//TODO aquí igual, pero no sé si no le gusta
-			if(tipo==0)//lo que se mueve es nave
-			{
-				if(colorN.equals("green")) {
-					lblN.setBackground(Color.GREEN);
-				}
-				else if(colorN.equals("blue")) {
-					lblN.setBackground(Color.BLUE);
-				}
-				else {
-					lblN.setBackground(Color.RED);
-				}
-			}
-			else if(tipo==1)//lo que se mueve es disparo
-			{
-				lblN.setBackground(Color.YELLOW);
-			}
-			else//if (tipo==2) vamos, que es enemigo
-			{
-				lblN.setBackground(Color.GRAY);
-			}
-			
-		}
-		else if(accion==1)//se borra algo
-		{
-			JLabel lblA = tablero[fA][cA];
-			lblA.setOpaque(false);
-			lblA.repaint();
-		}
-		else if(accion==2) //se crea algo nuevo    //TODO hacer sus notificaciones a las listas
-		{
-			JLabel lblN = tablero[fN][cN];
-			lblN.setOpaque(true);
-			if(tipo==0)//lo que se crea es nave, aunque no deberían poder crearse más naves
-			{
-				if(colorN.equals("green")) {
-					lblN.setBackground(Color.GREEN);
-				}
-				else if(colorN.equals("blue")) {
-					lblN.setBackground(Color.BLUE);
-				}
-				else {
-					lblN.setBackground(Color.RED);
-				}
-			}
-			else if(tipo==1)//lo que se crea es disparo
-			{
-				lblN.setBackground(Color.YELLOW);
-			}
-			else//if (tipo==2) vamos, que es enemigo, aunque no deberían poder crearse más enemigos
-			{
-				lblN.setBackground(Color.GRAY);
-			}
-		}
-		else if (accion==4) //borrar 2, disparoEnemigo o NaveEnemigo
-		{
-			JLabel lblA = tablero[fA][cA];
-			JLabel lblN = tablero[fN][cN];
-			lblA.setOpaque(false);
-			lblA.repaint();
-			lblN.setOpaque(false);
-			lblN.repaint();
-			
-		}
 	}
 
 	// Instancia del controlador

@@ -3,10 +3,12 @@ package viewController;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.EventQueue;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -50,8 +52,8 @@ public class Fin extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout());
 
-		setContentPane(contentPane);
-
+		setContentPane(contentPane);		
+		
 		// Mensaje principal
 		lblMensaje = new JLabel("", SwingConstants.CENTER);
 		lblMensaje.setFont(new Font("Monospaced", Font.BOLD, 60));
