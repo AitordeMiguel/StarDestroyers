@@ -39,12 +39,12 @@ public class ListaDisp{
 		ListaNaves.getListaNaves().inicializar(color);
 		inicializado=true;
 	}
-	public void addDisp(int x, int y)
+	private void addDisp(int x, int y)
 	{
 		int[] coor = {x,y};
 		LDis.add(coor);
 	}
-	public void removeDisp(int x, int y)//TODO tener cuidado cuando sean disparos multi-pixel, pues habrá que cambiarlo
+	private void removeDisp(int x, int y)//TODO tener cuidado cuando sean disparos multi-pixel, pues habrá que cambiarlo
 	{
 		for(int i=0;i<LDis.size();i++)
 		{
@@ -55,7 +55,7 @@ public class ListaDisp{
 		}
 	}
 	
-	public void moverDisp()
+	private void moverDisp()
 	{
 		ArrayList<int[]> rdo = ListaNaves.getListaNaves().moverDisp(LDis);
 		for (int i=0;i<rdo.size();i++)
@@ -79,7 +79,7 @@ public class ListaDisp{
 		int[] sol = ListaNaves.getListaNaves().crearDisp(tipo);
 		if(sol[0]==1) {addDisp(sol[1],sol[2]);}
 	}
-	public void moverEnem() {
+	private void moverEnem() {
 		cont++;
 		if (cont >= 4) 
 		{

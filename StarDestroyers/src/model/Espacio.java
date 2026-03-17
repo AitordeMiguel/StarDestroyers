@@ -62,7 +62,7 @@ public class Espacio extends Observable{
 		return miEspacio;
 	}
 	
-	public Casilla getCasilla(int x, int y) {
+	private Casilla getCasilla(int x, int y) {
 		if(x >= 0 && x < 60 && y >= 0 && y < 100) {
 	        return tablero[x][y];
 	    }
