@@ -2,11 +2,11 @@ package model;
 
 import java.util.Observable;
 
-import javax.swing.JLabel;
-
-public class Casilla extends JLabel{
+public class Casilla extends Observable{
+	private int x;
+	private int y;
 	public Casilla()
 	{
-		setOpaque(false);
+		
 	}
 }

@@ -1,12 +1,11 @@
 package model;
 
-import java.awt.Color;
-
 public class Disparo extends Casilla{
 	private String tipo;
 	//private int[] pos; ?????
-	public Disparo()
+	public Disparo(String t)
 	{
-		setBackground(Color.YELLOW);
+		tipo=t;
 	}
+	public String getTipo() {return tipo;}
 }
