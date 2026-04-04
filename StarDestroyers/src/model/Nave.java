@@ -1,6 +1,6 @@
 package model;
 
-public class Nave extends Casilla{
+public class Nave {
 	private int cantR, cantF;
 	private String color;
 	

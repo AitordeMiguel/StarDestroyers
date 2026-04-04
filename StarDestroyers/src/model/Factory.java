@@ -25,10 +25,10 @@ public class Factory {
     	{
     		Composite formaComp = new Composite();
     		
-    		PixelN n1 = new PixelN(x,y);//Centro
-    		PixelN n2 = new PixelN(x+1,y);//Derecha
-    		PixelN n3 = new PixelN(x-1,y);//Izquierda
-    		PixelN n4 = new PixelN(x,y-1);//Arriba
+    		pixelN n1 = new pixelN(x,y);//Centro
+    		pixelN n2 = new pixelN(x+1,y);//Derecha
+    		pixelN n3 = new pixelN(x-1,y);//Izquierda
+    		pixelN n4 = new pixelN(x,y-1);//Arriba
     		
     		formaComp.addComponente(n1);
     		formaComp.addComponente(n2);

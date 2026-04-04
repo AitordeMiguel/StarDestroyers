@@ -1,6 +1,6 @@
 package model;
 
-public class Enemigo extends Casilla{
+public class Enemigo{
 	public Enemigo()
 	{
 		
