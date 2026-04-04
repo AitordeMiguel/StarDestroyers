@@ -1,13 +1,12 @@
 package model;
 
-public class pixelE implements Component{
+public class PixelN implements Component{
 	private int x,y;
-	public pixelE(int pX, int pY)
+	public PixelN(int pX, int pY)
 	{
 		this.x = pX;
 		this.y = pY;
 	}
-
 	@Override
 	public void mover() {
 		// TODO Auto-generated method stub

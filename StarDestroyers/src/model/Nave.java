@@ -1,6 +1,7 @@
 package model;
 
-public class Nave {
+public abstract class Nave extends PiezaAbs{
+	/*
 	private int cantR, cantF;
 	private String color;
 	
@@ -27,4 +28,5 @@ public class Nave {
 	public String getColor() {
 		return color;
 	}
+	*/
 }

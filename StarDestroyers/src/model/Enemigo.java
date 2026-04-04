@@ -1,6 +1,6 @@
 package model;
 
-public class Enemigo{
+public class Enemigo extends PiezaAbs{
 	public Enemigo()
 	{
 		

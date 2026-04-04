@@ -1,8 +1,8 @@
 package model;
 
-public class pixelD  implements Component{
+public class PixelE implements Component{
 	private int x,y;
-	public pixelD(int pX, int pY)
+	public PixelE(int pX, int pY)
 	{
 		this.x = pX;
 		this.y = pY;
