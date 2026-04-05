@@ -65,7 +65,7 @@ public class Factory {
     		PixelN n1 = new PixelN(x,y);//Centro
     		PixelN n2 = new PixelN(x+1,y);//Derecha
     		PixelN n3 = new PixelN(x-1,y);//Izquierda
-    		PixelN n4 = new PixelN(x,y-1);//Arriba
+    		PixelN n4 = new PixelN(x,y+1);//Abajo
     		
     		formaComp.addComponente(n1);
     		formaComp.addComponente(n2);
