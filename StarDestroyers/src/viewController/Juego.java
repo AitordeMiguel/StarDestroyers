@@ -19,13 +19,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import model.Casilla;
-import model.Disparo;
-import model.Enemigo;
 import model.Espacio;
-import model.ListaEnem;
-import model.ListaNaves;
-import model.Nave;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
