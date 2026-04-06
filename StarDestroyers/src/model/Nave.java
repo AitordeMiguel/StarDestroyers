@@ -16,33 +16,12 @@ public abstract class Nave extends PiezaAbs{
 	    this.forma = forma;
 	    this.LDis = new ArrayList<Disparo>();
 	    }
-    } 
-	/*
-	private int cantR, cantF;
-	private String color;
 	
-	public Nave(String pColor)
+	public void disparar()//Crear Disparo
 	{
-		color = pColor;
-		if(color=="green")
-		{
-			cantR = 0;		
-			cantF = 30;
-		}
-		else if(color=="blue")
-		{
-			cantR = 20;		
-			cantF = 0;	
-		}
-		else
-		{
-			cantR = 20;		
-			cantF = 30;
-		}
+		//LLamar a la estrategia que toque
 	}
+    } 
+
 	
-	public String getColor() {
-		return color;
-	}
-	*/
 

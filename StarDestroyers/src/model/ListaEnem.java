@@ -7,6 +7,7 @@ import java.util.TimerTask;
 
 public class ListaEnem{
 	private ArrayList<int[]> LEnem;
+	private ArrayList<Enemigo> LEnems;// TODO Esta sustituriá a la de arriba
 	private static ListaEnem miListaEnem;
 	private Timer timer = null;
 	private ListaEnem()
@@ -36,7 +37,7 @@ public class ListaEnem{
 		}
 		return miListaEnem;
 	}
-	private Enemigo fabricarEnemigos(ArrayList<int[]> posiciones)
+	private Enemigo fabricarEnemigos(int[] posiciones)
 	{
 		// llamamos al factory indicando tipo 1 para Enemigo, null en color y las posiciones
 		return (Enemigo) Factory.getFactory().generar(1, null, posiciones);
@@ -48,7 +49,8 @@ public class ListaEnem{
 		int dist=90/cantEnem;
 		for(int i=0;i<cantEnem;i++)
 		{
-			int[] pos = {2,5+i*dist};
+			int[] pos = {2,5+i*dist};;
+			LEnems.add(fabricarEnemigos(pos));
 			LEnem.add(pos);
 		};
 		Espacio.getEspacio().inicializar(color,new ArrayList<>(LEnem));
