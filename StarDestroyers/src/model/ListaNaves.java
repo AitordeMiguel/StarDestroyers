@@ -14,6 +14,11 @@ public class ListaNaves{
 		}
 		return miListaNaves;
 	}
+	private Nave fabricarNave(String color, ArrayList<int[]> pos)
+	{
+		// llamamos al factory indicando tipo 0 para Nave, el color y la lista de posiciones
+		return (Nave) Factory.getFactory().generar(0, color, pos);
+	}
 	public void inicializar(String color)
 	{
 		LNav = new ArrayList<int[]>();
@@ -25,6 +30,7 @@ public class ListaNaves{
 		int[] coor = {x,y};
 		LNav.add(coor);
 	}
+	
 	private void removeNave(int x, int y)
 	{
 		for (int i=0;i<LNav.size();i++)
