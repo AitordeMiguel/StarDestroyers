@@ -30,6 +30,7 @@ public class ListaNaves{
 		int[] coor = {x,y};
 		LNav.add(coor);
 	}
+	
 	private void removeNave(int x, int y)
 	{
 		for (int i=0;i<LNav.size();i++)
