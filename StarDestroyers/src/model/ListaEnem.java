@@ -48,7 +48,7 @@ public class ListaEnem{
 		};
 		Espacio.getEspacio().inicializar(color,new ArrayList<>(LEnem));
 	}
-	public void removeEnem(int x, int y)
+	private void removeEnem(int x, int y)
 	{
 		for(int i=0;i<LEnem.size();i++)
 		{
@@ -59,16 +59,15 @@ public class ListaEnem{
 			}
 		}
 		compTamEnem();
-		//TODO comprobamos aquí si aún quedan enemigos? size()==0
 	}
-	public void compTamEnem()
+	private void compTamEnem()
 	{
 		if(LEnem.size()==0)
 		{
 			Espacio.getEspacio().anunciarVictoria();
 		}
 	}
-	public void actEnem(int x, int y)
+	private void actEnem(int x, int y)
 	{
 		for(int i=0;i<LEnem.size();i++)
 		{
@@ -93,7 +92,7 @@ public class ListaEnem{
 			}
 			else if(rdo.get(i)[0]==2)//ha perdido
 			{
-				//Se ha perdido no anuncio victoria//compTamEnem();//TODO anunciar verdadera derrota
+				//Se ha perdido no anuncio victoria//compTamEnem();
 			}
 			else//ha chocado
 			{

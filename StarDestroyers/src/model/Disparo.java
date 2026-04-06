@@ -1,6 +1,6 @@
 package model;
 
-public class Disparo extends Casilla{
+public class Disparo{
 	private String tipo;
 	//private int[] pos; ?????
 	public Disparo(String t)
