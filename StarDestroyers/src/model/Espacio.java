@@ -364,6 +364,90 @@ public class Espacio extends Observable{
 		
 		return sol;
 	}
+	public boolean comprobarMoverNave(int f, int c, String dir)
+	{
+		boolean rdo = true;
+		if(f>=0 && c>=0 && f<60 && c<100)//Si son pos válidas
+		{
+			if(dir.equals("up"))
+			{
+				if(f>0 || tablero[f-1][c] == 2)//Si arriba no hay pared o si la de arriba es enemigo
+				{
+					rdo = false;
+				}
+			}
+			else if(dir.equals("dowm"))
+			{
+				if(f<59 || tablero[f+1][c] == 2)//Si abajo no hay pared o si la de abajo es enemigo
+				{
+					rdo = false;
+				}
+			}
+			else if(dir.equals("left"))
+			{
+				if(c>0 || tablero[f][c-1] == 2)//Si a la izq no hay pared o si la de abajo es enemigo
+				{
+					rdo = false;
+				}
+			}
+			else if(dir.equals("right"))
+			{
+				if(c<99 || tablero[f][c+1] == 2)//Si a la derecha no hay pared o si la de abajo es enemigo
+				{
+					rdo = false;
+				}
+			}
+		}
+		else//aunque nunca debería darse este
+		{
+			rdo = false;
+		}
+		return rdo;
+	}
+	
+	public int comprobarMoverEnem(int f, int c)
+	{
+		int rdo = 1;
+		/*
+		  1: Se puede mover
+		  2: Se ha perdido (Choca contra nave)
+		  3: Se borra enem (Choca contra disp)
+		 */
+		
+		if(f>=0 && c>=0 && f<60 && c<100)//Si son pos válidas
+		{
+			if(f==59)
+			{
+				rdo = 2;
+			}
+			else if(tablero[f+1][c]==1)//Si es disparo
+			{
+				rdo = 3;
+			}
+			else if(tablero[f+1][c]==0)//Si es nave
+			{
+				rdo = 2;
+			}
+		}
+		
+		return rdo;
+	}
+	
+	public boolean comprobarMoverDisp(int f, int c)
+	{
+		boolean rdo= true;//Se puede mover?
+		
+		if(f>=0 && c>=0 && f<60 && c<100)//Si son pos válidas
+		{
+			if(tablero[f-1][c]==1)//Si es enem el de arriba
+			{
+				rdo = false;
+			}
+		}
+		
+		return rdo;
+	}
+	
 	public void anunciarVictoria()
 	{
 		int[] posA = {-1,-1};
