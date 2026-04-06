@@ -14,6 +14,11 @@ public class ListaNaves{
 		}
 		return miListaNaves;
 	}
+	private Nave fabricarNave(String color, ArrayList<int[]> pos)
+	{
+		// llamamos al factory indicando tipo 0 para Nave, el color y la lista de posiciones
+		return (Nave) Factory.getFactory().generar(0, color, pos);
+	}
 	public void inicializar(String color)
 	{
 		LNav = new ArrayList<int[]>();

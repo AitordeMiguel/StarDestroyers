@@ -36,6 +36,11 @@ public class ListaEnem{
 		}
 		return miListaEnem;
 	}
+	private Enemigo fabricarEnemigos(ArrayList<int[]> posiciones)
+	{
+		// llamamos al factory indicando tipo 1 para Enemigo, null en color y las posiciones
+		return (Enemigo) Factory.getFactory().generar(1, null, posiciones);
+	}
 	public void inicializar(String color)
 	{
 		LEnem = new ArrayList<int[]>();
