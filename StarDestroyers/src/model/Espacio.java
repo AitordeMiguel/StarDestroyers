@@ -29,7 +29,7 @@ public class Espacio extends Observable{
 						posE.remove(0);
 						tablero[f][c] = 2;
 					}
-					else if(f==55 && c==50)
+					else if((f==55 && c==50)||(f==55 && c==49)||(f==55 && c==51)||(f==54 && c==50))//Todas las pos de nuestra nave
 					{
 						tablero[f][c] = 0;
 					}
@@ -59,13 +59,15 @@ public class Espacio extends Observable{
 		return miEspacio;
 	}
 	
+	/*
 	private int getCasilla(int x, int y) {
 		if(x >= 0 && x < 60 && y >= 0 && y < 100) {
 	        return tablero[x][y];
 	    }
 	    return -1;
 	}
-
+	*/
+	
 	public ArrayList<int []> moverEnem(ArrayList<int[]> posE)//TODO aquí debe recoger solo un disparo, que será un array de coordenadas x e y por el Composite
 	{//TODO cambiar toda la estructura para que:
 		/*
@@ -143,7 +145,7 @@ public class Espacio extends Observable{
 		}
 		return sol;
 	}
-	public boolean moverNave(String dir, ArrayList<int[]> posN)
+	public boolean moverNave(int[] posN)//En este método sabemos que podemos hacerlo
 	{
 		int estado=2;//nada
 		int accion=3;//nada
@@ -152,6 +154,12 @@ public class Espacio extends Observable{
 		int[] posA = new int[2];
 		int[] posNue = new int[2];
 		
+		int f = posN[0];
+		int c = posN[1];
+		
+		//Ya se han borrado todas las posiciones antiguas 
+		tablero[f][c] = 0;//Esa casilla ahora es nave
+		/*
 		for(int i=0;i<posN.size();i++)//aunque solo hay una nave
 		{
 			int f=posN.get(i)[0];
@@ -239,13 +247,20 @@ public class Espacio extends Observable{
 			posNue[0]=f;
 			posNue[1]=c;
 	    }
+		*/
 		String color ="";
 		int[][] tabNum = new int[60][100];
 	    setChanged();
-	    notifyObservers(new Object[] {accion,posA,posNue,0,estado,juegoIniciado,color,tabNum,finJuego});
+	    notifyObservers(new Object[] {accion,posA,posNue,0,estado,juegoIniciado,color,tabNum,finJuego});//TODO cambiarlo a pasar toda la matriz
 
 		return movido;
 	}
+	
+	public void desdibujarNave(int[] posN)
+	{
+		tablero[posN[0]][posN[1]] = 3;//Ahora es vacío
+	}
+	
 	public ArrayList<int[]> moverDisp(ArrayList<int[]> LDisp)
 	{
 		ArrayList<int[]> sol = new ArrayList<int[]>();
@@ -364,6 +379,90 @@ public class Espacio extends Observable{
 		
 		return sol;
 	}
+	public boolean comprobarMoverNave(int f, int c, String dir)
+	{
+		boolean rdo = true;
+		if(f>=0 && c>=0 && f<60 && c<100)//Si son pos válidas
+		{
+			if(dir.equals("up"))
+			{
+				if(f>0 || tablero[f-1][c] == 2)//Si arriba no hay pared o si la de arriba es enemigo
+				{
+					rdo = false;
+				}
+			}
+			else if(dir.equals("dowm"))
+			{
+				if(f<59 || tablero[f+1][c] == 2)//Si abajo no hay pared o si la de abajo es enemigo
+				{
+					rdo = false;
+				}
+			}
+			else if(dir.equals("left"))
+			{
+				if(c>0 || tablero[f][c-1] == 2)//Si a la izq no hay pared o si la de abajo es enemigo
+				{
+					rdo = false;
+				}
+			}
+			else if(dir.equals("right"))
+			{
+				if(c<99 || tablero[f][c+1] == 2)//Si a la derecha no hay pared o si la de abajo es enemigo
+				{
+					rdo = false;
+				}
+			}
+		}
+		else//aunque nunca debería darse este
+		{
+			rdo = false;
+		}
+		return rdo;
+	}
+	
+	public int comprobarMoverEnem(int f, int c)
+	{
+		int rdo = 1;
+		/*
+		  1: Se puede mover
+		  2: Se ha perdido (Choca contra nave)
+		  3: Se borra enem (Choca contra disp)
+		 */
+		
+		if(f>=0 && c>=0 && f<60 && c<100)//Si son pos válidas
+		{
+			if(f==59)
+			{
+				rdo = 2;
+			}
+			else if(tablero[f+1][c]==1)//Si es disparo
+			{
+				rdo = 3;
+			}
+			else if(tablero[f+1][c]==0)//Si es nave
+			{
+				rdo = 2;
+			}
+		}
+		
+		return rdo;
+	}
+	
+	public boolean comprobarMoverDisp(int f, int c)
+	{
+		boolean rdo= true;//Se puede mover?
+		
+		if(f>=0 && c>=0 && f<60 && c<100)//Si son pos válidas
+		{
+			if(tablero[f-1][c]==1)//Si es enem el de arriba
+			{
+				rdo = false;
+			}
+		}
+		
+		return rdo;
+	}
+	
 	public void anunciarVictoria()
 	{
 		int[] posA = {-1,-1};

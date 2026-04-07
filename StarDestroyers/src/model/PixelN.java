@@ -10,7 +10,12 @@ public class PixelN implements Component{
 	@Override
 	public void mover() {
 		// TODO Auto-generated method stub
-		
+		/*
+		   Primero se comprueba que se puede mover
+		   Después se borran todas las casillas nave
+		   (Ya que estamos actualizar esta posición)
+		   Por último se crean las nuevas casillas nave
+		*/
 	}
 
 	@Override

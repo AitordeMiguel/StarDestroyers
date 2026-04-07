@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class ListaNaves{
 	private ArrayList<int[]> LNav;
+	private ArrayList<Nave> LNaves;//TODO que sustituya al de arriba
 	private static ListaNaves miListaNaves;
 	private ListaNaves(){}
 	public static ListaNaves getListaNaves()
@@ -14,7 +15,7 @@ public class ListaNaves{
 		}
 		return miListaNaves;
 	}
-	private Nave fabricarNave(String color, ArrayList<int[]> pos)
+	private Nave fabricarNave(String color, int[] pos)
 	{
 		// llamamos al factory indicando tipo 0 para Nave, el color y la lista de posiciones
 		return (Nave) Factory.getFactory().generar(0, color, pos);
@@ -23,6 +24,11 @@ public class ListaNaves{
 	{
 		LNav = new ArrayList<int[]>();
 		addNave(55,50);
+		
+		LNaves = new ArrayList<Nave>();
+		int[] pos = {55,50};
+		LNaves.add(fabricarNave(color,pos));
+		
 		ListaEnem.getListaEnem().inicializar(color);
 	}
 	private void addNave(int x, int y)

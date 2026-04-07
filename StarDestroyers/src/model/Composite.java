@@ -20,8 +20,10 @@ public class Composite implements Component{
 		Iterator<Component> it = components.iterator();
 		while(it.hasNext()){
 		    Component comp = it.next();
-		    comp.mover();
+		    comp.mover();// TODO Cambiar esto a compMovNave
 		}
+		//TODO Otro loop con desdibujar
+		//TODO Otro loop con mover o redibujar
 	}
 
 	@Override
