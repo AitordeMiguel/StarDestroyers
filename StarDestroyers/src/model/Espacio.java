@@ -29,7 +29,7 @@ public class Espacio extends Observable{
 						posE.remove(0);
 						tablero[f][c] = 2;
 					}
-					else if((f==55 && c==50)||(f==55 && c==49)||(f==54 && c==50)||(f==56 && c==50))//Todas las pos de nuestra nave
+					else if((f==55 && c==50)||(f==55 && c==49)||(f==55 && c==51)||(f==54 && c==50))//Todas las pos de nuestra nave
 					{
 						tablero[f][c] = 0;
 					}

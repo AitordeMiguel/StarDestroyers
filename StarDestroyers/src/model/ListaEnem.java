@@ -45,6 +45,7 @@ public class ListaEnem{
 	public void inicializar(String color)
 	{
 		LEnem = new ArrayList<int[]>();
+		LEnems = new ArrayList<Enemigo>();
 		int cantEnem = new Random().nextInt(4,9);
 		int dist=90/cantEnem;
 		for(int i=0;i<cantEnem;i++)
