@@ -9,9 +9,12 @@ public class PixelD  implements Component{
 	}
 
 	@Override
-	public void mover() {
-		// TODO Auto-generated method stub
-		
+	public void mover(String dir) {
+		// El disparo del jugador siempre va hacia arriba (x disminuye)
+		if(dir.equals("up")) {
+			x--;
+		}
+		this.crear();
 	}
 
 	@Override
@@ -24,6 +27,12 @@ public class PixelD  implements Component{
 	public void borrar() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public boolean comprobarMover(String dir) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

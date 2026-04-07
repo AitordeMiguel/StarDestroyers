@@ -16,14 +16,33 @@ public class Composite implements Component{
 	}
 	    
 	@Override
-	public void mover() {
-		Iterator<Component> it = components.iterator();
-		while(it.hasNext()){
-		    Component comp = it.next();
-		    comp.mover();// TODO Cambiar esto a compMovNave
+	public boolean comprobarMover(String dir) {
+		Iterator<Component> itComprobar = components.iterator();
+		while(itComprobar.hasNext()){
+		    Component comp = itComprobar.next();
+		    if (!comp.comprobarMover(dir)) { 
+		    	return false; 
+		    }
 		}
-		//TODO Otro loop con desdibujar
-		//TODO Otro loop con mover o redibujar
+		return true;
+	}
+	@Override
+	public void mover(String dir) { 
+		
+		if (this.comprobarMover(dir)) {
+			// Desdibujar
+			Iterator<Component> itBorrar = components.iterator();
+			while(itBorrar.hasNext()){
+			    Component comp = itBorrar.next();
+			    comp.borrar();
+			}
+			// Mover y volver a dibujar
+			Iterator<Component> itMover = components.iterator();
+			while(itMover.hasNext()){
+			    Component comp = itMover.next();
+			    comp.mover(dir);
+			}
+		}
 	}
 
 	@Override

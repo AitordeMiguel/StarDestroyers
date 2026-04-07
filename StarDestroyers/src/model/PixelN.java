@@ -8,14 +8,19 @@ public class PixelN implements Component{
 		this.y = pY;
 	}
 	@Override
-	public void mover() {
+	public void mover(String dir) {
 		// TODO Auto-generated method stub
-		/*
-		   Primero se comprueba que se puede mover
-		   Después se borran todas las casillas nave
-		   (Ya que estamos actualizar esta posición)
-		   Por último se crean las nuevas casillas nave
-		*/
+			if(dir.equals("up")) {//Actualiza coordenadas 
+				x--;
+			} else if(dir.equals("down")) { 
+				x++;
+			} else if(dir.equals("left")) {
+				y--;
+			} else if(dir.equals("right")) {
+				y++;
+			}
+			//espacio dibuja la nave en esta nueva posición
+			Espacio.getEspacio().moverNave(new int[]{x, y});
 	}
 
 	@Override
@@ -28,6 +33,11 @@ public class PixelN implements Component{
 	public void borrar() {
 		// TODO Auto-generated method stub
 		
+	}
+	@Override
+	public boolean comprobarMover(String dir) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

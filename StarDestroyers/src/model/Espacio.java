@@ -391,7 +391,7 @@ public class Espacio extends Observable{
 					rdo = false;
 				}
 			}
-			else if(dir.equals("dowm"))
+			else if(dir.equals("down"))
 			{
 				if(f<59 || tablero[f+1][c] == 2)//Si abajo no hay pared o si la de abajo es enemigo
 				{
