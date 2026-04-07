@@ -112,7 +112,7 @@ public class ListaEnem{
 	}
 	public boolean moverNave(String dir, ArrayList<int[]> LNav)
 	{
-		return Espacio.getEspacio().moverNave(dir, LNav);
+		return Espacio.getEspacio().moverNave(LNav.get(0));
 	}
 	public ArrayList<int[]> moverDisp(ArrayList<int[]> LDisp)
 	{

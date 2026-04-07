@@ -143,7 +143,7 @@ public class Espacio extends Observable{
 		}
 		return sol;
 	}
-	public boolean moverNave(String dir, ArrayList<int[]> posN)
+	public boolean moverNave(int[] posN)//En este método sabemos que podemos hacerlo
 	{
 		int estado=2;//nada
 		int accion=3;//nada
@@ -152,6 +152,12 @@ public class Espacio extends Observable{
 		int[] posA = new int[2];
 		int[] posNue = new int[2];
 		
+		int f = posN[0];
+		int c = posN[1];
+		
+		//Ya se han borrado todas las posiciones antiguas 
+		tablero[f][c] = 0;//Esa casilla ahora es nave
+		/*
 		for(int i=0;i<posN.size();i++)//aunque solo hay una nave
 		{
 			int f=posN.get(i)[0];
@@ -239,13 +245,20 @@ public class Espacio extends Observable{
 			posNue[0]=f;
 			posNue[1]=c;
 	    }
+		*/
 		String color ="";
 		int[][] tabNum = new int[60][100];
 	    setChanged();
-	    notifyObservers(new Object[] {accion,posA,posNue,0,estado,juegoIniciado,color,tabNum,finJuego});
+	    notifyObservers(new Object[] {accion,posA,posNue,0,estado,juegoIniciado,color,tabNum,finJuego});//TODO cambiarlo a pasar toda la matriz
 
 		return movido;
 	}
+	
+	public void desdibujarNave(int[] posN)
+	{
+		tablero[posN[0]][posN[1]] = 3;//Ahora es vacío
+	}
+	
 	public ArrayList<int[]> moverDisp(ArrayList<int[]> LDisp)
 	{
 		ArrayList<int[]> sol = new ArrayList<int[]>();

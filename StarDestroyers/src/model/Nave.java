@@ -21,6 +21,7 @@ public abstract class Nave extends PiezaAbs{
 	{
 		//LLamar a la estrategia que toque
 	}
+	
     } 
 
 	
