@@ -9,9 +9,10 @@ public class PixelE implements Component{
 	}
 
 	@Override
-	public void mover() {
+	public void mover(String dir) {
 		// TODO Auto-generated method stub
-		
+		x++;
+		this.crear();
 	}
 
 	@Override
@@ -24,6 +25,12 @@ public class PixelE implements Component{
 	public void borrar() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public boolean comprobarMover(String dir) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }
