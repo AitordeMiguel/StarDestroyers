@@ -29,7 +29,7 @@ public class Espacio extends Observable{
 						posE.remove(0);
 						tablero[f][c] = 2;
 					}
-					else if(f==55 && c==50)
+					else if((f==55 && c==50)||(f==55 && c==49)||(f==54 && c==50)||(f==56 && c==50))//Todas las pos de nuestra nave
 					{
 						tablero[f][c] = 0;
 					}
@@ -59,13 +59,15 @@ public class Espacio extends Observable{
 		return miEspacio;
 	}
 	
+	/*
 	private int getCasilla(int x, int y) {
 		if(x >= 0 && x < 60 && y >= 0 && y < 100) {
 	        return tablero[x][y];
 	    }
 	    return -1;
 	}
-
+	*/
+	
 	public ArrayList<int []> moverEnem(ArrayList<int[]> posE)//TODO aquí debe recoger solo un disparo, que será un array de coordenadas x e y por el Composite
 	{//TODO cambiar toda la estructura para que:
 		/*
