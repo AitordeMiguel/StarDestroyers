@@ -1,7 +1,8 @@
 package model;
 
 public interface Component {
-	void mover();
+	boolean comprobarMover(String dir);
+	void mover(String dir);
 	void crear();
 	void borrar();
 }
