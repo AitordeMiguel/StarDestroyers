@@ -152,11 +152,12 @@ public class Menu extends JFrame implements Observer{
 	@Override
 	public void update(Observable o, Object arg) {//que pase el color, y el array en forma numérica
 		Object[] conv = (Object[]) arg;
-		boolean iniciado = (boolean) conv[5];
-		if(!iniciado)
+		boolean iniciado = (boolean) conv[3];
+		int destinatario = (int) conv[0];
+		if(destinatario == 0 && !iniciado)
 		{
-			String col = (String) conv[6];
-			int[][] mat = (int[][]) conv[7];
+			String col = (String) conv[5];
+			int[][] mat = (int[][]) conv[1];
 			this.setVisible(false);
 			Juego juego = new Juego(col,mat);
 			juego.setVisible(true);
@@ -209,7 +210,7 @@ public class Menu extends JFrame implements Observer{
 		    // iniciar juego
 			if (e.getKeyCode() == KeyEvent.VK_SPACE) 
 			{
-				model.ListaDisp.getListaDisp().inicializar(color);
+				model.Espacio.getEspacio().inicializar(color);
 			}			
 		}
 

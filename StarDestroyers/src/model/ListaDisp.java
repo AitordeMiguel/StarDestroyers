@@ -46,6 +46,7 @@ public class ListaDisp{
 	}
 	private void removeDisp(int x, int y)//TODO tener cuidado cuando sean disparos multi-pixel, pues habrá que cambiarlo
 	{
+		/*
 		for(int i=0;i<LDis.size();i++)
 		{
 			if(LDis.get(i)[0]==x && LDis.get(i)[1]==y)
@@ -53,10 +54,12 @@ public class ListaDisp{
 				LDis.remove(i);
 			}
 		}
+		*/
 	}
 	
 	private void moverDisp()
 	{
+		/*
 		ArrayList<int[]> rdo = ListaNaves.getListaNaves().moverDisp(LDis);
 		for (int i=0;i<rdo.size();i++)
 		{
@@ -71,6 +74,7 @@ public class ListaDisp{
 				i--;//para no saltarnos el siguiente disparo
 			}
 		}
+		*/
 	}
 	public void crearDisp(String tipo)
 	{
@@ -80,6 +84,7 @@ public class ListaDisp{
 		//if(sol[0]==1) {addDisp(sol[1],sol[2]);}
 	}
 	private void moverEnem() {
+		/*
 		cont++;
 		if (cont >= 4) 
 		{
@@ -99,6 +104,7 @@ public class ListaDisp{
 			}
 			cont = 0; 
 		}
+		*/
 		
 	}
 }

@@ -17,7 +17,7 @@ public class PixelE implements Component{
 
 	@Override
 	public void crear() {
-		// TODO Auto-generated method stub
+		Espacio.getEspacio().crearEnem(new int[]{x, y});
 		
 	}
 

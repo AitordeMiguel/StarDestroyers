@@ -29,7 +29,7 @@ public class ListaNaves{
 			n.dibujar(); //Dibujarlo en el tablero
 		}
 		
-		ListaEnem.getListaEnem().inicializar(color);
+		//ListaEnem.getListaEnem().inicializar(color); //TODO a menos que queramos llamar de lista a lista, si no, con Notify
 	}
 	
 	
@@ -69,8 +69,7 @@ public class ListaNaves{
 		//De momento solo hay una nave, por lo que basta con hacerlo con esa sin escoger entre varias
 		LNaves.get(0).disparar();
 	}
-	public ArrayList<int []> moverEnem() { 
-		return ListaEnem.getListaEnem().moverEnem();
-		
+	public void moverEnem() { 
+		// ListaEnem.getListaEnem().moverEnem();
 	}
 }

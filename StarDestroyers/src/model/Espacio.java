@@ -15,7 +15,7 @@ public class Espacio extends Observable{
 	{
 		
 	}
-	public void inicializar(String color,ArrayList<int[]> posE)
+	public void inicializar(String color)
 	{
 		if(!juegoIniciado)
 		{
@@ -24,29 +24,12 @@ public class Espacio extends Observable{
 			{
 				for(int c=0;c<100;c++)
 				{
-					if(!posE.isEmpty() &&f==2 && c==posE.get(0)[1])
-					{
-						posE.remove(0);
-						tablero[f][c] = 2;
-					}
-					else if((f==55 && c==50)||(f==55 && c==49)||(f==55 && c==51)||(f==54 && c==50))//Todas las pos de nuestra nave
-					{
-						tablero[f][c] = 0;
-					}
-					else
-					{
-						tablero[f][c] = 3;
-					}
+					tablero[f][c] = 3;
 				}
 			}
-			int[][] tabNum = tablero;
-			int accion=3;//nada
-			int[] posA = {};
-			int[] posNue = {};
-			int estado = 2;//seguir jugando
 			setChanged();
-			notifyObservers(new Object[] {accion,posA,posNue,2,estado,juegoIniciado,color,tabNum,finJuego});
-			juegoIniciado = true;
+			notifyObservers(new Object[] {0,tablero,null,juegoIniciado,finJuego,color});//TODO cambiar el primero para que no vaya a Menú, sino a una lista para seguir
+			juegoIniciado = true;//TODO quitar esto y ponerlo en el método final de la inicialización
 		}
 		
 	}
@@ -244,6 +227,16 @@ public class Espacio extends Observable{
 		notifyObservers(new Object[] {1,tablero,estado,juegoIniciado,finJuego});//TODO determinar si quitar este notify y tener un método Notify que avise cuando se hagan todos los píxeles
 		
 	}
+	public void crearNave(int[] pos)
+	{
+		tablero[pos[0]][pos[1]] = 0;//Es nave
+	}
+	
+	public void crearEnem(int[] pos)
+	{
+		tablero[pos[0]][pos[1]] = 2;//Es enem
+	}
+	
 	public boolean comprobarMoverNave(int f, int c, String dir)
 	{
 		boolean rdo = true;

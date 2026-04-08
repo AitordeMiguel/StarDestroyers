@@ -6,8 +6,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class ListaEnem{
-	private ArrayList<int[]> LEnem;
-	private ArrayList<Enemigo> LEnems;// TODO Esta sustituriá a la de arriba
+	private ArrayList<Enemigo> LEnems;
 	private static ListaEnem miListaEnem;
 	private Timer timer = null;
 	private ListaEnem()
@@ -42,9 +41,8 @@ public class ListaEnem{
 		// llamamos al factory indicando tipo 1 para Enemigo, null en color y las posiciones
 		return (Enemigo) Factory.getFactory().generar(1, null, posiciones);
 	}
-	public void inicializar(String color)
+	public void inicializar()
 	{
-		LEnem = new ArrayList<int[]>();
 		LEnems = new ArrayList<Enemigo>();
 		int cantEnem = new Random().nextInt(4,9);
 		int dist=90/cantEnem;
@@ -52,12 +50,16 @@ public class ListaEnem{
 		{
 			int[] pos = {2,5+i*dist};;
 			LEnems.add(fabricarEnemigos(pos));
-			LEnem.add(pos);
 		};
-		Espacio.getEspacio().inicializar(color,new ArrayList<>(LEnem));
+		for(Enemigo e: LEnems)
+		{
+			e.dibujar();
+		}
+		//Espacio.getEspacio().inicializar(color);
 	}
 	private void removeEnem(int x, int y)
 	{
+		/*
 		for(int i=0;i<LEnem.size();i++)
 		{
 			if(LEnem.get(i)[0]==x && LEnem.get(i)[1]==y)//basta con y
@@ -67,16 +69,18 @@ public class ListaEnem{
 			}
 		}
 		compTamEnem();
+		*/
 	}
 	private void compTamEnem()
 	{
-		if(LEnem.size()==0)
+		if(LEnems.size()==0)
 		{
 			Espacio.getEspacio().anunciarVictoria();
 		}
 	}
 	private void actEnem(int x, int y)
 	{
+		/*
 		for(int i=0;i<LEnem.size();i++)
 		{
 			if(LEnem.get(i)[0]==x && LEnem.get(i)[1]==y)
@@ -84,13 +88,15 @@ public class ListaEnem{
 				LEnem.get(i)[0]=x+1; //Baja una posición
 			}
 		}
+		*/
 	}
-	public ArrayList<int []> moverEnem() //version postLabo
+	public void moverEnem() //version postLabo
 	{
 		//if (LEnem == null || Espacio.getEspacio() == null) { //el timer empieza a contar antes de que se cree la lista de Enemigos, por lo que daba error, le he añadido esto para que el contador empiece a dar vueltas solo cuando está creado la lista.
 			//return; 
 		//}
 
+		/*
 		ArrayList<int []> rdo = Espacio.getEspacio().moverEnem(LEnem);
 		for(int i=0;i<rdo.size();i++)
 		{
@@ -110,6 +116,7 @@ public class ListaEnem{
 			}
 		}
 		return rdo;
+		*/
 	}
 	public boolean moverNave(String dir, ArrayList<int[]> LNav)
 	{

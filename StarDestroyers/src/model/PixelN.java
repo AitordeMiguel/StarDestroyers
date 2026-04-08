@@ -25,7 +25,7 @@ public class PixelN implements Component{
 
 	@Override
 	public void crear() {
-		//TODO de momento no lo queremos pero podría ser que llegue el día en que se pueda crear durante la partida y sí queramos
+		Espacio.getEspacio().crearNave(new int[]{x, y});;
 	}
 
 	@Override

@@ -35,9 +35,9 @@ public class Factory {
     		Composite formaComp = new Composite();
     		
     		PixelN n1 = new PixelN(x,y);//Centro
-    		PixelN n2 = new PixelN(x+1,y);//Derecha
-    		PixelN n3 = new PixelN(x-1,y);//Izquierda
-    		PixelN n4 = new PixelN(x,y-1);//Arriba
+    		PixelN n2 = new PixelN(x,y+1);//Derecha
+    		PixelN n3 = new PixelN(x,y-1);//Izquierda
+    		PixelN n4 = new PixelN(x-1,y);//Arriba
     		
     		formaComp.addComponente(n1);
     		formaComp.addComponente(n2);
@@ -60,16 +60,16 @@ public class Factory {
     	int x = coor[0];
 		int y = coor[1];
 		
-		PixelN n1 = new PixelN(x,y);//Centro
-		PixelN n2 = new PixelN(x+1,y);//Derecha
-		PixelN n3 = new PixelN(x-1,y);//Izquierda
-		PixelN n4 = new PixelN(x,y+1);//Abajo
+		PixelE e1 = new PixelE(x,y);//Centro
+		PixelE e2 = new PixelE(x,y+1);//Derecha
+		PixelE e3 = new PixelE(x,y-1);//Izquierda
+		PixelE e4 = new PixelE(x+1,y);//Abajo
 		
-		formaComp.addComponente(n1);
-		formaComp.addComponente(n2);
-		formaComp.addComponente(n3);
-		formaComp.addComponente(n4);
-		enem = new Enemigo();
+		formaComp.addComponente(e1);
+		formaComp.addComponente(e2);
+		formaComp.addComponente(e3);
+		formaComp.addComponente(e4);
+		enem = new Enemigo(formaComp);
     	
     	return enem;
     }
