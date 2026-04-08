@@ -19,8 +19,7 @@ public class PixelD  implements Component{
 
 	@Override
 	public void crear() {
-		// TODO Auto-generated method stub
-		
+		Espacio.getEspacio().crearDisp(new int[]{x, y});
 	}
 
 	@Override
@@ -35,8 +34,8 @@ public class PixelD  implements Component{
 
 	@Override
 	public boolean comprobarCrear() {
-		// TODO Auto-generated method stub
-		return false;
+		boolean rdo = Espacio.getEspacio().comprobarCrearDisp(x, y);
+		return rdo;
 	}
 	
 

@@ -329,7 +329,7 @@ public class Espacio extends Observable{
 		
 		if(f>=0 && c>=0 && f<60 && c<100)//Si son pos válidas
 		{
-			if(tablero[f][c]==3)//Si la casilla esespacio
+			if(tablero[f][c]==3)//Si la casilla es espacio
 			{
 				if(f==0)//Si se está creando el la fila de arriba
 				{
@@ -366,6 +366,14 @@ public class Espacio extends Observable{
 	{
 		setChanged();
 		notifyObservers(new Object[] {1,tablero,estado,juegoIniciado,finJuego});//
+		finJuego = true;
+	}
+	
+	public void notificar()//0=perder, 1=ganar
+	{
+		int estado = 2;//seguir
+		setChanged();
+		notifyObservers(new Object[] {1,tablero,estado,true,false,"red"});//
 		finJuego = true;
 	}
 }

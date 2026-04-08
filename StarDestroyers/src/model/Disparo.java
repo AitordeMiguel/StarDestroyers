@@ -1,10 +1,13 @@
 package model;
 
 public class Disparo{
-	private String tipo;
-	public Disparo(String t)
+	private Composite forma;
+	public Disparo(Composite comp)
 	{
-		tipo=t;
+		forma = comp;
 	}
-	public String getTipo() {return tipo;}
+	public void dibujar()
+	{
+		forma.crear();
+	}
 }
