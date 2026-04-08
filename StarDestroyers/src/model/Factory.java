@@ -15,13 +15,13 @@ public class Factory {
     	PiezaAbs elem = null;
     	if(LPos != null)
     	{
-    		if(tipo==0) 
+    		if(tipo==0) //Queremos nave
         	{
         		int x = LPos[0];
         		int y = LPos[1];
         		elem = generarNave(col,x,y);
         	}
-        	else {elem = generarEnem(LPos);}
+        	else {elem = generarEnem(LPos);}//Queremos enemigo
     	}
     	return elem;
     }

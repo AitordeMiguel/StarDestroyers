@@ -127,13 +127,15 @@ public class ListaEnem{
 		}
 		return rdo;
 	}
-	public int[] crearDisp(ArrayList<int[]> LNav,String tipo)
+	public void crearDisp(ArrayList<int[]> LNav,String tipo)
 	{
+		/*
 		int[] rdo = Espacio.getEspacio().crearDisp(LNav.get(0), tipo);
 		if(rdo[3]==1)//se borra este enem
 		{
 			removeEnem(rdo[1],rdo[2]);
 		}
 		return rdo;
+		*/
 	}
 }

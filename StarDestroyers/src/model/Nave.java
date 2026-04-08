@@ -18,10 +18,26 @@ public abstract class Nave extends PiezaAbs{
 	    }
 	
 	public void disparar()//Crear Disparo
-	{
+	{//TODO tiene que ser en las hijas a menos que todos igual
+		/*
 		//LLamar a la estrategia que toque
+		Disparo disp; //TODO que esto llame y obtenga el disparo creado
+		if(disp != null)
+		{
+			LDis.add(disp);
+		}
+		*/
 	}
 	
+	public void dibujar() 
+	{
+		forma.crear();
+	}
+	
+	public void mover(String dir)
+	{
+		forma.mover(dir);
+	}
     } 
 
 	

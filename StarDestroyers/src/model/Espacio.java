@@ -159,95 +159,6 @@ public class Espacio extends Observable{
 		
 		//Ya se han borrado todas las posiciones antiguas 
 		tablero[f][c] = 0;//Esa casilla ahora es nave
-		/*
-		for(int i=0;i<posN.size();i++)//aunque solo hay una nave
-		{
-			int f=posN.get(i)[0];
-			int c=posN.get(i)[1];
-			posA[0]=f;
-			posA[1]=c;
-			//Nave nave = (Nave) tablero[f][c];
-			
-			if(dir.equals("up"))
-			{
-				if(f>0)//puede ir hacia arriba
-				{
-					tablero[f][c] = 3;
-					if(tablero[f-1][c] == 2)
-			        {
-			            movido = false;
-			            estado=0;//perder
-			        }
-			        else//via libre para moverse
-			        {
-			            tablero[f-1][c] = 0; //nave
-			            accion=0;//mover
-			            movido=true;
-			            f--;
-			        }
-				}
-			}
-			else if(dir.equals("down"))
-			{
-				if(f<59)
-				{
-					tablero[f][c] = 3;
-					if(tablero[f+1][c] == 2)
-			        {
-			            movido = false;
-			            estado=0;//perder
-			        }
-			        else
-			        {
-			            tablero[f+1][c] = 0;
-			            accion=0;//mover
-			            f++;
-						movido=true;
-			        }
-				}
-			}
-			else if(dir.equals("right"))
-			{
-				if(c<99)
-				{
-					tablero[f][c] = 3;
-					if(tablero[f][c+1] == 2)
-			        {
-			            movido = false;
-			            estado=0;//perder
-			        }
-			        else
-			        {
-			            tablero[f][c+1] = 0;
-			            accion=0;//mover
-			            c++;
-						movido=true;
-			        }
-				}
-			}
-			else if(dir.equals("left"))
-			{
-				if(c>0)
-				{
-					tablero[f][c] = 3;
-					if(tablero[f][c-1] == 2)
-			        {
-			            movido = false;
-			            estado=0;//perder
-			        }
-			        else
-			        {
-			            tablero[f][c-1] = 0;
-			            accion=0;//mover
-			            c--;
-						movido=true;
-			        }
-				}
-			}
-			posNue[0]=f;
-			posNue[1]=c;
-	    }
-		*/
 		String color ="";
 		int[][] tabNum = new int[60][100];
 	    setChanged();
@@ -256,9 +167,9 @@ public class Espacio extends Observable{
 		return movido;
 	}
 	
-	public void desdibujarNave(int[] posN)
+	public void desdibujar(int[] pos)//Sirve para los tres
 	{
-		tablero[posN[0]][posN[1]] = 3;//Ahora es vacío
+		tablero[pos[0]][pos[1]] = 3;//Ahora es vacío
 	}
 	
 	public ArrayList<int[]> moverDisp(ArrayList<int[]> LDisp)
@@ -325,59 +236,13 @@ public class Espacio extends Observable{
 		}
 		return sol;
 	}
-	public int[] crearDisp(int[] posN, String tipo)
+	public void crearDisp(int[] pos)
 	{
-		//boolean a int  --> 1=True, 0=False
-		int[] sol = new int[4];//boolean creado, pos x, pos y, borrarEnem?
-		int f = posN[0];
-		int c = posN[1];
-		int accion=3;//nada
-		int tip =1;//disparo, aunque puede cambiar
+		tablero[pos[0]][pos[1]] = 1;//Es disparo
 		int estado = 2;
-		sol[0] = 0;//de momento no creado
-		
-		int[] posA = {-1,-1};//porque no lo vamos a querer, al menos de momento
-		
-		if(tipo=="normal" && f>=2)//TODO cambiarlo para que sencillamente lo cree, y hacer otro método que sea comprobar si se puede crear
-		{
-			sol[1] = f-2;
-			sol[2] = c;
-			if(tablero[f-2][c] == 2)
-			{
-				//notificar que se borra Enemigo, pero no se crea
-				sol[0] = 0;// No creado
-				sol[3] = 1;
-				accion=1;//se va a borrar
-				posA[0] = f-2;
-				posA[1] = c;
-				tip=2;//se borrara un enem
-			}
-			else if(tablero[f-2][c] == 1)//aunque como se mueve no debería poder ocurrir
-			{
-				sol[0] = 0;// No creado
-				sol[3] = 0;//No se elimina enem
-			}
-			else if(f-3>=0 && tablero[f-3][c] == 1)//me aseguro de que haya espacios entre disp
-			{
-				sol[0] = 0;// No creado
-				sol[3] = 0;//No se elimina enem
-			}
-			else
-			{
-				sol[0] = 1;//creado
-				sol[3] = 0;
-				tablero[f-2][c] = 1;
-				accion=2;//crear
-			}
-		}
-		
-		int[] posNue = {f-2,c};
-		String color ="";
-		int[][] tabNum = new int[60][100];
 		setChanged();
-		notifyObservers(new Object[] {accion,posA,posNue,tip,estado,juegoIniciado,color,tabNum,finJuego});//crear,nada,posAnt,posNue,
+		notifyObservers(new Object[] {1,tablero,estado,juegoIniciado,finJuego});//TODO determinar si quitar este notify y tener un método Notify que avise cuando se hagan todos los píxeles
 		
-		return sol;
 	}
 	public boolean comprobarMoverNave(int f, int c, String dir)
 	{
@@ -386,28 +251,28 @@ public class Espacio extends Observable{
 		{
 			if(dir.equals("up"))
 			{
-				if(f>0 || tablero[f-1][c] == 2)//Si arriba no hay pared o si la de arriba es enemigo
+				if(f==0 || tablero[f-1][c] == 2)//Si arriba hay pared o si la de arriba es enemigo
 				{
 					rdo = false;
 				}
 			}
 			else if(dir.equals("down"))
 			{
-				if(f<59 || tablero[f+1][c] == 2)//Si abajo no hay pared o si la de abajo es enemigo
+				if(f==59 || tablero[f+1][c] == 2)//Si abajo hay pared o si la de abajo es enemigo
 				{
 					rdo = false;
 				}
 			}
 			else if(dir.equals("left"))
 			{
-				if(c>0 || tablero[f][c-1] == 2)//Si a la izq no hay pared o si la de abajo es enemigo
+				if(c==0 || tablero[f][c-1] == 2)//Si a la izq hay pared o si la de abajo es enemigo
 				{
 					rdo = false;
 				}
 			}
 			else if(dir.equals("right"))
 			{
-				if(c<99 || tablero[f][c+1] == 2)//Si a la derecha no hay pared o si la de abajo es enemigo
+				if(c==99 || tablero[f][c+1] == 2)//Si a la derecha hay pared o si la de abajo es enemigo
 				{
 					rdo = false;
 				}
@@ -422,7 +287,7 @@ public class Espacio extends Observable{
 	
 	public int comprobarMoverEnem(int f, int c)
 	{
-		int rdo = 1;
+		int rdo = 1;//TODO plantearse el cambiarlo ha 
 		/*
 		  1: Se puede mover
 		  2: Se ha perdido (Choca contra nave)
@@ -434,6 +299,7 @@ public class Espacio extends Observable{
 			if(f==59)
 			{
 				rdo = 2;
+				notifyFin(0);
 			}
 			else if(tablero[f+1][c]==1)//Si es disparo
 			{
@@ -442,6 +308,7 @@ public class Espacio extends Observable{
 			else if(tablero[f+1][c]==0)//Si es nave
 			{
 				rdo = 2;
+				notifyFin(0);
 			}
 		}
 		
@@ -450,13 +317,42 @@ public class Espacio extends Observable{
 	
 	public boolean comprobarMoverDisp(int f, int c)
 	{
-		boolean rdo= true;//Se puede mover?
+		boolean rdo= false;//Se puede mover?
 		
 		if(f>=0 && c>=0 && f<60 && c<100)//Si son pos válidas
 		{
-			if(tablero[f-1][c]==1)//Si es enem el de arriba
+			if(tablero[f-1][c]!=1)//Si el de arriba no es enem
 			{
-				rdo = false;
+				rdo = true;
+			}
+		}
+		
+		return rdo;
+	}
+	
+	public boolean comprobarCrearDisp(int f, int c)
+	{
+		boolean rdo= false;//Se puede mover?
+		
+		if(f>=0 && c>=0 && f<60 && c<100)//Si son pos válidas
+		{
+			if(tablero[f][c]==3)//Si la casilla esespacio
+			{
+				if(f==0)//Si se está creando el la fila de arriba
+				{
+					rdo= true;
+				}
+				else//Si hay más filas arriba
+				{
+					if(tablero[f-1][c]==3)//Si la casilla de arriba está vacía
+					{
+						rdo = true;
+					}
+					else//Aunque este else es innecesario
+					{
+						rdo=false;
+					}
+				}
 			}
 		}
 		
@@ -471,6 +367,12 @@ public class Espacio extends Observable{
 		int[][] tabNum = new int[60][100];
 		setChanged();
 		notifyObservers(new Object[] {4,posA,posN,4,1,juegoIniciado,color,tabNum,finJuego});//nada,nada,posAnt,posNue,da igual, ganar
+		finJuego = true;
+	}
+	public void notifyFin(int estado)//0=perder, 1=ganar 
+	{
+		setChanged();
+		notifyObservers(new Object[] {1,tablero,estado,juegoIniciado,finJuego});//
 		finJuego = true;
 	}
 }

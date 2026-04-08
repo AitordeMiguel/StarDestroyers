@@ -76,8 +76,8 @@ public class ListaDisp{
 	{
 		//primer elem: 1=creado  0=no creado
 		//segundo y tercero: posX, posY
-		int[] sol = ListaNaves.getListaNaves().crearDisp(tipo);
-		if(sol[0]==1) {addDisp(sol[1],sol[2]);}
+		//int[] sol = ListaNaves.getListaNaves().crearDisp(tipo);
+		//if(sol[0]==1) {addDisp(sol[1],sol[2]);}
 	}
 	private void moverEnem() {
 		cont++;

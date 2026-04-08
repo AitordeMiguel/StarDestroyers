@@ -25,14 +25,19 @@ public class PixelD  implements Component{
 
 	@Override
 	public void borrar() {
-		// TODO Auto-generated method stub
-		
+		Espacio.getEspacio().desdibujar(new int[]{x, y});
 	}
 
 	@Override
 	public boolean comprobarMover(String dir) {
+		return Espacio.getEspacio().comprobarMoverDisp(x, y);
+	}
+
+	@Override
+	public boolean comprobarCrear() {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
 
 }

@@ -8,8 +8,8 @@ public class PixelN implements Component{
 		this.y = pY;
 	}
 	@Override
-	public void mover(String dir) {
-		// TODO Auto-generated method stub
+	public void mover(String dir) 
+	{
 			if(dir.equals("up")) {//Actualiza coordenadas 
 				x--;
 			} else if(dir.equals("down")) { 
@@ -25,18 +25,21 @@ public class PixelN implements Component{
 
 	@Override
 	public void crear() {
-		// TODO Auto-generated method stub
-		
+		//TODO de momento no lo queremos pero podría ser que llegue el día en que se pueda crear durante la partida y sí queramos
 	}
 
 	@Override
 	public void borrar() {
-		// TODO Auto-generated method stub
+		Espacio.getEspacio().desdibujar(new int[]{x, y});
 		
 	}
 	@Override
 	public boolean comprobarMover(String dir) {
-		// TODO Auto-generated method stub
+		return Espacio.getEspacio().comprobarMoverNave(x, y, dir);
+	}
+	@Override
+	public boolean comprobarCrear() {
+		// TODO de momento solo creamos al princicio, que no da problemas, por lo que no lo necesitamos
 		return false;
 	}
 

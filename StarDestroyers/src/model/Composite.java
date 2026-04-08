@@ -18,13 +18,12 @@ public class Composite implements Component{
 	@Override
 	public boolean comprobarMover(String dir) {
 		Iterator<Component> itComprobar = components.iterator();
-		while(itComprobar.hasNext()){
+		boolean rdo = true;
+		while(itComprobar.hasNext() && rdo){
 		    Component comp = itComprobar.next();
-		    if (!comp.comprobarMover(dir)) { 
-		    	return false; 
-		    }
+		    rdo = comp.comprobarMover(dir);
 		}
-		return true;
+		return rdo;
 	}
 	@Override
 	public void mover(String dir) { 
@@ -61,6 +60,11 @@ public class Composite implements Component{
 		    Component comp = it.next();
 		    comp.borrar();
 		}
+	}
+	@Override
+	public boolean comprobarCrear() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }
