@@ -45,14 +45,14 @@ public class Composite implements Component{
 	}
 
 	@Override
-	public void crear(int tipo) {
+	public void crear(int tipo, int accion) {
 		/*
 		Iterator<Component> it = components.iterator();
 		while(it.hasNext()){
 		    Component comp = it.next();
 		    comp.crear();
 		    
-		}*/
+		}
 		if(tipo==1)//Nave
 		{
 			Espacio.getEspacio().crearNave(obtCoor());
@@ -64,7 +64,28 @@ public class Composite implements Component{
 		else if(tipo==3)//Disp
 		{
 			Espacio.getEspacio().crearDisp(obtCoor());
+		}*/
+
+	if(tipo==1)//Nave
+	{
+		if (accion == 0) {
+			Espacio.getEspacio().crearNave(obtCoor());
+		} else if (accion == 1) {
+			Espacio.getEspacio().redibujarNave(obtCoor());
 		}
+	}
+	else if(tipo==2)//Enemigo
+	{
+		if (accion == 0) {
+			Espacio.getEspacio().crearEnem(obtCoor());
+		} else if (accion == 1) {
+			Espacio.getEspacio().redibujarEnem(obtCoor());
+		}
+	}
+	else if(tipo==3)//Disparo
+	{
+		Espacio.getEspacio().crearDisp(obtCoor());
+ 	}
 	}
 
 	@Override

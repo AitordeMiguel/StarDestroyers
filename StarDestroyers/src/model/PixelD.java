@@ -14,11 +14,11 @@ public class PixelD  implements Component{
 		if(dir.equals("up")) {
 			x--;
 		}
-		this.crear();
+		//TODO arreglar this.crear();
 	}
 
 	@Override
-	public void crear(int tipo) {
+	public void crear(int tipo, int accion) {
 		//De momento no creamos ninguno pixel a pixel
 	}
 

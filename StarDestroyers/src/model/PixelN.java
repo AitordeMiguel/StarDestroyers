@@ -24,7 +24,7 @@ public class PixelN implements Component{
 	}
 
 	@Override
-	public void crear(int tipo) {
+	public void crear(int tipo, int accion) {
 		//De momento no creamos ninguno pixel a pixel
 	}
 
