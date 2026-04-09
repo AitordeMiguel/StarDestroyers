@@ -8,8 +8,8 @@ public class PixelN implements Component{
 		this.y = pY;
 	}
 	@Override
-	public void mover(String dir) {
-		// TODO Auto-generated method stub
+	public void mover(String dir) 
+	{
 			if(dir.equals("up")) {//Actualiza coordenadas 
 				x--;
 			} else if(dir.equals("down")) { 
@@ -24,20 +24,32 @@ public class PixelN implements Component{
 	}
 
 	@Override
-	public void crear() {
-		// TODO Auto-generated method stub
-		
+	public void crear(int tipo) {
+		//De momento no creamos ninguno pixel a pixel
 	}
 
 	@Override
 	public void borrar() {
-		// TODO Auto-generated method stub
+		Espacio.getEspacio().desdibujar(new int[]{x, y});
 		
 	}
 	@Override
 	public boolean comprobarMover(String dir) {
+		return Espacio.getEspacio().comprobarMoverNave(x, y, dir);
+	}
+	@Override
+	public boolean comprobarCrear() {
+		// TODO de momento solo creamos al princicio, que no da problemas, por lo que no lo necesitamos
+		return false;
+	}
+	@Override
+	public boolean encontrar(int x, int y) {//Método de composite, y los otros píxeles
 		// TODO Auto-generated method stub
 		return false;
+	}
+	@Override
+	public int[] getCoor() {
+		return new int[] {x,y};
 	}
 
 }

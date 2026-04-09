@@ -18,21 +18,35 @@ public class PixelD  implements Component{
 	}
 
 	@Override
-	public void crear() {
-		// TODO Auto-generated method stub
-		
+	public void crear(int tipo) {
+		//De momento no creamos ninguno pixel a pixel
 	}
 
 	@Override
 	public void borrar() {
-		// TODO Auto-generated method stub
-		
+		Espacio.getEspacio().desdibujar(new int[]{x, y});
 	}
 
 	@Override
 	public boolean comprobarMover(String dir) {
-		// TODO Auto-generated method stub
-		return false;
+		return Espacio.getEspacio().comprobarMoverDisp(x, y);
 	}
+
+	@Override
+	public boolean comprobarCrear() {
+		boolean rdo = Espacio.getEspacio().comprobarCrearDisp(x, y);
+		return rdo;
+	}
+
+	@Override
+	public boolean encontrar(int pX, int pY) {
+		return (pX == this.x) && (pY == this.y);
+	}
+
+	@Override
+	public int[] getCoor() {
+		return new int[] {x,y};
+	}
+	
 
 }

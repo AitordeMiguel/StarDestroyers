@@ -16,21 +16,42 @@ public class PixelE implements Component{
 	}
 
 	@Override
-	public void crear() {
-		// TODO Auto-generated method stub
+	public void crear(int tipo) {
+		//De momento no creamos ninguno pixel a pixel
 		
 	}
 
 	@Override
 	public void borrar() {
-		// TODO Auto-generated method stub
-		
+		Espacio.getEspacio().desdibujar(new int[]{x, y});		
 	}
 
 	@Override
 	public boolean comprobarMover(String dir) {
-		// TODO Auto-generated method stub
+		boolean movido;
+		int rdo = Espacio.getEspacio().comprobarMoverEnem(x, y);
+		if(rdo == 1) {movido = true;}
+		else
+		{
+			movido = false;
+		}
+		return movido;
+	}
+
+	@Override
+	public boolean comprobarCrear() {
+		// TODO de momento solo creamos al princicio, que no da problemas, por lo que no lo necesitamos
 		return false;
+	}
+
+	@Override
+	public boolean encontrar(int pX, int pY) {
+		return (pX == this.x) && (pY == this.y);
+	}
+
+	@Override
+	public int[] getCoor() {
+		return new int[] {x,y};
 	}
 
 }

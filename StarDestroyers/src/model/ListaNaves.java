@@ -1,10 +1,11 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
-public class ListaNaves{
-	private ArrayList<int[]> LNav;
-	private ArrayList<Nave> LNaves;//TODO que sustituya al de arriba
+public class ListaNaves implements Observer{
+	private ArrayList<Nave> LNaves;
 	private static ListaNaves miListaNaves;
 	private ListaNaves(){}
 	public static ListaNaves getListaNaves()
@@ -13,7 +14,7 @@ public class ListaNaves{
 		{
 			miListaNaves = new ListaNaves();
 		}
-		return miListaNaves;
+		return miListaNaves;	
 	}
 	private Nave fabricarNave(String color, int[] pos)
 	{
@@ -21,36 +22,22 @@ public class ListaNaves{
 		return (Nave) Factory.getFactory().generar(0, color, pos);
 	}
 	public void inicializar(String color)
-	{
-		LNav = new ArrayList<int[]>();
-		addNave(55,50);
-		
+	{	
+		Espacio.getEspacio().addObserver(this);	
 		LNaves = new ArrayList<Nave>();
 		int[] pos = {55,50};
 		LNaves.add(fabricarNave(color,pos));
-		
-		ListaEnem.getListaEnem().inicializar(color);
-	}
-	private void addNave(int x, int y)
-	{
-		int[] coor = {x,y};
-		LNav.add(coor);
-	}
-	
-	private void removeNave(int x, int y)
-	{
-		for (int i=0;i<LNav.size();i++)
+		for(Nave n: LNaves)//Aunque solo hay una
 		{
-			if(LNav.get(i)[0]==x && LNav.get(i)[1]==y)
-			{
-				LNav.remove(i);
-			}
+			n.dibujar(); //Dibujarlo en el tablero
 		}
+		
 	}
 	
 	
 	public void moverNave(String dir)
 	{
+		/*
 		boolean rdo = ListaEnem.getListaEnem().moverNave(dir,LNav);
 		if(rdo)//si se ha movido
 		{
@@ -72,18 +59,40 @@ public class ListaNaves{
 			}
 			
 		}
+		*/
 		
 	}
 	public ArrayList<int[]> moverDisp(ArrayList<int[]> LDisp)
 	{
 		return ListaEnem.getListaEnem().moverDisp(LDisp);
 	}
-	public int[] crearDisp(String tipo)
+	public void crearDisp(String tipo)
 	{
-		return ListaEnem.getListaEnem().crearDisp(LNav,tipo);
+		//De momento solo hay una nave, por lo que basta con hacerlo con esa sin escoger entre varias
+		LNaves.get(0).disparar();
 	}
-	public ArrayList<int []> moverEnem() { 
-		return ListaEnem.getListaEnem().moverEnem();
+	public void moverEnem() { 
+		// ListaEnem.getListaEnem().moverEnem();
+	}
+	@Override
+	public void update(Observable o, Object arg) 
+	{
+		Object[] res = (Object[]) arg;//arg: destinatario,tablero,estado,juegoInic,finJuego,color,accion,coordenadas
+		int destinatario = (int) res[0];
+		if(destinatario == 2 || destinatario == 4)//Si va dirigido a LN
+		{
+			if((int) res[6] == 0)//Si la acción es inicializar
+			{
+				inicializar((String) res[5]);
+			}
+			else//Si la acción es borrar
+			{
+				int[] coor = (int[]) res[7];
+				int x = coor[0];
+				int y = coor[1];
+				// TODO Remove Disp
+			}
+		}
 		
 	}
 }

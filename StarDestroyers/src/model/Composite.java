@@ -18,13 +18,12 @@ public class Composite implements Component{
 	@Override
 	public boolean comprobarMover(String dir) {
 		Iterator<Component> itComprobar = components.iterator();
-		while(itComprobar.hasNext()){
+		boolean rdo = true;
+		while(itComprobar.hasNext() && rdo){
 		    Component comp = itComprobar.next();
-		    if (!comp.comprobarMover(dir)) { 
-		    	return false; 
-		    }
+		    rdo = comp.comprobarMover(dir);
 		}
-		return true;
+		return rdo;
 	}
 	@Override
 	public void mover(String dir) { 
@@ -46,11 +45,25 @@ public class Composite implements Component{
 	}
 
 	@Override
-	public void crear() {
+	public void crear(int tipo) {
+		/*
 		Iterator<Component> it = components.iterator();
 		while(it.hasNext()){
 		    Component comp = it.next();
 		    comp.crear();
+		    
+		}*/
+		if(tipo==1)//Nave
+		{
+			Espacio.getEspacio().crearNave(obtCoor());
+		}
+		else if(tipo==2)//Enem
+		{
+			Espacio.getEspacio().crearEnem(obtCoor());
+		}
+		else if(tipo==3)//Disp
+		{
+			Espacio.getEspacio().crearDisp(obtCoor());
 		}
 	}
 
@@ -62,5 +75,35 @@ public class Composite implements Component{
 		    comp.borrar();
 		}
 	}
-
+	@Override
+	public boolean comprobarCrear() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	@Override
+	public boolean encontrar(int x, int y) {
+		boolean enc = false;
+		Iterator<Component> it = components.iterator();
+		while(it.hasNext() && ! enc){
+		    Component comp = it.next();
+		    enc = comp.encontrar(x, y);
+		}
+		return enc;
+	}
+	public ArrayList<int[]> obtCoor()
+	{
+		ArrayList<int[]> coor = new ArrayList<int[]>();
+		Iterator<Component> it = components.iterator();
+		while(it.hasNext()){
+		    Component comp = it.next();
+		    coor.add(comp.getCoor());
+		}
+		return coor;
+	}
+	@Override
+	public int[] getCoor() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
