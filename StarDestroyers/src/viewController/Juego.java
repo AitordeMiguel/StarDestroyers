@@ -319,7 +319,6 @@ public class Juego extends JFrame implements Observer {
 			
 			if (e.getKeyCode() == KeyEvent.VK_C) {}//TODO Cambiar tipo disparo
 			
-			if (e.getKeyCode() == KeyEvent.VK_P) {model.Espacio.getEspacio().notificar();}
 			
 			
 		}

@@ -44,4 +44,9 @@ public class PixelE implements Component{
 		return false;
 	}
 
+	@Override
+	public boolean encontrar(int pX, int pY) {
+		return (pX == this.x) && (pY == this.y);
+	}
+
 }

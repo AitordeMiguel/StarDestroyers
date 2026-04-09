@@ -10,4 +10,12 @@ public class Enemigo extends PiezaAbs{
 	{
 		forma.crear();
 	}
+	public boolean encontrar(int x, int y)
+	{
+		return forma.encontrar(x,y);
+	}
+	public void borrar()
+	{
+		forma.borrar();
+	}
 }

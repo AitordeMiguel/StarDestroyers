@@ -6,5 +6,6 @@ public interface Component {
 	void mover(String dir);
 	void crear();
 	void borrar();
+	boolean encontrar(int x, int y);
 	
 }

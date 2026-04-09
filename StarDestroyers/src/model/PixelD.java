@@ -37,6 +37,11 @@ public class PixelD  implements Component{
 		boolean rdo = Espacio.getEspacio().comprobarCrearDisp(x, y);
 		return rdo;
 	}
+
+	@Override
+	public boolean encontrar(int pX, int pY) {
+		return (pX == this.x) && (pY == this.y);
+	}
 	
 
 }

@@ -1,11 +1,15 @@
 package model;
 
 import java.util.ArrayList;
+
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class ListaEnem{
+import java.util.Observable;
+import java.util.Observer;
+
+public class ListaEnem implements Observer{
 	private ArrayList<Enemigo> LEnems;
 	private static ListaEnem miListaEnem;
 	private Timer timer = null;
@@ -19,6 +23,7 @@ public class ListaEnem{
 		};
 		timer = new Timer();
 		timer.scheduleAtFixedRate(timerTask, 0, 200);
+		Espacio.getEspacio().addObserver(this);	
 	}
 	
 	
@@ -55,21 +60,23 @@ public class ListaEnem{
 		{
 			e.dibujar();
 		}
-		//Espacio.getEspacio().inicializar(color);
 	}
 	private void removeEnem(int x, int y)
 	{
-		/*
-		for(int i=0;i<LEnem.size();i++)
+		int i=0;
+		boolean enc = false;
+		while(i<LEnems.size() && !enc)
 		{
-			if(LEnem.get(i)[0]==x && LEnem.get(i)[1]==y)//basta con y
+			Enemigo enem = LEnems.get(i);
+			enc = enem.encontrar(x, y);
+			if(enc)
 			{
-				LEnem.remove(i);
-				break;
+				enem.borrar();
 			}
+			LEnems.remove(i);
+			i++;
 		}
 		compTamEnem();
-		*/
 	}
 	private void compTamEnem()
 	{
@@ -144,5 +151,29 @@ public class ListaEnem{
 		}
 		return rdo;
 		*/
+	}
+
+
+	@Override
+	public void update(Observable o, Object arg) 
+	{
+		
+		Object[] res = (Object[]) arg;//arg: destinatario,tablero,estado,juegoInic,finJuego,color,accion,coordenadas
+		int destinatario = (int) res[0];
+		if(destinatario == 3 || destinatario == 4)//Si va dirigido a LE
+		{
+			if((int) res[6] == 0)//Si la acción es inicializar
+			{
+				inicializar();
+			}
+			else//Si la acción es borrar
+			{
+				int[] coor = (int[]) res[7];
+				int x = coor[0];
+				int y = coor[1];
+				removeEnem(x, y);
+			}
+		}
+		
 	}
 }

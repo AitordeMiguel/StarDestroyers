@@ -50,6 +50,7 @@ public class Composite implements Component{
 		while(it.hasNext()){
 		    Component comp = it.next();
 		    comp.crear();
+		    
 		}
 	}
 
@@ -65,6 +66,17 @@ public class Composite implements Component{
 	public boolean comprobarCrear() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	
+	@Override
+	public boolean encontrar(int x, int y) {
+		boolean enc = false;
+		Iterator<Component> it = components.iterator();
+		while(it.hasNext() && ! enc){
+		    Component comp = it.next();
+		    comp.encontrar(x, y);
+		}
+		return enc;
 	}
 
 }

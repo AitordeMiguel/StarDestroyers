@@ -27,9 +27,6 @@ public class Espacio extends Observable{
 					tablero[f][c] = 3;
 				}
 			}
-			setChanged();
-			notifyObservers(new Object[] {0,tablero,null,juegoIniciado,finJuego,color});//TODO cambiar el primero para que no vaya a Menú, sino a una lista para seguir
-			juegoIniciado = true;//TODO quitar esto y ponerlo en el método final de la inicialización
 		}
 		
 	}
@@ -219,15 +216,14 @@ public class Espacio extends Observable{
 		}
 		return sol;
 	}
-	public void crearDisp(int[] pos)
+	public void crearDisp(int[] pos)//TODO plantear pasar un int[][] con todas las coordenadas de una
 	{
 		tablero[pos[0]][pos[1]] = 1;//Es disparo
 		int estado = 2;
-		setChanged();
-		notifyObservers(new Object[] {1,tablero,estado,juegoIniciado,finJuego});//TODO determinar si quitar este notify y tener un método Notify que avise cuando se hagan todos los píxeles
+		//TODO notificar que ya se ha creado el disparo, pero con más cosas
 		
 	}
-	public void crearNave(int[] pos)
+	public void crearNave(int[] pos)//TODO plantear pasar un int[][] con todas las coordenadas de una
 	{
 		tablero[pos[0]][pos[1]] = 0;//Es nave
 	}
@@ -368,12 +364,11 @@ public class Espacio extends Observable{
 		notifyObservers(new Object[] {1,tablero,estado,juegoIniciado,finJuego});//
 		finJuego = true;
 	}
-	
-	public void notificar()//0=perder, 1=ganar
+	public void notificar(int dest, int estado, String color, int[] coor)
 	{
-		int estado = 2;//seguir
 		setChanged();
-		notifyObservers(new Object[] {1,tablero,estado,true,false,"red"});//
-		finJuego = true;
+		notifyObservers(new Object[] {dest,tablero,estado,juegoIniciado,finJuego,color,coor});//
+		juegoIniciado  = true;
 	}
+	
 }

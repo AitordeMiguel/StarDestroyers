@@ -25,7 +25,7 @@ public class PixelN implements Component{
 
 	@Override
 	public void crear() {
-		Espacio.getEspacio().crearNave(new int[]{x, y});;
+		Espacio.getEspacio().crearNave(new int[]{x, y});
 	}
 
 	@Override
@@ -40,6 +40,11 @@ public class PixelN implements Component{
 	@Override
 	public boolean comprobarCrear() {
 		// TODO de momento solo creamos al princicio, que no da problemas, por lo que no lo necesitamos
+		return false;
+	}
+	@Override
+	public boolean encontrar(int x, int y) {
+		// TODO Auto-generated method stub
 		return false;
 	}
 

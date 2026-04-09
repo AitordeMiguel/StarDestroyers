@@ -1,8 +1,10 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
-public class ListaNaves{
+public class ListaNaves implements Observer{
 	private ArrayList<Nave> LNaves;
 	private static ListaNaves miListaNaves;
 	private ListaNaves(){}
@@ -12,7 +14,7 @@ public class ListaNaves{
 		{
 			miListaNaves = new ListaNaves();
 		}
-		return miListaNaves;
+		return miListaNaves;	
 	}
 	private Nave fabricarNave(String color, int[] pos)
 	{
@@ -21,6 +23,7 @@ public class ListaNaves{
 	}
 	public void inicializar(String color)
 	{	
+		Espacio.getEspacio().addObserver(this);	
 		LNaves = new ArrayList<Nave>();
 		int[] pos = {55,50};
 		LNaves.add(fabricarNave(color,pos));
@@ -29,7 +32,6 @@ public class ListaNaves{
 			n.dibujar(); //Dibujarlo en el tablero
 		}
 		
-		//ListaEnem.getListaEnem().inicializar(color); //TODO a menos que queramos llamar de lista a lista, si no, con Notify
 	}
 	
 	
@@ -71,5 +73,26 @@ public class ListaNaves{
 	}
 	public void moverEnem() { 
 		// ListaEnem.getListaEnem().moverEnem();
+	}
+	@Override
+	public void update(Observable o, Object arg) 
+	{
+		Object[] res = (Object[]) arg;//arg: destinatario,tablero,estado,juegoInic,finJuego,color,accion,coordenadas
+		int destinatario = (int) res[0];
+		if(destinatario == 2 || destinatario == 4)//Si va dirigido a LN
+		{
+			if((int) res[6] == 0)//Si la acción es inicializar
+			{
+				inicializar((String) res[5]);
+			}
+			else//Si la acción es borrar
+			{
+				int[] coor = (int[]) res[7];
+				int x = coor[0];
+				int y = coor[1];
+				// TODO Remove Disp
+			}
+		}
+		
 	}
 }
