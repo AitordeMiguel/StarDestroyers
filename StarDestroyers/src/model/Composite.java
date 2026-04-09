@@ -45,12 +45,25 @@ public class Composite implements Component{
 	}
 
 	@Override
-	public void crear() {
+	public void crear(int tipo) {
+		/*
 		Iterator<Component> it = components.iterator();
 		while(it.hasNext()){
 		    Component comp = it.next();
 		    comp.crear();
 		    
+		}*/
+		if(tipo==1)//Nave
+		{
+			Espacio.getEspacio().crearNave(obtCoor());
+		}
+		else if(tipo==2)//Enem
+		{
+			Espacio.getEspacio().crearEnem(obtCoor());
+		}
+		else if(tipo==3)//Disp
+		{
+			Espacio.getEspacio().crearDisp(obtCoor());
 		}
 	}
 
@@ -74,9 +87,23 @@ public class Composite implements Component{
 		Iterator<Component> it = components.iterator();
 		while(it.hasNext() && ! enc){
 		    Component comp = it.next();
-		    comp.encontrar(x, y);
+		    enc = comp.encontrar(x, y);
 		}
 		return enc;
 	}
-
+	public ArrayList<int[]> obtCoor()
+	{
+		ArrayList<int[]> coor = new ArrayList<int[]>();
+		Iterator<Component> it = components.iterator();
+		while(it.hasNext()){
+		    Component comp = it.next();
+		    coor.add(comp.getCoor());
+		}
+		return coor;
+	}
+	@Override
+	public int[] getCoor() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

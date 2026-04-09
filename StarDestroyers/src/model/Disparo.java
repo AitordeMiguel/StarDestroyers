@@ -8,6 +8,6 @@ public class Disparo{
 	}
 	public void dibujar()
 	{
-		forma.crear();
+		forma.crear(3);//crear disparo
 	}
 }

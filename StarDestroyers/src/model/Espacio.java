@@ -125,7 +125,7 @@ public class Espacio extends Observable{
 		}
 		return sol;
 	}
-	public boolean moverNave(int[] posN)//En este método sabemos que podemos hacerlo
+	public boolean moverNave(int[] posN)//En este método sabemos que podemos moverla directamente
 	{
 		int estado=2;//nada
 		int accion=3;//nada
@@ -216,21 +216,46 @@ public class Espacio extends Observable{
 		}
 		return sol;
 	}
-	public void crearDisp(int[] pos)//TODO plantear pasar un int[][] con todas las coordenadas de una
+	public void crearDisp(ArrayList<int[]> pos)
 	{
-		tablero[pos[0]][pos[1]] = 1;//Es disparo
-		int estado = 2;
-		//TODO notificar que ya se ha creado el disparo, pero con más cosas
-		
+		for(int[] coor: pos)
+		{
+			tablero[coor[0]][coor[1]] = 1;//Es disparo
+		}
+		//TODO poner un notify
 	}
-	public void crearNave(int[] pos)//TODO plantear pasar un int[][] con todas las coordenadas de una
+	public void crearNave(ArrayList<int[]> pos)//Esto es al inicializar
 	{
-		tablero[pos[0]][pos[1]] = 0;//Es nave
+		for(int[] coor: pos)
+		{
+			tablero[coor[0]][coor[1]] = 0;//Es nave
+		}
 	}
 	
-	public void crearEnem(int[] pos)
+	public void crearEnem(ArrayList<int[]> pos)//Esto es al inicializar
 	{
-		tablero[pos[0]][pos[1]] = 2;//Es enem
+		for(int[] coor: pos)
+		{
+			tablero[coor[0]][coor[1]] = 2;//Es enem
+		}
+	}
+	
+	public void redibujarNave(ArrayList<int[]> pos)//Esto es al mover
+	{
+		for(int[] coor: pos)
+		{
+			tablero[coor[0]][coor[1]] = 0;//Es nave
+		}
+		//TODO añadir notify
+	}
+	
+	public void redibujarEnem(ArrayList<int[]> pos)//Esto es al mover
+	{
+		for(int[] coor: pos)
+		{
+			tablero[coor[0]][coor[1]] = 2;//Es enem
+		}
+		//TODO añadir notify
 	}
 	
 	public boolean comprobarMoverNave(int f, int c, String dir)

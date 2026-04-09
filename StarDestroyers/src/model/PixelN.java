@@ -24,8 +24,8 @@ public class PixelN implements Component{
 	}
 
 	@Override
-	public void crear() {
-		Espacio.getEspacio().crearNave(new int[]{x, y});
+	public void crear(int tipo) {
+		//De momento no creamos ninguno pixel a pixel
 	}
 
 	@Override
@@ -43,9 +43,13 @@ public class PixelN implements Component{
 		return false;
 	}
 	@Override
-	public boolean encontrar(int x, int y) {
+	public boolean encontrar(int x, int y) {//Método de composite, y los otros píxeles
 		// TODO Auto-generated method stub
 		return false;
+	}
+	@Override
+	public int[] getCoor() {
+		return new int[] {x,y};
 	}
 
 }

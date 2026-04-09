@@ -33,7 +33,7 @@ public abstract class Nave extends PiezaAbs{
 	
 	public void dibujar() 
 	{
-		forma.crear();
+		forma.crear(1);//tipo nave
 	}
 	
 	public void mover(String dir)

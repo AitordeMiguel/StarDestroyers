@@ -8,7 +8,7 @@ public class Enemigo extends PiezaAbs{
 	}
 	public void dibujar() 
 	{
-		forma.crear();
+		forma.crear(2);//Crear enem
 	}
 	public boolean encontrar(int x, int y)
 	{

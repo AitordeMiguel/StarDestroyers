@@ -16,8 +16,8 @@ public class PixelE implements Component{
 	}
 
 	@Override
-	public void crear() {
-		Espacio.getEspacio().crearEnem(new int[]{x, y});
+	public void crear(int tipo) {
+		//De momento no creamos ninguno pixel a pixel
 		
 	}
 
@@ -47,6 +47,11 @@ public class PixelE implements Component{
 	@Override
 	public boolean encontrar(int pX, int pY) {
 		return (pX == this.x) && (pY == this.y);
+	}
+
+	@Override
+	public int[] getCoor() {
+		return new int[] {x,y};
 	}
 
 }
