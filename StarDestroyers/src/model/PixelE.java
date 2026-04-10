@@ -12,11 +12,11 @@ public class PixelE implements Component{
 	public void mover(String dir) {
 		// TODO Auto-generated method stub
 		x++;
-		this.crear();
+		//TODO arreglar este método this.crear();
 	}
 
 	@Override
-	public void crear(int tipo) {
+	public void crear(int tipo,int accion) {
 		//De momento no creamos ninguno pixel a pixel
 		
 	}
@@ -53,5 +53,6 @@ public class PixelE implements Component{
 	public int[] getCoor() {
 		return new int[] {x,y};
 	}
+
 
 }
