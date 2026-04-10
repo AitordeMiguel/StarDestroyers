@@ -14,12 +14,12 @@ public class PixelD  implements Component{
 		if(dir.equals("up")) {
 			x--;
 		}
-		//TODO arreglar this.crear();
+		this.crear();
 	}
 
 	@Override
-	public void crear(int tipo, int accion) {
-		//De momento no creamos ninguno pixel a pixel
+	public void crear() {
+		Espacio.getEspacio().dibujarDisp(new int[]{x, y});
 	}
 
 	@Override
@@ -34,8 +34,7 @@ public class PixelD  implements Component{
 
 	@Override
 	public boolean comprobarCrear() {
-		boolean rdo = Espacio.getEspacio().comprobarCrearDisp(x, y);
-		return rdo;
+		return Espacio.getEspacio().comprobarCrearDisp(x, y);
 	}
 
 	@Override
@@ -44,7 +43,7 @@ public class PixelD  implements Component{
 	}
 
 	@Override
-	public int[] getCoor() {
+	public int[] getCoor() {// TODO Es probable que no se use al final
 		return new int[] {x,y};
 	}
 	

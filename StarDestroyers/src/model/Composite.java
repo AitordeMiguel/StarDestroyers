@@ -40,52 +40,40 @@ public class Composite implements Component{
 			while(itMover.hasNext()){
 			    Component comp = itMover.next();
 			    comp.mover(dir);
-			}
+			}//En este punto ya se han pintado todas las nuevas posiciones
+			Espacio.getEspacio().notificar(1, 2, null, null);
 		}
 	}
 
 	@Override
-	public void crear(int tipo, int accion) {
-		/*
-		Iterator<Component> it = components.iterator();
-		while(it.hasNext()){
-		    Component comp = it.next();
-		    comp.crear();
-		    
+	public void crear()//, int accion) 
+	{
+		for(Component c: components)
+		{
+			c.crear();
 		}
+		/*
 		if(tipo==1)//Nave
 		{
-			Espacio.getEspacio().crearNave(obtCoor());
+			if (accion == 0) {
+				Espacio.getEspacio().crearNave(obtCoor());
+			} else if (accion == 1) {
+				Espacio.getEspacio().redibujarNave(obtCoor());
+			}
 		}
-		else if(tipo==2)//Enem
+		else if(tipo==2)//Enemigo
 		{
-			Espacio.getEspacio().crearEnem(obtCoor());
+			if (accion == 0) {
+				Espacio.getEspacio().crearEnem(obtCoor());
+			} else if (accion == 1) {
+				Espacio.getEspacio().redibujarEnem(obtCoor());
+			}
 		}
-		else if(tipo==3)//Disp
+		else if(tipo==3)//Disparo
 		{
 			Espacio.getEspacio().crearDisp(obtCoor());
-		}*/
-
-	if(tipo==1)//Nave
-	{
-		if (accion == 0) {
-			Espacio.getEspacio().crearNave(obtCoor());
-		} else if (accion == 1) {
-			Espacio.getEspacio().redibujarNave(obtCoor());
 		}
-	}
-	else if(tipo==2)//Enemigo
-	{
-		if (accion == 0) {
-			Espacio.getEspacio().crearEnem(obtCoor());
-		} else if (accion == 1) {
-			Espacio.getEspacio().redibujarEnem(obtCoor());
-		}
-	}
-	else if(tipo==3)//Disparo
-	{
-		Espacio.getEspacio().crearDisp(obtCoor());
- 	}
+		*/
 	}
 
 	@Override
@@ -97,7 +85,7 @@ public class Composite implements Component{
 		}
 	}
 	@Override
-	public boolean comprobarCrear() {
+	public boolean comprobarCrear() {//TODO solo se una en pixelD
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -112,7 +100,7 @@ public class Composite implements Component{
 		}
 		return enc;
 	}
-	public ArrayList<int[]> obtCoor()
+	public ArrayList<int[]> obtCoor()//TODO, se usaba cuando pintabamos todo de golpe, puede que haya que borrarlo
 	{
 		ArrayList<int[]> coor = new ArrayList<int[]>();
 		Iterator<Component> it = components.iterator();

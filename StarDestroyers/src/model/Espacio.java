@@ -48,175 +48,29 @@ public class Espacio extends Observable{
 	}
 	*/
 	
-	public ArrayList<int []> moverEnem(ArrayList<int[]> posE)//TODO aquí debe recoger solo un disparo, que será un array de coordenadas x e y por el Composite
-	{//TODO cambiar toda la estructura para que:
-		/*
-		 1ro: Borre todas las posiciones antiguas
-		 2do: Pinte todas las nuevas posiciones
-		 Aclaración: Es para evitar que si muevo una de abajo a arriba y ya había una ahí, luego la borre.
-		 */
-		ArrayList<int []> sol = new ArrayList<int []>();
-		for(int i=0;i<posE.size();i++)
-		{
-			//boolean movido = false;
-			int accion=3;//nada
-			
-			int[] posNue = new int[2];
-			int[] valores = new int[4];//se ha movido el enemigo?, se borra disp?, posX, posY   --pos solo para disp
-			//valores[0] : 0=no mueve, 1=mueve, 2=perder
-			int f=posE.get(i)[0];
-			int c=posE.get(i)[1];
-			
-			int[] posA = {f,c};
-			
-			int estado = 2;
-			if(tablero[f][c] == 2)
-			{
-				//Enemigo enem = (Enemigo) tablero[f][c];//TODO marcar fin con boolean?
-				tablero[f][c]= 3;//se borra el enemigo o el enemigo deja de esatr en esta casilla
-				//si llega hasta abajo (fuera de la matriz)
-				if(f + 1 >= 60) 
-				{
-					accion=1; // borrar en la vista
-					posNue[0]=f; 
-					posNue[1]=c;
-					valores[0]= 2;//no se ha movido el enem, pero directamente ha perdido
-					valores[1]= 0;//no borra disp
-					estado = 0;//perder
-				}
-				//si choca con un disparo
-				else if(tablero[f+1][c] == 1)
-				{
-					accion=4;//borrar el disparo enemigo
-					posNue[0]=f+1;
-					posNue[1]=c;
-					tablero[f+1][c] = 3; // Destruimos el disparo quitándolo de la matriz
-					valores[0]= 0;//no se ha movido el enem
-					valores[1]= 1;//se borra disp
-					valores[2]= f+1;
-					valores[3]= c;
-				}
-				// si choca con la Nave del jugador
-				else if(tablero[f+1][c] == 1)
-				{
-					accion=4; //borrar 
-					posNue[0]=f+1;
-					posNue[1]=c;
-					valores[0]= 0;//no se ha movido el enem
-					valores[1]= 0;//no borra disp
-					estado = 0; // jugador pierde
-				}
-				else
-				{
-					accion=0;//mover
-					tablero[f+1][c] = 2;//Se ha movido a aquí el enemigo
-					posNue[0]=f+1;
-					posNue[1]=c;
-					valores[0]= 1;// se ha movido el enem
-					valores[1]= 0;//no borra disp
-				}
-				
-				sol.add(valores);
-				String color ="";
-				int[][] tabNum = new int[60][100]; 
-				setChanged();
-				notifyObservers(new Object[] {accion,posA,posNue,2,estado,juegoIniciado,color,tabNum,finJuego});
-			}
-		}
-		return sol;
-	}
-	public boolean moverNave(int[] posN)//En este método sabemos que podemos moverla directamente
-	{
-		int estado=2;//nada
-		int accion=3;//nada
-		boolean movido = false;
-		
-		int[] posA = new int[2];
-		int[] posNue = new int[2];
-		
-		int f = posN[0];
-		int c = posN[1];
-		
-		//Ya se han borrado todas las posiciones antiguas 
-		tablero[f][c] = 0;//Esa casilla ahora es nave
-		String color ="";
-		int[][] tabNum = new int[60][100];
-	    setChanged();
-	    notifyObservers(new Object[] {accion,posA,posNue,0,estado,juegoIniciado,color,tabNum,finJuego});//TODO cambiarlo a pasar toda la matriz
-
-		return movido;
-	}
+	
 	
 	public void desdibujar(int[] pos)//Sirve para los tres
 	{
 		tablero[pos[0]][pos[1]] = 3;//Ahora es vacío
 	}
 	
-	public ArrayList<int[]> moverDisp(ArrayList<int[]> LDisp)
+	public void dibujarDisp(int[] pos)
 	{
-		ArrayList<int[]> sol = new ArrayList<int[]>();
-		for(int i=0;i<LDisp.size();i++)
-		{
-			int f = LDisp.get(i)[0];
-			int c = LDisp.get(i)[1];
-			
-			int accion=3;//nada
-			int tipo = 1;//disp
-			int[] posA = {f,c};
-			int[] posNue = new int[2];
-			int estado = 2;//seguir
-			
-			int[] valores = new int[4];//se ha movido el disparo?, se borra enem?, posX, posY   --pos solo para enem
-			
-			if(tablero[f][c] == 1)//Es disparo
-			{
-				//Disparo disp = (Disparo) tablero[f][c];
-				
-				if(f==0)//no puede haber enemigos más allá
-				{
-					valores[0] = 0;//no se ha movido
-					valores[1] = 0;//no se borra enem
-					tablero[f][c] = 3;
-					accion=1; //borrar
-					
-				}
-				else if(tablero[f-1][c] == 2)//directamente se borra el enemigo
-				{
-					valores[0] = 0;//no se ha movido
-					valores[1] = 1;//se borra enem
-					valores[2] = f-1;
-					valores[3] = c;
-					
-					accion=4;//borrar2 (borra enemigo y disparo) 
-					tipo=2;//lo que se borrará será un enem
-					tablero[f][c] = 3;
-					tablero[f-1][c] = 3;
-					//posA[0]--;
-					posNue[0]=f-1;
-					posNue[1]=c;
-				}
-				else if(f>0)
-				{
-					valores[0] = 1;//se ha movido
-					valores[1] = 0;//no se borra enem
-					
-					tablero[f][c] = 3;
-					tablero[f-1][c] = 1;//El disp
-					accion = 0;//mover
-					posNue[0]=f-1;
-					posNue[1]=c;
-				}
-			}
-			
-			sol.add(valores);
-			String color ="";
-			int[][] tabNum = new int[60][100];
-			setChanged();
-			notifyObservers(new Object[] {accion,posA,posNue,tipo,estado,juegoIniciado,color,tabNum,finJuego});
-		}
-		return sol;
+		tablero[pos[0]][pos[1]] = 1;//Es disparo
 	}
-	public void crearDisp(ArrayList<int[]> pos)
+	public void dibujarNave(int[] pos)
+	{
+		tablero[pos[0]][pos[1]] = 0;//Es nave
+	}
+	
+	public void dibujarEnem(int[] pos)
+	{
+		tablero[pos[0]][pos[1]] = 2;//Es enem
+	}
+	
+	
+	public void crearDisp(ArrayList<int[]> pos)//TODO puede que esto sobre
 	{
 		for(int[] coor: pos)
 		{
@@ -224,7 +78,7 @@ public class Espacio extends Observable{
 		}
 		//TODO poner un notify
 	}
-	public void crearNave(ArrayList<int[]> pos)//Esto es al inicializar
+	public void crearNave(ArrayList<int[]> pos)//Esto es al inicializar  //TODO puede que esto sobre
 	{
 		for(int[] coor: pos)
 		{
@@ -232,7 +86,7 @@ public class Espacio extends Observable{
 		}
 	}
 	
-	public void crearEnem(ArrayList<int[]> pos)//Esto es al inicializar
+	public void crearEnem(ArrayList<int[]> pos)//Esto es al inicializar  //TODO puede que esto sobre
 	{
 		for(int[] coor: pos)
 		{
@@ -240,22 +94,24 @@ public class Espacio extends Observable{
 		}
 	}
 	
-	public void redibujarNave(ArrayList<int[]> pos)//Esto es al mover
+	public void redibujarNave(ArrayList<int[]> pos)//Esto es al mover      //TODO puede que esto sobre
 	{
 		for(int[] coor: pos)
 		{
 			tablero[coor[0]][coor[1]] = 0;//Es nave
 		}
-		//TODO añadir notify
+		setChanged();
+		notifyObservers(new Object[] {1,tablero,2,juegoIniciado,finJuego});//Notifica a Juego para repintar la matriz
 	}
 	
-	public void redibujarEnem(ArrayList<int[]> pos)//Esto es al mover
+	public void redibujarEnem(ArrayList<int[]> pos)//Esto es al mover        //TODO puede que esto sobre
 	{
 		for(int[] coor: pos)
 		{
 			tablero[coor[0]][coor[1]] = 2;//Es enem
 		}
-		//TODO añadir notify
+		setChanged();
+		notifyObservers(new Object[] {1,tablero,2,juegoIniciado,finJuego});//Notifica a Juego para repintar la matriz
 	}
 	
 	public boolean comprobarMoverNave(int f, int c, String dir)
@@ -301,7 +157,7 @@ public class Espacio extends Observable{
 	
 	public int comprobarMoverEnem(int f, int c)
 	{
-		int rdo = 1;//TODO plantearse el cambiarlo ha 
+		int rdo = 1;//TODO plantearse el cambiarlo ha booleano de movido o no
 		/*
 		  1: Se puede mover
 		  2: Se ha perdido (Choca contra nave)
@@ -315,7 +171,7 @@ public class Espacio extends Observable{
 				rdo = 2;
 				notifyFin(0);
 			}
-			else if(tablero[f+1][c]==1)//Si es disparo
+			else if(tablero[f+1][c]==1)//Si es disparo       //TODO ¡¡¡¡Cuidado con si choca con +1!!!! al notificar a las listas
 			{
 				rdo = 3;
 			}
@@ -339,6 +195,7 @@ public class Espacio extends Observable{
 			{
 				rdo = true;
 			}
+			//TODO notificar si choca, para borrarlo. ¡¡¡¡Cuidado con si choca con +1!!!!
 		}
 		
 		return rdo;
@@ -389,11 +246,11 @@ public class Espacio extends Observable{
 		notifyObservers(new Object[] {1,tablero,estado,juegoIniciado,finJuego});//
 		finJuego = true;
 	}
-	public void notificar(int dest, int estado, String color, int[] coor)
+	public void notificar(int dest, int estado, String color, int[] coor)//TODO si al final no se notifican las listas, las última sobra
 	{
 		setChanged();
 		notifyObservers(new Object[] {dest,tablero,estado,juegoIniciado,finJuego,color,coor});//
-		juegoIniciado  = true;
+		juegoIniciado  = true;//Es porque en cuanto se haga una notificación se habrá empezado el juego, y luego ya no cambia
 	}
 	
 }

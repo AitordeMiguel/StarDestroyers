@@ -20,12 +20,13 @@ public class PixelN implements Component{
 				y++;
 			}
 			//espacio dibuja la nave en esta nueva posición
-			Espacio.getEspacio().moverNave(new int[]{x, y});
+			//Espacio.getEspacio().dibujarNave(new int[]{x, y});
+			this.crear();//Ya que tenemos el método, pues lo usamos
 	}
 
 	@Override
-	public void crear(int tipo, int accion) {
-		//De momento no creamos ninguno pixel a pixel
+	public void crear() {
+		Espacio.getEspacio().dibujarNave(new int[]{x, y});
 	}
 
 	@Override

@@ -37,42 +37,20 @@ public class ListaNaves implements Observer{
 	
 	public void moverNave(String dir)
 	{
-		/*
-		boolean rdo = ListaEnem.getListaEnem().moverNave(dir,LNav);
-		if(rdo)//si se ha movido
+		for(Nave n: LNaves)//Solo tenemos una nave, seguramente si tuviesemos más, no sería así, si no individualmente
 		{
-			if(dir.equals("left"))
-			{
-				LNav.get(0)[1]--;
-			}
-			else if(dir.equals("right"))
-			{
-				LNav.get(0)[1]++;
-			}
-			else if(dir.equals("down"))
-			{
-				LNav.get(0)[0]++;
-			}
-			else if(dir.equals("up"))
-			{
-				LNav.get(0)[0]--;
-			}
-			
+			n.mover(dir);
 		}
-		*/
 		
 	}
-	public ArrayList<int[]> moverDisp(ArrayList<int[]> LDisp)
+	public void moverDisp()
 	{
-		return ListaEnem.getListaEnem().moverDisp(LDisp);
+		LNaves.get(0).mover("up"); 
 	}
 	public void crearDisp(String tipo)
 	{
 		//De momento solo hay una nave, por lo que basta con hacerlo con esa sin escoger entre varias
 		LNaves.get(0).disparar();
-	}
-	public void moverEnem() { 
-		// ListaEnem.getListaEnem().moverEnem();
 	}
 	@Override
 	public void update(Observable o, Object arg) 

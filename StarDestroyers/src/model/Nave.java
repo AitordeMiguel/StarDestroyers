@@ -22,7 +22,7 @@ public abstract class Nave extends PiezaAbs{
 	
 	public void disparar()//Crear Disparo
 	{
-		Composite formaDisp = sD.crearDisp(x, y);
+		Composite formaDisp = sD.crearDisp(x, y);//TODO tener en cuenta los límites de disparos
 		if(formaDisp != null)//Será null si no se ha podido crear
 		{
 			Disparo disp  = new Disparo(formaDisp);
@@ -33,7 +33,7 @@ public abstract class Nave extends PiezaAbs{
 	
 	public void dibujar() 
 	{
-		forma.crear(1,0);//tipo nave
+		forma.crear();//tipo nave
 	}
 	
 	public void mover(String dir)
@@ -57,7 +57,14 @@ public abstract class Nave extends PiezaAbs{
 		}
 	}
 	
-    } 
+	public void moverDisp()
+	{
+		for(Disparo d: LDis)
+		{
+			d.mover();
+		}
+	}
+} 
 
 	
 

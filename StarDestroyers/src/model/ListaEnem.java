@@ -61,7 +61,7 @@ public class ListaEnem implements Observer{
 			e.dibujar();
 		}
 	}
-	private void removeEnem(int x, int y)
+	private void removeEnem(int x, int y)//LLamado por el update
 	{
 		int i=0;
 		boolean enc = false;
@@ -78,81 +78,20 @@ public class ListaEnem implements Observer{
 		}
 		compTamEnem();
 	}
-	private void compTamEnem()
+	private void compTamEnem()//Llamado por this.removeEnem
 	{
 		if(LEnems.size()==0)
 		{
 			Espacio.getEspacio().anunciarVictoria();
 		}
 	}
-	private void actEnem(int x, int y)
-	{
-		/*
-		for(int i=0;i<LEnem.size();i++)
-		{
-			if(LEnem.get(i)[0]==x && LEnem.get(i)[1]==y)
-			{
-				LEnem.get(i)[0]=x+1; //Baja una posición
-			}
-		}
-		*/
-	}
 	public void moverEnem() //version postLabo
 	{
-		//if (LEnem == null || Espacio.getEspacio() == null) { //el timer empieza a contar antes de que se cree la lista de Enemigos, por lo que daba error, le he añadido esto para que el contador empiece a dar vueltas solo cuando está creado la lista.
-			//return; 
-		//}
-
-		/*
-		ArrayList<int []> rdo = Espacio.getEspacio().moverEnem(LEnem);
-		for(int i=0;i<rdo.size();i++)
+		for(Enemigo e: LEnems)
 		{
-			if(rdo.get(i)[0]==1)//si se ha movido
-			{
-				LEnem.get(i)[0]++; //Baja una posición
-			}
-			else if(rdo.get(i)[0]==2)//ha perdido
-			{
-				//Se ha perdido no anuncio victoria//compTamEnem();
-			}
-			else//ha chocado
-			{
-				LEnem.remove(i); //Se elimina este
-				rdo.remove(i);
-				i--;
-			}
+			e.mover();
 		}
-		return rdo;
-		*/
 	}
-	public boolean moverNave(String dir, ArrayList<int[]> LNav)
-	{
-		return Espacio.getEspacio().moverNave(LNav.get(0));
-	}
-	public ArrayList<int[]> moverDisp(ArrayList<int[]> LDisp)
-	{
-		ArrayList<int[]> rdo = Espacio.getEspacio().moverDisp(LDisp);
-		for(int i=0;i<rdo.size();i++)
-		{
-			if(rdo.get(i)[1]==1)//se borra enemigo
-			{
-				removeEnem(rdo.get(i)[2], rdo.get(i)[3]);
-			}
-		}
-		return rdo;
-	}
-	public void crearDisp(ArrayList<int[]> LNav,String tipo)
-	{
-		/*
-		int[] rdo = Espacio.getEspacio().crearDisp(LNav.get(0), tipo);
-		if(rdo[3]==1)//se borra este enem
-		{
-			removeEnem(rdo[1],rdo[2]);
-		}
-		return rdo;
-		*/
-	}
-
 
 	@Override
 	public void update(Observable o, Object arg) 
@@ -162,17 +101,10 @@ public class ListaEnem implements Observer{
 		int destinatario = (int) res[0];
 		if(destinatario == 3 || destinatario == 4)//Si va dirigido a LE
 		{
-			if((int) res[6] == 0)//Si la acción es inicializar
-			{
-				inicializar();
-			}
-			else//Si la acción es borrar
-			{
-				int[] coor = (int[]) res[7];
-				int x = coor[0];
-				int y = coor[1];
-				removeEnem(x, y);
-			}
+			int[] coor = (int[]) res[6];
+			int x = coor[0];
+			int y = coor[1];
+			removeEnem(x, y);
 		}
 		
 	}

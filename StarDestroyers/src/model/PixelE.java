@@ -10,15 +10,13 @@ public class PixelE implements Component{
 
 	@Override
 	public void mover(String dir) {
-		// TODO Auto-generated method stub
 		x++;
-		//TODO arreglar este método this.crear();
+		this.crear();
 	}
 
 	@Override
-	public void crear(int tipo,int accion) {
-		//De momento no creamos ninguno pixel a pixel
-		
+	public void crear() {
+		Espacio.getEspacio().dibujarEnem(new int[]{x,y});
 	}
 
 	@Override
