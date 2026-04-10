@@ -25,14 +25,7 @@ public class ListaEnem implements Observer{
 		timer.scheduleAtFixedRate(timerTask, 0, 200);
 		Espacio.getEspacio().addObserver(this);	
 	}
-	
-	
-	//public void addEnem(int x, int y)
-	//{
-	//	int[] coor = {x,y};
-	//	LEnem.add(coor);
-	//}
-	
+		
 	public static ListaEnem getListaEnem()
 	{
 		if(miListaEnem == null)
@@ -76,13 +69,9 @@ public class ListaEnem implements Observer{
 			LEnems.remove(i);
 			i++;
 		}
-		compTamEnem();
-	}
-	private void compTamEnem()//Llamado por this.removeEnem
-	{
 		if(LEnems.size()==0)
 		{
-			Espacio.getEspacio().anunciarVictoria();
+			Espacio.getEspacio().notifyFin(1);//Anunciar victoria
 		}
 	}
 	public void moverEnem() //version postLabo
@@ -99,7 +88,7 @@ public class ListaEnem implements Observer{
 		
 		Object[] res = (Object[]) arg;//arg: destinatario,tablero,estado,juegoInic,finJuego,color,accion,coordenadas
 		int destinatario = (int) res[0];
-		if(destinatario == 3 || destinatario == 4)//Si va dirigido a LE
+		if(destinatario == 3)//Si va dirigido a LE
 		{
 			int[] coor = (int[]) res[6];
 			int x = coor[0];

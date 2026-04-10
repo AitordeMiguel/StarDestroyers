@@ -52,25 +52,19 @@ public class ListaNaves implements Observer{
 		//De momento solo hay una nave, por lo que basta con hacerlo con esa sin escoger entre varias
 		LNaves.get(0).disparar();
 	}
+	public void removeDisp(int[] coor)
+	{
+		LNaves.get(0).borrarDisp(coor);
+	}
 	@Override
 	public void update(Observable o, Object arg) 
 	{
 		Object[] res = (Object[]) arg;//arg: destinatario,tablero,estado,juegoInic,finJuego,color,accion,coordenadas
 		int destinatario = (int) res[0];
-		if(destinatario == 2 || destinatario == 4)//Si va dirigido a LN
+		if(destinatario == 2)//Si va dirigido a LN
 		{
-			if((int) res[6] == 0)//Si la acción es inicializar
-			{
-				inicializar((String) res[5]);
-			}
-			else//Si la acción es borrar
-			{
-				int[] coor = (int[]) res[7];
-				int x = coor[0];
-				int y = coor[1];
-				// TODO Remove Disp
-			}
+			this.removeDisp((int[]) res[6]);
 		}
-		
 	}
+	
 }

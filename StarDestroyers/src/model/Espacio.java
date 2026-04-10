@@ -116,35 +116,55 @@ public class Espacio extends Observable{
 	
 	public boolean comprobarMoverNave(int f, int c, String dir)
 	{
-		boolean rdo = true;
+		boolean rdo = true;//Si se puede mover
 		if(f>=0 && c>=0 && f<60 && c<100)//Si son pos válidas
 		{
 			if(dir.equals("up"))
 			{
-				if(f==0 || tablero[f-1][c] == 2)//Si arriba hay pared o si la de arriba es enemigo
+				if(f==0)//Si arriba hay pared
 				{
 					rdo = false;
+				}
+				else if(tablero[f-1][c] == 2)//Si la de arriba es enemigo
+				{
+					rdo = false;
+					notifyFin(0);//notificar que se ha perdido
 				}
 			}
 			else if(dir.equals("down"))
 			{
-				if(f==59 || tablero[f+1][c] == 2)//Si abajo hay pared o si la de abajo es enemigo
+				if(f==59)//Si abajo hay pared
 				{
 					rdo = false;
+				}
+				else if(tablero[f+1][c] == 2)//Si la de abajo es enemigo
+				{
+					rdo = false;
+					notifyFin(0);//notificar que se ha perdido
 				}
 			}
 			else if(dir.equals("left"))
 			{
-				if(c==0 || tablero[f][c-1] == 2)//Si a la izq hay pared o si la de abajo es enemigo
+				if(c==0)//Si a la izq hay pared
 				{
 					rdo = false;
+				}
+				else if(tablero[f][c-1] == 2)//Si la de abajo es enemigo
+				{
+					rdo = false;
+					notifyFin(0);//notificar que se ha perdido
 				}
 			}
 			else if(dir.equals("right"))
 			{
-				if(c==99 || tablero[f][c+1] == 2)//Si a la derecha hay pared o si la de abajo es enemigo
+				if(c==99)//Si a la derecha hay pared
 				{
 					rdo = false;
+				}
+				else if(tablero[f][c+1] == 2)//Si la de abajo es enemigo
+				{
+					rdo = false;
+					notifyFin(0);//notificar que se ha perdido
 				}
 			}
 		}
@@ -155,29 +175,27 @@ public class Espacio extends Observable{
 		return rdo;
 	}
 	
-	public int comprobarMoverEnem(int f, int c)
+	public boolean comprobarMoverEnem(int f, int c)
 	{
-		int rdo = 1;//TODO plantearse el cambiarlo ha booleano de movido o no
-		/*
-		  1: Se puede mover
-		  2: Se ha perdido (Choca contra nave)
-		  3: Se borra enem (Choca contra disp)
-		 */
+		boolean rdo = true;//TODO plantearse el cambiarlo ha booleano de movido o no
 		
 		if(f>=0 && c>=0 && f<60 && c<100)//Si son pos válidas
 		{
-			if(f==59)
+			if(f==59)//Si ha llegado al final
 			{
-				rdo = 2;
+				rdo = false;
 				notifyFin(0);
 			}
 			else if(tablero[f+1][c]==1)//Si es disparo       //TODO ¡¡¡¡Cuidado con si choca con +1!!!! al notificar a las listas
 			{
-				rdo = 3;
+				rdo = false;
+				setChanged();
+				notifyObservers(new Object[] {2,tablero,2,juegoIniciado,finJuego,null,new int[] {f+1,c}});//Notificar a LN
+				notifyObservers(new Object[] {3,tablero,2,juegoIniciado,finJuego,null,new int[] {f,c}});//Notificar a LE
 			}
 			else if(tablero[f+1][c]==0)//Si es nave
 			{
-				rdo = 2;
+				rdo = false;
 				notifyFin(0);
 			}
 		}
@@ -195,7 +213,12 @@ public class Espacio extends Observable{
 			{
 				rdo = true;
 			}
-			//TODO notificar si choca, para borrarlo. ¡¡¡¡Cuidado con si choca con +1!!!!
+			else//TODO ¡¡¡¡Cuidado con si choca con +1!!!!
+			{
+				setChanged();
+				notifyObservers(new Object[] {2,tablero,2,juegoIniciado,finJuego,null,new int[] {f,c}});//Notificar a LN
+				notifyObservers(new Object[] {3,tablero,2,juegoIniciado,finJuego,null,new int[] {f-1,c}});//Notificar a LE
+			}
 		}
 		
 		return rdo;
@@ -230,16 +253,6 @@ public class Espacio extends Observable{
 		return rdo;
 	}
 	
-	public void anunciarVictoria()
-	{
-		int[] posA = {-1,-1};
-		int[] posN = {-1,-1};
-		String color ="";
-		int[][] tabNum = new int[60][100];
-		setChanged();
-		notifyObservers(new Object[] {4,posA,posN,4,1,juegoIniciado,color,tabNum,finJuego});//nada,nada,posAnt,posNue,da igual, ganar
-		finJuego = true;
-	}
 	public void notifyFin(int estado)//0=perder, 1=ganar 
 	{
 		setChanged();

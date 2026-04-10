@@ -26,14 +26,7 @@ public class PixelE implements Component{
 
 	@Override
 	public boolean comprobarMover(String dir) {
-		boolean movido;
-		int rdo = Espacio.getEspacio().comprobarMoverEnem(x, y);
-		if(rdo == 1) {movido = true;}
-		else
-		{
-			movido = false;
-		}
-		return movido;
+		return Espacio.getEspacio().comprobarMoverEnem(x, y);
 	}
 
 	@Override

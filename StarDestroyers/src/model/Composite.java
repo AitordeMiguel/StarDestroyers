@@ -41,7 +41,7 @@ public class Composite implements Component{
 			    Component comp = itMover.next();
 			    comp.mover(dir);
 			}//En este punto ya se han pintado todas las nuevas posiciones
-			Espacio.getEspacio().notificar(1, 2, null, null);
+			Espacio.getEspacio().notificar(1, 2, null, null);//Solo notifica si se ha podido mover
 		}
 	}
 
@@ -114,5 +114,9 @@ public class Composite implements Component{
 	public int[] getCoor() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	public void notificar(int dest, int estado, String color, int[] coor)//TODO si al final no se notifican las listas, las última sobra
+	{
+		Espacio.getEspacio().notificar(dest, estado, color, coor);
 	}
 }

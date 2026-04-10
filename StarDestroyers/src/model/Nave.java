@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public abstract class Nave extends PiezaAbs{
 	protected int cantR;
@@ -62,6 +63,20 @@ public abstract class Nave extends PiezaAbs{
 		for(Disparo d: LDis)
 		{
 			d.mover();
+		}
+	}
+	public void borrarDisp(int[] coor)
+	{
+		boolean borrado = false;
+		int i = 0;
+		while(!borrado && i<LDis.size())
+		{
+			borrado = LDis.get(i).encontrar(coor);
+			if(borrado)
+			{
+				LDis.remove(i);//Borrarlo de la lista
+			}
+			i++;
 		}
 	}
 } 
