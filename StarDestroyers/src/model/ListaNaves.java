@@ -52,6 +52,11 @@ public class ListaNaves implements Observer{
 		//De momento solo hay una nave, por lo que basta con hacerlo con esa sin escoger entre varias
 		LNaves.get(0).disparar();
 	}
+	public void cambiarDisp() {
+		if (LNaves != null && !LNaves.isEmpty()) {
+			LNaves.get(0).rotarStrategy(); 
+		}
+	}
 	public void removeDisp(int[] coor)
 	{
 		LNaves.get(0).borrarDisp(coor);

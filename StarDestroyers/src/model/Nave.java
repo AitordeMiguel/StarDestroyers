@@ -11,6 +11,7 @@ public abstract class Nave extends PiezaAbs{
 	protected Composite forma;
 	protected StrategyDisp sD;
 	protected int x,y;//Son las coordenadas de referencia
+	protected int tipoDisparoActual = 1; //atributo para saber qué arma está seleccionada (1=Normal, 2=Flecha, 3=Rombo)
 	    
 	public Nave(String color, int cantR, int cantF, Composite forma) {
 		this.color = color;
@@ -28,7 +29,15 @@ public abstract class Nave extends PiezaAbs{
 		{
 			Disparo disp  = new Disparo(formaDisp);
 			LDis.add(disp);
-			disp.dibujar();
+			disp.dibujar(1); 
+			// Gastar munición según el arma actual
+			if (tipoDisparoActual == 2) {
+				cantF--;
+				if (cantF <= 0) cambiarStrategy(1); //se acaba Flecha, vuelve a Normal
+			} else if (tipoDisparoActual == 3) {
+				cantR--;
+				if (cantR <= 0) cambiarStrategy(1); //se acaba Rombo, vuelve a Normal
+			}
 		}
 	}
 	
@@ -42,19 +51,30 @@ public abstract class Nave extends PiezaAbs{
 		forma.mover(dir);
 	}
 	
-	public void cambiarStrategy(int nueva)
-	{
-		if(nueva==1)//Normal
-		{
+	public void cambiarStrategy(int nueva) {
+		if(nueva == 1) {
 			sD = new DispNormal();
+			tipoDisparoActual = 1;
 		}
-		else if(nueva==2)//Flecha
-		{
+		else if(nueva == 2 && cantF > 0) {
 			sD = new DispFlecha();
+			tipoDisparoActual = 2;
 		}
-		else if(nueva==3)//Rombo
-		{
+		else if(nueva == 3 && cantR > 0) {
 			sD = new DispRombo();
+			tipoDisparoActual = 3;
+		}
+	}
+	
+	public void rotarStrategy() {
+		if (tipoDisparoActual == 1) {
+			if (cantF > 0) cambiarStrategy(2);
+			else if (cantR > 0) cambiarStrategy(3);
+		} else if (tipoDisparoActual == 2) {
+			if (cantR > 0) cambiarStrategy(3);
+			else cambiarStrategy(1);
+		} else if (tipoDisparoActual == 3) {
+			cambiarStrategy(1);
 		}
 	}
 	

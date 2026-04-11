@@ -6,7 +6,7 @@ public class Disparo{
 	{
 		forma = comp;
 	}
-	public void dibujar()
+	public void dibujar(int accion)
 	{
 		forma.crear();//crear disparo
 	}
