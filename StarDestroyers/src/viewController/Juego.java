@@ -317,7 +317,7 @@ public class Juego extends JFrame implements Observer {
 			
 			if (e.getKeyCode() == KeyEvent.VK_SPACE) {model.ListaDisp.getListaDisp().crearDisp("normal");}
 			
-			if (e.getKeyCode() == KeyEvent.VK_C) {}//TODO Cambiar tipo disparo
+			if (e.getKeyCode() == KeyEvent.VK_C) {model.ListaNaves.getListaNaves().cambiarDisp();}//TODO Cambiar tipo disparo
 			
 			
 			
