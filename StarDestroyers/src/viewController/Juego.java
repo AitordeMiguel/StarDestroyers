@@ -315,9 +315,11 @@ public class Juego extends JFrame implements Observer {
 			if (e.getKeyCode() == KeyEvent.VK_UP) {model.ListaNaves.getListaNaves().moverNave("up");}
 			if (e.getKeyCode() == KeyEvent.VK_DOWN) {model.ListaNaves.getListaNaves().moverNave("down");}
 			
-			if (e.getKeyCode() == KeyEvent.VK_SPACE) {model.ListaDisp.getListaDisp().crearDisp("normal");}
+			if (e.getKeyCode() == KeyEvent.VK_SPACE) {model.ListaNaves.getListaNaves().crearDisp();}
 			
-			if (e.getKeyCode() == KeyEvent.VK_C) {model.ListaNaves.getListaNaves().cambiarDisp();}//TODO Cambiar tipo disparo
+			if (e.getKeyCode() == KeyEvent.VK_C) {model.ListaNaves.getListaNaves().cambiarDisp(3);}//Cambiar a Rombo
+			if (e.getKeyCode() == KeyEvent.VK_X) {model.ListaNaves.getListaNaves().cambiarDisp(2);}//Cambiar a Flecha
+			if (e.getKeyCode() == KeyEvent.VK_Z) {model.ListaNaves.getListaNaves().cambiarDisp(1);}//Cambiar a Normal
 			
 			
 			

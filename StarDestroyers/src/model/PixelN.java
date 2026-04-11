@@ -8,7 +8,7 @@ public class PixelN implements Component{
 		this.y = pY;
 	}
 	@Override
-	public void mover(String dir) 
+	public boolean mover(String dir) 
 	{
 			if(dir.equals("up")) {//Actualiza coordenadas 
 				x--;
@@ -20,8 +20,8 @@ public class PixelN implements Component{
 				y++;
 			}
 			//espacio dibuja la nave en esta nueva posición
-			//Espacio.getEspacio().dibujarNave(new int[]{x, y});
-			this.crear();//Ya que tenemos el método, pues lo usamos
+			//this.crear();//Ya que tenemos el método, pues lo usamos  TODO, si al final se hace por pixeles volver a ponerlo
+			return false; //False pues no se usa el return aquí, solo en composite
 	}
 
 	@Override

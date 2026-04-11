@@ -26,9 +26,11 @@ public class Composite implements Component{
 		return rdo;
 	}
 	@Override
-	public void mover(String dir) { 
-		
-		if (this.comprobarMover(dir)) {
+	public boolean mover(String dir) 
+	{ 
+		boolean rdo = this.comprobarMover(dir);
+		if (rdo) 
+		{
 			// Desdibujar
 			Iterator<Component> itBorrar = components.iterator();
 			while(itBorrar.hasNext()){
@@ -36,13 +38,20 @@ public class Composite implements Component{
 			    comp.borrar();
 			}
 			// Mover y volver a dibujar
-			Iterator<Component> itMover = components.iterator();
-			while(itMover.hasNext()){
-			    Component comp = itMover.next();
-			    comp.mover(dir);
-			}//En este punto ya se han pintado todas las nuevas posiciones
+			for(int i=0; i<components.size();i++)
+			{
+				Component comp = components.get(i);
+			    if(comp.mover(dir))
+			    {
+			    	components.remove(i);
+			    	i--;
+			    }
+			}
+			Espacio.getEspacio().redibujarNave(obtCoor());
+			//En este punto ya se han pintado todas las nuevas posiciones
 			Espacio.getEspacio().notificar(1, 2, null, null);//Solo notifica si se ha podido mover
 		}
+		return rdo;//Solo lo usa la nave, creo
 	}
 
 	@Override
@@ -118,5 +127,9 @@ public class Composite implements Component{
 	public void notificar(int dest, int estado, String color, int[] coor)//TODO si al final no se notifican las listas, las última sobra
 	{
 		Espacio.getEspacio().notificar(dest, estado, color, coor);
+	}
+	public int tamRestante()
+	{
+		return components.size();
 	}
 }

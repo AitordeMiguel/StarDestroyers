@@ -9,9 +9,10 @@ public class PixelE implements Component{
 	}
 
 	@Override
-	public void mover(String dir) {
+	public boolean mover(String dir) {
 		x++;
-		this.crear();
+		//this.crear();  TODO, si al final se hace por pixeles volver a ponerlo
+		return false; //False pues no se usa el return aquí, solo en composite
 	}
 
 	@Override

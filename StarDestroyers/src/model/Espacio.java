@@ -177,7 +177,7 @@ public class Espacio extends Observable{
 	
 	public boolean comprobarMoverEnem(int f, int c)
 	{
-		boolean rdo = true;//TODO plantearse el cambiarlo ha booleano de movido o no
+		boolean rdo = true;
 		
 		if(f>=0 && c>=0 && f<60 && c<100)//Si son pos válidas
 		{
@@ -209,7 +209,11 @@ public class Espacio extends Observable{
 		
 		if(f>=0 && c>=0 && f<60 && c<100)//Si son pos válidas
 		{
-			if(tablero[f-1][c]!=1)//Si el de arriba no es enem
+			if(f==0)//Se puede mover, luego al moverlo sencillamente se borra
+			{
+				rdo = true;
+			}
+			else if(tablero[f-1][c]!=1)//Si el de arriba no es enem
 			{
 				rdo = true;
 			}
@@ -247,6 +251,12 @@ public class Espacio extends Observable{
 						rdo=false;
 					}
 				}
+			}
+			else if(tablero[f][c] == 2)//Si la casilla es directamente enem
+			{
+				rdo = false;
+				setChanged();
+				notifyObservers(new Object[] {3,tablero,2,juegoIniciado,finJuego,null,new int[] {f,c}});//Avisar a la LE de borrar su enem
 			}
 		}
 		

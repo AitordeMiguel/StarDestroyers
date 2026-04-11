@@ -7,7 +7,7 @@ public class DispRombo implements StrategyDisp{
 	@Override
 	public Composite crearDisp(int x, int y) {
 		Composite comp = null;
-		int[][] offsets = {
+		int[][] coor = {
 			    {0,0},                 // d1
 
 			    {-1,-1}, {-1,0}, {-1,1},  // d2-d4
@@ -20,8 +20,8 @@ public class DispRombo implements StrategyDisp{
 			};
 		
 		ArrayList<PixelD> pixeles = new ArrayList<>();
-		for (int[] o : offsets) {
-		    pixeles.add(new PixelD(x + o[0], y + o[1]));
+		for (int[] c : coor) {
+		    pixeles.add(new PixelD(x + c[0], y + c[1]));
 		}
 		boolean creable = true;
 		int i = 0;
