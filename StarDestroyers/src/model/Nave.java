@@ -31,7 +31,7 @@ public abstract class Nave extends PiezaAbs{
 		{
 			Disparo disp  = new Disparo(formaDisp);
 			LDis.add(disp);
-			disp.dibujar(); 
+			disp.dibujar(); //Este notifica internamente a Juego para que pinte
 			// Gastar munición según el arma actual
 			if (tipoDisparoActual == 2) {
 				cantF--;
@@ -40,13 +40,11 @@ public abstract class Nave extends PiezaAbs{
 				cantR--;
 				if (cantR <= 0) cambiarStrategy(1); //se acaba Rombo, vuelve a Normal
 			}
-			disp.notificar();
 		}
 	}
-	
-	public void dibujar() 
+	public void crear()//Solo se llama al inicializar
 	{
-		forma.crear();//tipo nave
+		forma.crear();//Crear pues es al inicializar solo
 	}
 	
 	public void mover(String dir)
@@ -80,19 +78,6 @@ public abstract class Nave extends PiezaAbs{
 			}
 		}
 	}
-	/*              //TODO era de cuando no podías escoger una en concreto, si no rotar
-	public void rotarStrategy() {
-		if (tipoDisparoActual == 1) {
-			if (cantF > 0) cambiarStrategy(2);
-			else if (cantR > 0) cambiarStrategy(3);
-		} else if (tipoDisparoActual == 2) {
-			if (cantR > 0) cambiarStrategy(3);
-			else cambiarStrategy(1);
-		} else if (tipoDisparoActual == 3) {
-			cambiarStrategy(1);
-		}
-	}
-	*/
 	public void moverDisp()
 	{
 		for(int i=0;i<LDis.size();i++)
@@ -119,6 +104,10 @@ public abstract class Nave extends PiezaAbs{
 			}
 			i++;
 		}
+	}
+	public void borrar()
+	{
+		forma.borrar();
 	}
 } 
 

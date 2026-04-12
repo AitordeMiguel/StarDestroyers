@@ -9,7 +9,7 @@ public class PixelD  implements Component{
 	}
 
 	@Override
-	public boolean mover(String dir) {//TODO el rdo dice si se borra el pixel por haber llegado arriba
+	public boolean mover(String dir) {//El rdo dice si se borra el pixel por haber llegado arriba
 		// El disparo del jugador siempre va hacia arriba (x disminuye)
 		boolean rdo = false;
 		x--;
@@ -17,12 +17,17 @@ public class PixelD  implements Component{
 		{
 			rdo = true;
 		}
-		//this.crear();    TODO, si al final se hace por pixeles volver a ponerlo
 		return rdo;
 	}
 
 	@Override
 	public void crear() {
+		//No se inicializa, luego no se necesita
+	}
+	
+	@Override
+	public void dibujar() //Durante la partida
+	{
 		Espacio.getEspacio().dibujarDisp(new int[]{x, y});
 	}
 
@@ -38,7 +43,9 @@ public class PixelD  implements Component{
 
 	@Override
 	public boolean comprobarCrear() {
-		return Espacio.getEspacio().comprobarCrearDisp(x, y);
+		boolean rdo = Espacio.getEspacio().comprobarCrearDisp(x, y);
+		//System.out.println(rdo);  TODO quitar esto y poner solo el return sin paso intermedio
+		return rdo;
 	}
 
 	@Override

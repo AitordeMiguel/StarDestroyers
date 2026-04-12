@@ -29,7 +29,7 @@ public class ListaNaves implements Observer{
 		LNaves.add(fabricarNave(color,pos));
 		for(Nave n: LNaves)//Aunque solo hay una
 		{
-			n.dibujar(); //Dibujarlo en el tablero
+			n.crear(); //Dibujarlo en el tablero
 		}
 		
 	}
@@ -45,7 +45,7 @@ public class ListaNaves implements Observer{
 	}
 	public void moverDisp()
 	{
-		LNaves.get(0).mover("up"); 
+		LNaves.get(0).moverDisp(); 
 	}
 	public void crearDisp()
 	{
@@ -71,5 +71,8 @@ public class ListaNaves implements Observer{
 			this.removeDisp((int[]) res[6]);
 		}
 	}
-	
+	public void borrar()
+	{
+		LNaves.get(0).borrar();
+	}
 }

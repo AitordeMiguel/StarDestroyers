@@ -13,16 +13,27 @@ public class ListaEnem implements Observer{
 	private ArrayList<Enemigo> LEnems;
 	private static ListaEnem miListaEnem;
 	private Timer timer = null;
+	private int cont = 0;
+	private boolean inicializado = false;
 	private ListaEnem()
 	{
-		TimerTask timerTask = new TimerTask() {
+		TimerTask timerTask = new TimerTask() {//TODO descubrir porque mueve la nave, y porque deja un rastro malo de la primera capa
 			@Override
 			public void run() {
-				//moverEnem();
+				if(inicializado)
+				{
+					cont++;
+					if(cont==4)
+					{
+						cont = 0;
+						moverEnem();
+					}
+					//ListaNaves.getListaNaves().moverDisp();
+				}
 			}		
 		};
 		timer = new Timer();
-		timer.scheduleAtFixedRate(timerTask, 0, 200);
+		timer.scheduleAtFixedRate(timerTask, 0, 100);
 		Espacio.getEspacio().addObserver(this);	
 	}
 		
@@ -49,10 +60,12 @@ public class ListaEnem implements Observer{
 			int[] pos = {2,5+i*dist};;
 			LEnems.add(fabricarEnemigos(pos));
 		};
+		System.out.println("Tamaño inicial: "+ LEnems.size());
 		for(Enemigo e: LEnems)
 		{
-			e.dibujar();
+			e.crear();
 		}
+		inicializado = true;
 	}
 	private void removeEnem(int x, int y)//LLamado por el update
 	{
@@ -69,12 +82,13 @@ public class ListaEnem implements Observer{
 			LEnems.remove(i);
 			i++;
 		}
+		System.out.println("tam: "+LEnems.size());
 		if(LEnems.size()==0)
 		{
 			Espacio.getEspacio().notifyFin(1);//Anunciar victoria
 		}
 	}
-	public void moverEnem() //version postLabo
+	private void moverEnem() //version postLabo
 	{
 		for(Enemigo e: LEnems)
 		{
