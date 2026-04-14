@@ -106,9 +106,13 @@ public class Composite implements Component{
 	public int[] getCoor() {
 		return null;
 	}
-	public void notificar(int dest, int estado, String color, int[] pos, int accion, int tipo)
+	public void notificar(int dest, int estado, String color, int accion, int tipo)
 	{
-		Espacio.getEspacio().notificar(dest, estado, color, pos, accion, tipo);
+		for(Component c: components)
+		{
+			Espacio.getEspacio().notificar(dest, estado, color, c.getCoor(), accion, tipo);
+		}
+		
 	}
 	public int tamRestante()
 	{

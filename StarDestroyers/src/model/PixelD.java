@@ -43,9 +43,7 @@ public class PixelD  implements Component{
 
 	@Override
 	public boolean comprobarCrear() {
-		boolean rdo = Espacio.getEspacio().comprobarCrearDisp(x, y);
-		//System.out.println(rdo);  TODO quitar esto y poner solo el return sin paso intermedio
-		return rdo;
+		return Espacio.getEspacio().comprobarCrearDisp(x, y);
 	}
 
 	@Override

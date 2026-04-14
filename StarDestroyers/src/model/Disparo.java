@@ -23,12 +23,9 @@ public class Disparo{
 		if(rdo)//Si es el disparo que ha chocado
 		{
 			forma.borrar();//Solo los elimina del tablero
-			forma.notificar(1, 2, null, null,0,1);//notificar al juego que borre este disparo //TODO decidir que pasarle, y si poner otro notify
+			forma.notificar(1, 2, null,0,1);//notificar al juego que borre este disparo //TODO decidir que pasarle, y si poner otro notify
 		}
 		return rdo;
 	}
-	public void notificar(int accion, int tipo)
-	{
-		forma.notificar(1, 2, null, null,accion, tipo);
-	}
+	
 }

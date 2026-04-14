@@ -28,7 +28,7 @@ public class ListaEnem implements Observer{
 						cont = 0;
 						moverEnem();
 					}
-					//ListaNaves.getListaNaves().moverDisp();
+					ListaNaves.getListaNaves().moverDisp();
 				}
 			}		
 		};
@@ -60,7 +60,6 @@ public class ListaEnem implements Observer{
 			int[] pos = {2,5+i*dist};;
 			LEnems.add(fabricarEnemigos(pos));
 		};
-		System.out.println("Tamaño inicial: "+ LEnems.size());
 		for(Enemigo e: LEnems)
 		{
 			e.crear();
@@ -78,11 +77,12 @@ public class ListaEnem implements Observer{
 			if(enc)
 			{
 				enem.borrar();
+				LEnems.remove(i);
+				i--;
 			}
-			LEnems.remove(i);
 			i++;
+			
 		}
-		System.out.println("tam: "+LEnems.size());
 		if(LEnems.size()==0)
 		{
 			Espacio.getEspacio().notifyFin(1);//Anunciar victoria
@@ -90,7 +90,8 @@ public class ListaEnem implements Observer{
 	}
 	private void moverEnem() //version postLabo
 	{
-		for(Enemigo e: LEnems)
+		ArrayList<Enemigo> LE = LEnems;//Para que no pete si se borra al mover algun disparo y modifica en el notify LEnems
+		for(Enemigo e: LE)
 		{
 			e.mover();
 		}
@@ -99,7 +100,6 @@ public class ListaEnem implements Observer{
 	@Override
 	public void update(Observable o, Object arg) 
 	{
-		
 		Object[] res = (Object[]) arg;//arg: destinatario,tablero,estado,juegoInic,finJuego,color,accion,coordenadas
 		int destinatario = (int) res[0];
 		if(destinatario == 3)//Si va dirigido a LE
