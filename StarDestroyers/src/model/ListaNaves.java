@@ -29,7 +29,7 @@ public class ListaNaves implements Observer{
 		LNaves.add(fabricarNave(color,pos));
 		for(Nave n: LNaves)//Aunque solo hay una
 		{
-			n.dibujar(); //Dibujarlo en el tablero
+			n.crear(); //Dibujarlo en el tablero
 		}
 		
 	}
@@ -45,16 +45,16 @@ public class ListaNaves implements Observer{
 	}
 	public void moverDisp()
 	{
-		LNaves.get(0).mover("up"); 
+		LNaves.get(0).moverDisp(); 
 	}
-	public void crearDisp(String tipo)
+	public void crearDisp()
 	{
 		//De momento solo hay una nave, por lo que basta con hacerlo con esa sin escoger entre varias
 		LNaves.get(0).disparar();
 	}
-	public void cambiarDisp() {
+	public void cambiarDisp(int tipo) {
 		if (LNaves != null && !LNaves.isEmpty()) {
-			LNaves.get(0).rotarStrategy(); 
+			LNaves.get(0).cambiarStrategy(tipo); 
 		}
 	}
 	public void removeDisp(int[] coor)
@@ -71,5 +71,8 @@ public class ListaNaves implements Observer{
 			this.removeDisp((int[]) res[6]);
 		}
 	}
-	
+	public void borrar()
+	{
+		LNaves.get(0).borrar();
+	}
 }

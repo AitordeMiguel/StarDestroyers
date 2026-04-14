@@ -9,16 +9,25 @@ public class PixelD  implements Component{
 	}
 
 	@Override
-	public void mover(String dir) {
+	public boolean mover(String dir) {//El rdo dice si se borra el pixel por haber llegado arriba
 		// El disparo del jugador siempre va hacia arriba (x disminuye)
-		if(dir.equals("up")) {
-			x--;
+		boolean rdo = false;
+		x--;
+		if(x<0)//Si ya se ha salido de la pantalla
+		{
+			rdo = true;
 		}
-		this.crear();
+		return rdo;
 	}
 
 	@Override
 	public void crear() {
+		//No se inicializa, luego no se necesita
+	}
+	
+	@Override
+	public void dibujar() //Durante la partida
+	{
 		Espacio.getEspacio().dibujarDisp(new int[]{x, y});
 	}
 

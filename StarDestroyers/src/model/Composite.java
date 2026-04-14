@@ -26,58 +26,51 @@ public class Composite implements Component{
 		return rdo;
 	}
 	@Override
-	public void mover(String dir) { 
-		
-		if (this.comprobarMover(dir)) {
+	public boolean mover(String dir) 
+	{ 
+		boolean rdo = this.comprobarMover(dir);
+		if (rdo) 
+		{
 			// Desdibujar
-			Iterator<Component> itBorrar = components.iterator();
-			while(itBorrar.hasNext()){
-			    Component comp = itBorrar.next();
-			    comp.borrar();
+			this.borrar();//Esto notifica ya a Juego de quitar cada pixel
+			// Mover
+			for(int i=0; i<components.size();i++)
+			{
+				Component comp = components.get(i);
+			    if(comp.mover(dir))//Solo actualiza posiciones
+			    {//Solo con disparo
+			    	components.remove(i);
+			    	i--;
+			    }
 			}
-			// Mover y volver a dibujar
-			Iterator<Component> itMover = components.iterator();
-			while(itMover.hasNext()){
-			    Component comp = itMover.next();
-			    comp.mover(dir);
-			}//En este punto ya se han pintado todas las nuevas posiciones
-			Espacio.getEspacio().notificar(1, 2, null, null);//Solo notifica si se ha podido mover
+			//Redibujar
+			this.dibujar();//Esto ya ha notificado a Juego que debe pintar cada pos
+			//En este punto ya se han pintado todas las nuevas posiciones
+			//Espacio.getEspacio().notificar(1, 2, null, null);//Solo notifica si se ha podido mover  TODO quitar este comentario para limpio
 		}
+		return rdo;//Solo lo usa la nave, creo
 	}
 
 	@Override
-	public void crear()//, int accion) 
-	{
+	public void crear()//, int accion) //Este método notifica internamente al Juego
+	{ //Es método de inicialización
 		for(Component c: components)
 		{
 			c.crear();
 		}
-		/*
-		if(tipo==1)//Nave
+	}
+	
+	@Override
+	public void dibujar() //Durante la partida
+	{
+		for(Component c: components)
 		{
-			if (accion == 0) {
-				Espacio.getEspacio().crearNave(obtCoor());
-			} else if (accion == 1) {
-				Espacio.getEspacio().redibujarNave(obtCoor());
-			}
+			c.dibujar();
 		}
-		else if(tipo==2)//Enemigo
-		{
-			if (accion == 0) {
-				Espacio.getEspacio().crearEnem(obtCoor());
-			} else if (accion == 1) {
-				Espacio.getEspacio().redibujarEnem(obtCoor());
-			}
-		}
-		else if(tipo==3)//Disparo
-		{
-			Espacio.getEspacio().crearDisp(obtCoor());
-		}
-		*/
 	}
 
 	@Override
-	public void borrar() {
+	public void borrar() {//Este método notifica internamente al Juego
 		Iterator<Component> it = components.iterator();
 		while(it.hasNext()){
 		    Component comp = it.next();
@@ -85,8 +78,7 @@ public class Composite implements Component{
 		}
 	}
 	@Override
-	public boolean comprobarCrear() {//TODO solo se una en pixelD
-		// TODO Auto-generated method stub
+	public boolean comprobarCrear() {//solo se una en pixelD
 		return false;
 	}
 	
@@ -112,11 +104,19 @@ public class Composite implements Component{
 	}
 	@Override
 	public int[] getCoor() {
-		// TODO Auto-generated method stub
 		return null;
 	}
-	public void notificar(int dest, int estado, String color, int[] coor)//TODO si al final no se notifican las listas, las última sobra
+	public void notificar(int dest, int estado, String color, int accion, int tipo)
 	{
-		Espacio.getEspacio().notificar(dest, estado, color, coor);
+		for(Component c: components)
+		{
+			Espacio.getEspacio().notificar(dest, estado, color, c.getCoor(), accion, tipo);
+		}
+		
 	}
+	public int tamRestante()
+	{
+		return components.size();
+	}
+	
 }

@@ -6,13 +6,16 @@ public class Disparo{
 	{
 		forma = comp;
 	}
-	public void dibujar(int accion)
+	public void dibujar()
 	{
-		forma.crear();//crear disparo
+		forma.dibujar();//crear disparo
 	}
-	public void mover()
+	public boolean mover()
 	{
+		boolean rdo = false;//Será true si se debe borrar de la lista, pues no queda ningún pixel
 		forma.mover("up");
+		if (forma.tamRestante()==0) rdo=true;
+		return rdo;
 	}
 	public boolean encontrar(int[] coor)
 	{
@@ -20,8 +23,9 @@ public class Disparo{
 		if(rdo)//Si es el disparo que ha chocado
 		{
 			forma.borrar();//Solo los elimina del tablero
-			forma.notificar(1, 2, null, null);//notificar al juego que redibuje
+			forma.notificar(1, 2, null,0,1);//notificar al juego que borre este disparo //TODO decidir que pasarle, y si poner otro notify
 		}
 		return rdo;
 	}
+	
 }

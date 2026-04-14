@@ -13,16 +13,27 @@ public class ListaEnem implements Observer{
 	private ArrayList<Enemigo> LEnems;
 	private static ListaEnem miListaEnem;
 	private Timer timer = null;
+	private int cont = 0;
+	private boolean inicializado = false;
 	private ListaEnem()
 	{
-		TimerTask timerTask = new TimerTask() {
+		TimerTask timerTask = new TimerTask() {//TODO descubrir porque mueve la nave, y porque deja un rastro malo de la primera capa
 			@Override
 			public void run() {
-				//moverEnem();
+				if(inicializado)
+				{
+					cont++;
+					if(cont==4)
+					{
+						cont = 0;
+						moverEnem();
+					}
+					ListaNaves.getListaNaves().moverDisp();
+				}
 			}		
 		};
 		timer = new Timer();
-		timer.scheduleAtFixedRate(timerTask, 0, 200);
+		timer.scheduleAtFixedRate(timerTask, 0, 100);
 		Espacio.getEspacio().addObserver(this);	
 	}
 		
@@ -51,8 +62,9 @@ public class ListaEnem implements Observer{
 		};
 		for(Enemigo e: LEnems)
 		{
-			e.dibujar();
+			e.crear();
 		}
+		inicializado = true;
 	}
 	private void removeEnem(int x, int y)//LLamado por el update
 	{
@@ -65,18 +77,21 @@ public class ListaEnem implements Observer{
 			if(enc)
 			{
 				enem.borrar();
+				LEnems.remove(i);
+				i--;
 			}
-			LEnems.remove(i);
 			i++;
+			
 		}
 		if(LEnems.size()==0)
 		{
 			Espacio.getEspacio().notifyFin(1);//Anunciar victoria
 		}
 	}
-	public void moverEnem() //version postLabo
+	private void moverEnem() //version postLabo
 	{
-		for(Enemigo e: LEnems)
+		ArrayList<Enemigo> LE = LEnems;//Para que no pete si se borra al mover algun disparo y modifica en el notify LEnems
+		for(Enemigo e: LE)
 		{
 			e.mover();
 		}
@@ -85,7 +100,6 @@ public class ListaEnem implements Observer{
 	@Override
 	public void update(Observable o, Object arg) 
 	{
-		
 		Object[] res = (Object[]) arg;//arg: destinatario,tablero,estado,juegoInic,finJuego,color,accion,coordenadas
 		int destinatario = (int) res[0];
 		if(destinatario == 3)//Si va dirigido a LE

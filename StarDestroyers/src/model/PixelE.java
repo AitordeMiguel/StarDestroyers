@@ -9,16 +9,22 @@ public class PixelE implements Component{
 	}
 
 	@Override
-	public void mover(String dir) {
+	public boolean mover(String dir) {
 		x++;
-		this.crear();
+		return false; //False pues no se usa el return aquí, solo en composite y en pixelD
 	}
 
 	@Override
 	public void crear() {
+		Espacio.getEspacio().crearEnem(new int[]{x,y});
+	}
+	
+	@Override
+	public void dibujar() //Durante la partida
+	{
 		Espacio.getEspacio().dibujarEnem(new int[]{x,y});
 	}
-
+	
 	@Override
 	public void borrar() {
 		Espacio.getEspacio().desdibujar(new int[]{x, y});		
@@ -31,7 +37,7 @@ public class PixelE implements Component{
 
 	@Override
 	public boolean comprobarCrear() {
-		// TODO de momento solo creamos al princicio, que no da problemas, por lo que no lo necesitamos
+		//De momento solo creamos al princicio, que no da problemas, por lo que no lo necesitamos
 		return false;
 	}
 

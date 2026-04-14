@@ -5,7 +5,6 @@ public class DispNormal implements StrategyDisp{
 	@Override
 	public Composite crearDisp(int x, int y) {
 		Composite comp = null;
-		//TODO comprobar que se puede crear
 		PixelD d = new PixelD(x,y);
 		if(d.comprobarCrear())//Si se va a poder crear este pixel
 		{

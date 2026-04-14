@@ -146,6 +146,47 @@ public class Juego extends JFrame implements Observer {
 				}
 				else
 				{
+					int[] coor = (int[]) res[6];
+					int f = coor[0];
+					int c = coor[1];
+					JLabel lbl = tablero[f][c];
+					if((int) res[7]==0)//Si la acción es borrar
+					{
+						lbl.setOpaque(false);
+						lbl.repaint();
+					}
+					else //Si es pintar
+					{
+						int tipo = (int) res[8];
+						if(tipo==0)//Si hay que pintar nave
+						{
+							lbl.setOpaque(true);
+							
+							if(colorN.equals("green")) {
+								lbl.setBackground(Color.GREEN);
+							}
+							else if(colorN.equals("blue")) {
+								lbl.setBackground(Color.BLUE);
+							}
+							else {
+								lbl.setBackground(Color.RED);
+							}
+							lbl.repaint();
+						}
+						else if(tipo==1)//Si es disp
+						{
+							lbl.setOpaque(true);
+							lbl.setBackground(Color.YELLOW);
+							lbl.repaint();
+						}
+						else if(tipo==2)//Si es enem, aunque podría ser solo un else
+						{
+							lbl.setOpaque(true);
+							lbl.setBackground(Color.GRAY);
+							lbl.repaint();
+						}
+					}
+					/*
 					int[][] tabNum = (int[][]) res[1];
 					for(int f=0;f<60;f++)
 					{
@@ -186,7 +227,7 @@ public class Juego extends JFrame implements Observer {
 							}
 						}
 					}
-						
+					*/	
 				}
 			}
 		}
@@ -315,9 +356,11 @@ public class Juego extends JFrame implements Observer {
 			if (e.getKeyCode() == KeyEvent.VK_UP) {model.ListaNaves.getListaNaves().moverNave("up");}
 			if (e.getKeyCode() == KeyEvent.VK_DOWN) {model.ListaNaves.getListaNaves().moverNave("down");}
 			
-			if (e.getKeyCode() == KeyEvent.VK_SPACE) {model.ListaDisp.getListaDisp().crearDisp("normal");}
+			if (e.getKeyCode() == KeyEvent.VK_SPACE) {model.ListaNaves.getListaNaves().crearDisp();}
 			
-			if (e.getKeyCode() == KeyEvent.VK_C) {model.ListaNaves.getListaNaves().cambiarDisp();}//TODO Cambiar tipo disparo
+			if (e.getKeyCode() == KeyEvent.VK_C) {model.ListaNaves.getListaNaves().cambiarDisp(3);}//Cambiar a Rombo
+			if (e.getKeyCode() == KeyEvent.VK_X) {model.ListaNaves.getListaNaves().cambiarDisp(2);}//Cambiar a Flecha
+			if (e.getKeyCode() == KeyEvent.VK_Z) {model.ListaNaves.getListaNaves().cambiarDisp(1);}//Cambiar a Normal
 			
 			
 			

@@ -10,7 +10,7 @@ public abstract class Nave extends PiezaAbs{
 	protected ArrayList<Disparo> LDis;
 	protected Composite forma;
 	protected StrategyDisp sD;
-	protected int x,y;//Son las coordenadas de referencia
+	protected int x,y;//Son las coordenadas de referencia, es la punta
 	protected int tipoDisparoActual = 1; //atributo para saber qué arma está seleccionada (1=Normal, 2=Flecha, 3=Rombo)
 	    
 	public Nave(String color, int cantR, int cantF, Composite forma) {
@@ -20,16 +20,18 @@ public abstract class Nave extends PiezaAbs{
 	    this.forma = forma;
 	    this.LDis = new ArrayList<Disparo>();
 	    this.sD = new DispNormal();
+	    this.x = 54;
+	    this.y = 50;
 	    }
 	
 	public void disparar()//Crear Disparo
 	{
-		Composite formaDisp = sD.crearDisp(x, y);//TODO tener en cuenta los límites de disparos
+		Composite formaDisp = sD.crearDisp(x-2, y);
 		if(formaDisp != null)//Será null si no se ha podido crear
 		{
 			Disparo disp  = new Disparo(formaDisp);
 			LDis.add(disp);
-			disp.dibujar(1); 
+			disp.dibujar(); //Este notifica internamente a Juego para que pinte
 			// Gastar munición según el arma actual
 			if (tipoDisparoActual == 2) {
 				cantF--;
@@ -40,15 +42,20 @@ public abstract class Nave extends PiezaAbs{
 			}
 		}
 	}
-	
-	public void dibujar() 
+	public void crear()//Solo se llama al inicializar
 	{
-		forma.crear();//tipo nave
+		forma.crear();//Crear pues es al inicializar solo
 	}
 	
 	public void mover(String dir)
 	{
-		forma.mover(dir);
+		if(forma.mover(dir))//Si se ha movido
+		{//Actualiza coor de referencia
+			if(dir.equals("up")) x--;
+			else if(dir.equals("down")) x++;
+			else if(dir.equals("left")) y--;
+			else if(dir.equals("right")) y++;
+		}
 	}
 	
 	public void cambiarStrategy(int nueva) {
@@ -57,34 +64,33 @@ public abstract class Nave extends PiezaAbs{
 			tipoDisparoActual = 1;
 		}
 		else if(nueva == 2 && cantF > 0) {
-			sD = new DispFlecha();
-			tipoDisparoActual = 2;
+			if(cantF>0)
+			{
+				sD = new DispFlecha();
+				tipoDisparoActual = 2;
+			}
 		}
 		else if(nueva == 3 && cantR > 0) {
-			sD = new DispRombo();
-			tipoDisparoActual = 3;
+			if(cantR>0)
+			{
+				sD = new DispRombo();
+				tipoDisparoActual = 3;
+			}
 		}
 	}
-	
-	public void rotarStrategy() {
-		if (tipoDisparoActual == 1) {
-			if (cantF > 0) cambiarStrategy(2);
-			else if (cantR > 0) cambiarStrategy(3);
-		} else if (tipoDisparoActual == 2) {
-			if (cantR > 0) cambiarStrategy(3);
-			else cambiarStrategy(1);
-		} else if (tipoDisparoActual == 3) {
-			cambiarStrategy(1);
-		}
-	}
-	
 	public void moverDisp()
 	{
-		for(Disparo d: LDis)
+		for(int i=0;i<LDis.size();i++)
 		{
-			d.mover();
+			Disparo d = LDis.get(i);
+			if(d.mover())
+			{
+				LDis.remove(i);//Borrarlo pues no queda ningún pixel
+				i--;
+			}
 		}
 	}
+	
 	public void borrarDisp(int[] coor)
 	{
 		boolean borrado = false;
@@ -98,6 +104,10 @@ public abstract class Nave extends PiezaAbs{
 			}
 			i++;
 		}
+	}
+	public void borrar()
+	{
+		forma.borrar();
 	}
 } 
 

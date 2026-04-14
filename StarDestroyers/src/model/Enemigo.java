@@ -6,9 +6,9 @@ public class Enemigo extends PiezaAbs{
 	{
 		this.forma = pForma;
 	}
-	public void dibujar()//Método de la inicialización
+	public void crear()//Método de la inicialización
 	{
-		forma.crear();//Crear enem
+		forma.crear();//Crear enem en el tablero
 	}
 	public boolean encontrar(int x, int y)//Llamado por removeEnem de LE
 	{

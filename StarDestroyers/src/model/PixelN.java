@@ -8,7 +8,7 @@ public class PixelN implements Component{
 		this.y = pY;
 	}
 	@Override
-	public void mover(String dir) 
+	public boolean mover(String dir) 
 	{
 			if(dir.equals("up")) {//Actualiza coordenadas 
 				x--;
@@ -19,13 +19,17 @@ public class PixelN implements Component{
 			} else if(dir.equals("right")) {
 				y++;
 			}
-			//espacio dibuja la nave en esta nueva posición
-			//Espacio.getEspacio().dibujarNave(new int[]{x, y});
-			this.crear();//Ya que tenemos el método, pues lo usamos
+			return false; //False pues no se usa el return aquí, solo en composite y pixelD
 	}
 
 	@Override
 	public void crear() {
+		Espacio.getEspacio().crearNave(new int[]{x, y});
+	}
+	
+	@Override
+	public void dibujar() //Durante la partida
+	{
 		Espacio.getEspacio().dibujarNave(new int[]{x, y});
 	}
 
@@ -40,12 +44,11 @@ public class PixelN implements Component{
 	}
 	@Override
 	public boolean comprobarCrear() {
-		// TODO de momento solo creamos al princicio, que no da problemas, por lo que no lo necesitamos
+		//De momento solo creamos al princicio, que no da problemas, por lo que no lo necesitamos
 		return false;
 	}
 	@Override
 	public boolean encontrar(int x, int y) {//Método de composite, y los otros píxeles
-		// TODO Auto-generated method stub
 		return false;
 	}
 	@Override
