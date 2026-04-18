@@ -8,7 +8,7 @@ public class Enemigo extends PiezaAbs{
 	}
 	public void crear()//Método de la inicialización
 	{
-		forma.crear();//Crear enem en el tablero
+		forma.crear(0);//0 indica inicializar
 	}
 	public boolean encontrar(int x, int y)//Llamado por removeEnem de LE
 	{

@@ -55,9 +55,16 @@ public class ListaEnem implements Observer{
 		LEnems = new ArrayList<Enemigo>();
 		int cantEnem = new Random().nextInt(4,9);
 		int dist=90/cantEnem;
+		/*          Comporobación de dos enem colisionados por el mismo disp
+		cantEnem=2;
+		ArrayList<int[]> coor = new ArrayList<>();
+		coor.add(new int[] {2,15});
+		coor.add(new int[] {2,19});
+		*/
 		for(int i=0;i<cantEnem;i++)
 		{
-			int[] pos = {2,5+i*dist};;
+			int[] pos = {2,5+i*dist}; 
+			//int[] pos = coor.get(i);      Parte de la comprobación de 2 enem 1 disp
 			LEnems.add(fabricarEnemigos(pos));
 		};
 		for(Enemigo e: LEnems)

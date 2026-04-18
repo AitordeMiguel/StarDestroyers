@@ -42,9 +42,10 @@ public abstract class Nave extends PiezaAbs{
 			}
 		}
 	}
+	
 	public void crear()//Solo se llama al inicializar
 	{
-		forma.crear();//Crear pues es al inicializar solo
+		forma.crear(0);//0 indica que es inicializar
 	}
 	
 	public void mover(String dir)

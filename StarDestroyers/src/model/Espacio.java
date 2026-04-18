@@ -45,10 +45,13 @@ public class Espacio extends Observable{
 		this.notificar(1/*Al juego*/,2/*Seguir jugando*/, null/*Color que no se usa*/, pos, 0/*Borrar*/, -1/*No se va a usar*/);
 	}
 
-	public void dibujarNave(int[] pos)//TODO diferenciar entre inicialización y no
+	public void dibujarNave(int[] pos,int tipo)//tipo: 0=inic, 1=partida
 	{
 		tablero[pos[0]][pos[1]] = 0;//Es nave
-		this.notificar(1/*Al juego*/,2/*Seguir jugando*/, null/*Color que no se usa*/, pos, 1/*Dibujar*/, 0/*Nave*/);
+		if(tipo==1)
+		{
+			this.notificar(1/*Al juego*/,2/*Seguir jugando*/, null/*Color que no se usa*/, pos, 1/*Dibujar*/, 0/*Nave*/);
+		}
 	}
 	
 	public void dibujarDisp(int[] pos)
@@ -57,22 +60,15 @@ public class Espacio extends Observable{
 		this.notificar(1/*Al juego*/,2/*Seguir jugando*/, null/*Color que no se usa*/, pos, 1/*Dibujar*/, 1/*Disparo*/);
 	}
 	
-	public void dibujarEnem(int[] pos)
+	public void dibujarEnem(int[] pos,int tipo)//tipo: 0=inic, 1=partida
 	{
 		tablero[pos[0]][pos[1]] = 2;//Es enem
-		this.notificar(1/*Al juego*/,2/*Seguir jugando*/, null/*Color que no se usa*/, pos, 1/*Dibujar*/, 2/*Enem*/);
+		if(tipo==1)
+		{
+			this.notificar(1/*Al juego*/,2/*Seguir jugando*/, null/*Color que no se usa*/, pos, 1/*Dibujar*/, 2/*Enem*/);
+		}
 	}
-	
-	public void crearNave(int[] coor)//Esto es al inicializar  //TODO puede que esto sobre
-	{
-		tablero[coor[0]][coor[1]] = 0;//Es nave
-	}
-	
-	public void crearEnem(int[] coor)//Esto es al inicializar  //TODO puede que esto sobre
-	{
-		tablero[coor[0]][coor[1]] = 2;//Es enem
-	}
-	
+		
 	public boolean comprobarMoverNave(int f, int c, String dir)
 	{
 		boolean rdo = true;//Si se puede mover
@@ -232,6 +228,10 @@ public class Espacio extends Observable{
 	}
 	public void notificar(int dest, int estado, String color, int[] pos,int accion,int tipo)
 	{
+		if(finJuego)
+		{
+			System.out.println("Postllamada");
+		}
 		setChanged();
 		notifyObservers(new Object[] {dest,tablero,estado,juegoIniciado,finJuego,color,pos,accion,tipo});//
 		juegoIniciado  = true;//Es porque en cuanto se haga una notificación se habrá empezado el juego, y luego ya no cambia
