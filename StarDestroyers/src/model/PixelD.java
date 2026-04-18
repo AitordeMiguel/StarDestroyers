@@ -21,15 +21,11 @@ public class PixelD  implements Component{
 	}
 
 	@Override
-	public void crear() {
-		//No se inicializa, luego no se necesita
+	public void crear(int accion) //Nunca será inicializar, siempre 1
+	{
+		Espacio.getEspacio().dibujarDisp(new int[] {x,y});
 	}
 	
-	@Override
-	public void dibujar() //Durante la partida
-	{
-		Espacio.getEspacio().dibujarDisp(new int[]{x, y});
-	}
 
 	@Override
 	public void borrar() {
@@ -41,7 +37,6 @@ public class PixelD  implements Component{
 		return Espacio.getEspacio().comprobarMoverDisp(x, y);
 	}
 
-	@Override
 	public boolean comprobarCrear() {
 		return Espacio.getEspacio().comprobarCrearDisp(x, y);
 	}
@@ -52,9 +47,11 @@ public class PixelD  implements Component{
 	}
 
 	@Override
-	public int[] getCoor() {// TODO Es probable que no se use al final
-		return new int[] {x,y};
+	public void notificar(int dest, int estado, String color, int accion, int tipo) 
+	{
+		Espacio.getEspacio().notificar(dest, estado, color, new int[] {x,y}, accion, tipo);
 	}
+
 	
 
 }

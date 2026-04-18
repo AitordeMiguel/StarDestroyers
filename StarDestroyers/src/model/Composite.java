@@ -44,7 +44,7 @@ public class Composite implements Component{
 			    }
 			}
 			//Redibujar
-			this.dibujar();//Esto ya ha notificado a Juego que debe pintar cada pos
+			this.crear(1);//Esto ya ha notificado a Juego que debe pintar cada pos
 			//En este punto ya se han pintado todas las nuevas posiciones
 			//Espacio.getEspacio().notificar(1, 2, null, null);//Solo notifica si se ha podido mover  TODO quitar este comentario para limpio
 		}
@@ -52,22 +52,14 @@ public class Composite implements Component{
 	}
 
 	@Override
-	public void crear()//, int accion) //Este método notifica internamente al Juego
-	{ //Es método de inicialización
+	public void crear(int accion) //accion: 0= inic, 1=partida
+	{ //Este método puede notificar internamente al Juego
 		for(Component c: components)
 		{
-			c.crear();
+			c.crear(accion);
 		}
 	}
 	
-	@Override
-	public void dibujar() //Durante la partida
-	{
-		for(Component c: components)
-		{
-			c.dibujar();
-		}
-	}
 
 	@Override
 	public void borrar() {//Este método notifica internamente al Juego
@@ -76,10 +68,6 @@ public class Composite implements Component{
 		    Component comp = it.next();
 		    comp.borrar();
 		}
-	}
-	@Override
-	public boolean comprobarCrear() {//solo se una en pixelD
-		return false;
 	}
 	
 	@Override
@@ -92,28 +80,17 @@ public class Composite implements Component{
 		}
 		return enc;
 	}
-	public ArrayList<int[]> obtCoor()//TODO, se usaba cuando pintabamos todo de golpe, puede que haya que borrarlo
-	{
-		ArrayList<int[]> coor = new ArrayList<int[]>();
-		Iterator<Component> it = components.iterator();
-		while(it.hasNext()){
-		    Component comp = it.next();
-		    coor.add(comp.getCoor());
-		}
-		return coor;
-	}
+	
 	@Override
-	public int[] getCoor() {
-		return null;
-	}
 	public void notificar(int dest, int estado, String color, int accion, int tipo)
 	{
 		for(Component c: components)
 		{
-			Espacio.getEspacio().notificar(dest, estado, color, c.getCoor(), accion, tipo);
+			c.notificar(dest, estado, color, accion, tipo);
 		}
 		
 	}
+		
 	public int tamRestante()
 	{
 		return components.size();

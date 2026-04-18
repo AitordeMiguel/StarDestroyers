@@ -15,14 +15,8 @@ public class PixelE implements Component{
 	}
 
 	@Override
-	public void crear() {
-		Espacio.getEspacio().crearEnem(new int[]{x,y});
-	}
-	
-	@Override
-	public void dibujar() //Durante la partida
-	{
-		Espacio.getEspacio().dibujarEnem(new int[]{x,y});
+	public void crear(int accion) {
+		Espacio.getEspacio().dibujarEnem(new int[]{x,y},accion);
 	}
 	
 	@Override
@@ -36,20 +30,16 @@ public class PixelE implements Component{
 	}
 
 	@Override
-	public boolean comprobarCrear() {
-		//De momento solo creamos al princicio, que no da problemas, por lo que no lo necesitamos
-		return false;
-	}
-
-	@Override
 	public boolean encontrar(int pX, int pY) {
 		return (pX == this.x) && (pY == this.y);
 	}
 
 	@Override
-	public int[] getCoor() {
-		return new int[] {x,y};
+	public void notificar(int dest, int estado, String color, int accion, int tipo) 
+	{
+		Espacio.getEspacio().notificar(dest, estado, color, new int[] {x,y}, accion, tipo);
 	}
+
 
 
 }

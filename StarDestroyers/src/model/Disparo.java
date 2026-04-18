@@ -8,7 +8,7 @@ public class Disparo{
 	}
 	public void dibujar()
 	{
-		forma.dibujar();//crear disparo
+		forma.crear(1);//crear disparo
 	}
 	public boolean mover()
 	{
