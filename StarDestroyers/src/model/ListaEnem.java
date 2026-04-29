@@ -2,9 +2,13 @@ package model;
 
 import java.util.ArrayList;
 
+
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -12,28 +16,27 @@ import java.util.Observer;
 public class ListaEnem implements Observer{
 	private ArrayList<Enemigo> LEnems;
 	private static ListaEnem miListaEnem;
-	private Timer timer = null;
+	private ScheduledExecutorService scheduler;
 	private int cont = 0;
 	private boolean inicializado = false;
 	private ListaEnem()
 	{
-		TimerTask timerTask = new TimerTask() {//TODO descubrir porque mueve la nave, y porque deja un rastro malo de la primera capa
-			@Override
-			public void run() {
-				if(inicializado)
-				{
-					cont++;
-					if(cont==4)
-					{
-						cont = 0;
-						moverEnem();
-					}
-					ListaNaves.getListaNaves().moverDisp();
-				}
-			}		
-		};
-		timer = new Timer();
-		timer.scheduleAtFixedRate(timerTask, 0, 100);
+	    scheduler = Executors.newSingleThreadScheduledExecutor();
+
+	    scheduler.scheduleAtFixedRate(() -> {
+	        if (inicializado)
+	        {
+	            cont++;
+	            if(cont == 4)
+	            {
+	                cont = 0;
+	                moverEnem();
+	            }
+
+	            ListaNaves.getListaNaves().moverDisp();
+	        }
+	    }, 0, 100, TimeUnit.MILLISECONDS);
+
 		Espacio.getEspacio().addObserver(this);	
 	}
 		
@@ -95,12 +98,11 @@ public class ListaEnem implements Observer{
 			Espacio.getEspacio().notifyFin(1);//Anunciar victoria
 		}
 	}
-	private void moverEnem() //version postLabo
+	public void moverEnem() //version postLabo
 	{
-		ArrayList<Enemigo> LE = LEnems;//Para que no pete si se borra al mover algun disparo y modifica en el notify LEnems
-		for(Enemigo e: LE)
+		for (Enemigo e : new ArrayList<>(LEnems))
 		{
-			e.mover();
+		    e.mover();
 		}
 	}
 

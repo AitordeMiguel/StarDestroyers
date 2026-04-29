@@ -212,7 +212,7 @@ public class Menu extends JFrame implements Observer{
 			{
 				model.Espacio.getEspacio().inicializar(color);
 				model.ListaNaves.getListaNaves().inicializar(color);
-				model.ListaEnem.getListaEnem().inicializar();
+				model.ListaEnem.getListaEnem().inicializar(); 
 				model.Espacio.getEspacio().notificar(0/*A menu*/,2/*Seguir jugando*/,color,new int[] {-1,-1}, -1,-1);
 			}			
 		}
