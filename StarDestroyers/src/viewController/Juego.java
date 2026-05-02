@@ -83,12 +83,12 @@ public class Juego extends JFrame implements Observer {
 		if (panel == null) {
 			panel = new JPanel();
 			panel.setOpaque(false);
-			panel.setLayout(new GridLayout(60, 100, 0, 0));
+			panel.setLayout(new GridLayout(180, 300, 0, 0));
 			JLabel lblNewLabel;
-			tablero = new JLabel[60][100];
-			for(int f=0;f<60;f++)
+			tablero = new JLabel[180][300];
+			for(int f=0;f<180;f++)
 			{
-				for(int c=0;c<100;c++)
+				for(int c=0;c<300;c++)
 				{
 					lblNewLabel = new JLabel("");
 					if(tabEsp[f][c]==0)//es la nave

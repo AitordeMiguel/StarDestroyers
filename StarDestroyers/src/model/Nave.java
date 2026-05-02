@@ -20,8 +20,8 @@ public abstract class Nave extends PiezaAbs{
 	    this.forma = forma;
 	    this.LDis = new ArrayList<Disparo>();
 	    this.sD = new DispNormal();
-	    this.x = 54;
-	    this.y = 50;
+	    this.x = 165;
+	    this.y = 150;
 	    }
 	
 	public void disparar()//Crear Disparo
