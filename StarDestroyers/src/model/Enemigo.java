@@ -1,25 +1,19 @@
 package model;
 
 public class Enemigo extends PiezaAbs{
-	private Composite forma;
+	//private Composite forma;
 	public Enemigo(Composite pForma)
 	{
-		this.forma = pForma;
-	}
-	public void crear()//Método de la inicialización
-	{
-		forma.crear(0);//0 indica inicializar
+		super(pForma);
 	}
 	public boolean encontrar(int x, int y)//Llamado por removeEnem de LE
 	{
 		return forma.encontrar(x,y);
 	}
-	public void borrar()//Llamado por removeEnem de LE
+	/*  Ya lo hereda
+	public void mover(String dir)
 	{
-		forma.borrar();
+		forma.mover(dir);
 	}
-	public void mover()
-	{
-		forma.mover("down");
-	}
+	*/
 }

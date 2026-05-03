@@ -14,7 +14,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 public class ListaEnem implements Observer{
-	private ArrayList<Enemigo> LEnems;
+	private ArrayList<PiezaAbs> LEnems;//Realmente todos son enemigos
 	private static ListaEnem miListaEnem;
 	private ScheduledExecutorService scheduler;
 	private int cont = 0;
@@ -48,14 +48,14 @@ public class ListaEnem implements Observer{
 		}
 		return miListaEnem;
 	}
-	private Enemigo fabricarEnemigos(int[] posiciones)
+	private PiezaAbs fabricarEnemigos(int[] posiciones)
 	{
 		// llamamos al factory indicando tipo 1 para Enemigo, null en color y las posiciones
-		return (Enemigo) Factory.getFactory().generar(1, null, posiciones);
+		return Factory.getFactory().generar(1, null, posiciones);//Devuelve un enemigo, que es heredero de PiezaAbs
 	}
 	public void inicializar()
 	{
-		LEnems = new ArrayList<Enemigo>();
+		LEnems = new ArrayList<PiezaAbs>();
 		int cantEnem = new Random().nextInt(4,9);
 		int dist=270/cantEnem;
 		/*          Comporobación de dos enem colisionados por el mismo disp
@@ -64,16 +64,22 @@ public class ListaEnem implements Observer{
 		coor.add(new int[] {2,15});
 		coor.add(new int[] {2,19});
 		*/
-		for(int i=0;i<cantEnem;i++)
+		for(int i=0;i<cantEnem;i++)//TODO java8? --Creo que no es la clase de bucle que buscamos para java8 
 		{
 			int[] pos = {2,15+i*dist}; 
 			//int[] pos = coor.get(i);      Parte de la comprobación de 2 enem 1 disp
 			LEnems.add(fabricarEnemigos(pos));
 		};
-		for(Enemigo e: LEnems)
+		//java8
+		LEnems.stream().map(p -> (Enemigo) p).forEach(e -> e.crear());
+		//antiguo
+		/*
+		for(PiezaAbs p: LEnems)//TODO java8
 		{
+			Enemigo e = (Enemigo) p;
 			e.crear();
 		}
+		*/
 		inicializado = true;
 	}
 	private void removeEnem(int x, int y)//LLamado por el update
@@ -82,7 +88,7 @@ public class ListaEnem implements Observer{
 		boolean enc = false;
 		while(i<LEnems.size() && !enc)
 		{
-			Enemigo enem = LEnems.get(i);
+			Enemigo enem =(Enemigo) LEnems.get(i);
 			enc = enem.encontrar(x, y);
 			if(enc)
 			{
@@ -100,10 +106,16 @@ public class ListaEnem implements Observer{
 	}
 	public void moverEnem() //version postLabo
 	{
-		for (Enemigo e : new ArrayList<>(LEnems))
+		//java8
+		new ArrayList<>(LEnems).stream().map(p -> (Enemigo) p).forEach(e -> e.mover("down"));
+		//antiguo
+		/*
+		for (PiezaAbs p : new ArrayList<>(LEnems))//TODO java8
 		{
-		    e.mover();
+			Enemigo e = (Enemigo) p;
+		    e.mover("down");
 		}
+		*/
 	}
 
 	@Override

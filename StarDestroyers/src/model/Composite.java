@@ -34,7 +34,7 @@ public class Composite implements Component{
 			// Desdibujar
 			this.borrar();//Esto notifica ya a Juego de quitar cada pixel
 			// Mover
-			for(int i=0; i<components.size();i++)
+			for(int i=0; i<components.size();i++)//TODO java8?  --> copiar si es válido el de Nave
 			{
 				Component comp = components.get(i);
 			    if(comp.mover(dir))//Solo actualiza posiciones
@@ -46,7 +46,7 @@ public class Composite implements Component{
 			//Redibujar
 			this.crear(1);//Esto ya ha notificado a Juego que debe pintar cada pos
 			//En este punto ya se han pintado todas las nuevas posiciones
-			//Espacio.getEspacio().notificar(1, 2, null, null);//Solo notifica si se ha podido mover  TODO quitar este comentario para limpio
+			
 		}
 		return rdo;//Solo lo usa la nave, creo
 	}
@@ -54,20 +54,30 @@ public class Composite implements Component{
 	@Override
 	public void crear(int accion) //accion: 0= inic, 1=partida
 	{ //Este método puede notificar internamente al Juego
-		for(Component c: components)
+		//Java8
+		components.stream().forEach(c -> c.crear(accion));
+		//Antiguo
+		/*
+		for(Component c: components)//TODO java8
 		{
 			c.crear(accion);
 		}
+		*/
 	}
 	
 
 	@Override
 	public void borrar() {//Este método notifica internamente al Juego
+		//java8
+		components.stream().forEach(c -> c.borrar());
+		//antiguo
+		/*
 		Iterator<Component> it = components.iterator();
-		while(it.hasNext()){
+		while(it.hasNext()){//TODO java 8
 		    Component comp = it.next();
 		    comp.borrar();
 		}
+		*/
 	}
 	
 	@Override
