@@ -25,7 +25,7 @@ public class ListaNaves implements Observer{
 	{	
 		Espacio.getEspacio().addObserver(this);	
 		LNaves = new ArrayList<Nave>();
-		int[] pos = {55,50};
+		int[] pos = {165,150};
 		LNaves.add(fabricarNave(color,pos));
 		for(Nave n: LNaves)//Aunque solo hay una
 		{

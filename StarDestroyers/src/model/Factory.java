@@ -30,7 +30,7 @@ public class Factory {
     {//TODO si queremos que se puedan regenerar naves, hay que comprobar que se pueda crear en el sitio sin que haya otra cosa
     	Nave nave = null;
     	
-    	if(x>0 && x<=59 && y>0 && y<99) //Si la nave cabe en el plano
+    	if(x>0 && x<=179 && y>0 && y<299) //Si la nave cabe en el plano
     	{
     		Composite formaComp = new Composite();
     		

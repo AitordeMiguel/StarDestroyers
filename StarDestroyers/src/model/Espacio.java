@@ -19,10 +19,10 @@ public class Espacio extends Observable{
 	{
 		if(!juegoIniciado)
 		{
-			tablero = new int[60][100];
-			for(int f=0;f<60;f++)
+			tablero = new int[180][300];
+			for(int f=0;f<180;f++)
 			{
-				for(int c=0;c<100;c++)
+				for(int c=0;c<300;c++)
 				{
 					tablero[f][c] = 3;
 				}
@@ -72,7 +72,7 @@ public class Espacio extends Observable{
 	public boolean comprobarMoverNave(int f, int c, String dir)
 	{
 		boolean rdo = true;//Si se puede mover
-		if(f>=0 && c>=0 && f<60 && c<100)//Si son pos válidas
+		if(f>=0 && c>=0 && f<180 && c<300)//Si son pos válidas
 		{
 			if(dir.equals("up"))
 			{
@@ -134,9 +134,9 @@ public class Espacio extends Observable{
 	{
 		boolean rdo = true;
 		
-		if(f>=0 && c>=0 && f<60 && c<100)//Si son pos válidas
+		if(f>=0 && c>=0 && f<180 && c<300)//Si son pos válidas
 		{
-			if(f==59)//Si ha llegado al final
+			if(f==179)//Si ha llegado al final
 			{
 				rdo = false;
 				notifyFin(0);
@@ -165,7 +165,7 @@ public class Espacio extends Observable{
 	{
 		boolean rdo= false;//Se puede mover?
 		
-		if(f>=0 && c>=0 && f<60 && c<100)//Si son pos válidas
+		if(f>=0 && c>=0 && f<180 && c<300)//Si son pos válidas
 		{
 			if(f==0)//Se puede mover, luego al moverlo sencillamente se borra
 			{
@@ -189,7 +189,7 @@ public class Espacio extends Observable{
 	{
 		boolean rdo= false;//Se puede mover?
 		
-		if(f>=0 && c>=0 && f<60 && c<100)//Si son pos válidas
+		if(f>=0 && c>=0 && f<180 && c<300)//Si son pos válidas
 		{
 			if(tablero[f][c]==3)//Si la casilla es espacio
 			{
