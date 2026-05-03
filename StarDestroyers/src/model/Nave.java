@@ -1,25 +1,26 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.Iterator;
+//import java.util.ArrayList;
+//import java.util.Iterator;
 
 public abstract class Nave extends PiezaAbs{
 	protected int cantR;
 	protected int cantF;
 	protected String color;
-	protected ArrayList<Disparo> LDis;
-	protected Composite forma;
-	protected StrategyDisp sD;
+	//protected ArrayList<Disparo> LDis;
+	//protected Composite forma;
+	//protected StrategyDisp sD;
 	protected int x,y;//Son las coordenadas de referencia, es la punta
-	protected int tipoDisparoActual = 1; //atributo para saber qué arma está seleccionada (1=Normal, 2=Flecha, 3=Rombo)
+	//protected int tipoDisparoActual = 1; //atributo para saber qué arma está seleccionada (1=Normal, 2=Flecha, 3=Rombo)
 	    
 	public Nave(String color, int cantR, int cantF, Composite forma) {
+		super(forma);
 		this.color = color;
 	    this.cantR = cantR;
 	    this.cantF = cantF;
-	    this.forma = forma;
-	    this.LDis = new ArrayList<Disparo>();
-	    this.sD = new DispNormal();
+	    //this.forma = forma;
+	    //this.LDis = new ArrayList<Disparo>();
+	    //this.sD = new DispNormal();
 	    this.x = 165;
 	    this.y = 150;
 	    }
@@ -43,11 +44,9 @@ public abstract class Nave extends PiezaAbs{
 		}
 	}
 	
-	public void crear()//Solo se llama al inicializar
-	{
-		forma.crear(0);//0 indica que es inicializar
-	}
 	
+	
+	@Override
 	public void mover(String dir)
 	{
 		if(forma.mover(dir))//Si se ha movido
@@ -59,7 +58,7 @@ public abstract class Nave extends PiezaAbs{
 		}
 	}
 	
-	public void cambiarStrategy(int nueva) {
+	public void cambiarStrategy(int nueva) {//çno lo pongo en la madre pues no creemos que si el enemigo llega a tener disparos, vaya a tener iguales
 		if(nueva == 1) {
 			sD = new DispNormal();
 			tipoDisparoActual = 1;
@@ -106,10 +105,7 @@ public abstract class Nave extends PiezaAbs{
 			i++;
 		}
 	}
-	public void borrar()
-	{
-		forma.borrar();
-	}
+	
 } 
 
 	

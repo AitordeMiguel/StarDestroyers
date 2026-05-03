@@ -5,7 +5,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 public class ListaNaves implements Observer{
-	private ArrayList<Nave> LNaves;
+	private ArrayList<PiezaAbs> LNaves;//Realmente solo hay nave
 	private static ListaNaves miListaNaves;
 	private ListaNaves(){}
 	public static ListaNaves getListaNaves()
@@ -16,19 +16,20 @@ public class ListaNaves implements Observer{
 		}
 		return miListaNaves;	
 	}
-	private Nave fabricarNave(String color, int[] pos)
+	private PiezaAbs fabricarNave(String color, int[] pos)
 	{
 		// llamamos al factory indicando tipo 0 para Nave, el color y la lista de posiciones
-		return (Nave) Factory.getFactory().generar(0, color, pos);
+		return Factory.getFactory().generar(0, color, pos);
 	}
 	public void inicializar(String color)
 	{	
 		Espacio.getEspacio().addObserver(this);	
-		LNaves = new ArrayList<Nave>();
+		LNaves = new ArrayList<PiezaAbs>();
 		int[] pos = {165,150};
 		LNaves.add(fabricarNave(color,pos));
-		for(Nave n: LNaves)//Aunque solo hay una
+		for(PiezaAbs p: LNaves)//Aunque solo hay una
 		{
+			Nave n =(Nave) p;
 			n.crear(); //Dibujarlo en el tablero
 		}
 		
@@ -37,29 +38,38 @@ public class ListaNaves implements Observer{
 	
 	public void moverNave(String dir)
 	{
-		for(Nave n: LNaves)//Solo tenemos una nave, seguramente si tuviesemos más, no sería así, si no individualmente
+		for(PiezaAbs p: LNaves)//Solo tenemos una nave, seguramente si tuviesemos más, no sería así, si no individualmente
 		{
+			Nave n =(Nave) p;
 			n.mover(dir);
 		}
 		
 	}
 	public void moverDisp()
 	{
-		LNaves.get(0).moverDisp(); 
+		PiezaAbs p = LNaves.get(0);
+		Nave n = (Nave) p;
+		n.moverDisp(); 
 	}
 	public void crearDisp()
 	{
 		//De momento solo hay una nave, por lo que basta con hacerlo con esa sin escoger entre varias
-		LNaves.get(0).disparar();
+		PiezaAbs p = LNaves.get(0);
+		Nave n = (Nave) p;
+		n.disparar();
 	}
 	public void cambiarDisp(int tipo) {
 		if (LNaves != null && !LNaves.isEmpty()) {
-			LNaves.get(0).cambiarStrategy(tipo); 
+			PiezaAbs p = LNaves.get(0);
+			Nave n = (Nave) p;
+			n.cambiarStrategy(tipo); 
 		}
 	}
 	public void removeDisp(int[] coor)
 	{
-		LNaves.get(0).borrarDisp(coor);
+		PiezaAbs p = LNaves.get(0);
+		Nave n = (Nave) p;
+		n.borrarDisp(coor);
 	}
 	@Override
 	public void update(Observable o, Object arg) 
@@ -73,6 +83,8 @@ public class ListaNaves implements Observer{
 	}
 	public void borrar()
 	{
-		LNaves.get(0).borrar();
+		PiezaAbs p = LNaves.get(0);
+		Nave n = (Nave) p;
+		n.borrar();
 	}
 }
