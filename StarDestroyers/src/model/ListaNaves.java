@@ -27,23 +27,31 @@ public class ListaNaves implements Observer{
 		LNaves = new ArrayList<PiezaAbs>();
 		int[] pos = {165,150};
 		LNaves.add(fabricarNave(color,pos));
-		for(PiezaAbs p: LNaves)//Aunque solo hay una
+		//java8
+		LNaves.stream().map(p -> (Nave) p).forEach(n -> n.crear());
+		//antiguo
+		/*
+		for(PiezaAbs p: LNaves)//Aunque solo hay una           //TODO java8
 		{
 			Nave n =(Nave) p;
 			n.crear(); //Dibujarlo en el tablero
 		}
-		
+		*/
 	}
 	
 	
-	public void moverNave(String dir)
+	public void moverNave(String dir)//TODO java8
 	{
+		//java8
+		LNaves.stream().map(p -> (Nave) p).forEach(n -> n.mover(dir));
+		//antiguo
+		/*
 		for(PiezaAbs p: LNaves)//Solo tenemos una nave, seguramente si tuviesemos más, no sería así, si no individualmente
 		{
 			Nave n =(Nave) p;
 			n.mover(dir);
 		}
-		
+		*/
 	}
 	public void moverDisp()
 	{
@@ -83,8 +91,7 @@ public class ListaNaves implements Observer{
 	}
 	public void borrar()
 	{
-		PiezaAbs p = LNaves.get(0);
-		Nave n = (Nave) p;
+		Nave n = (Nave) LNaves.get(0);
 		n.borrar();
 	}
 }

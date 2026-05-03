@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+
 //import java.util.ArrayList;
 //import java.util.Iterator;
 
@@ -78,8 +80,12 @@ public abstract class Nave extends PiezaAbs{
 			}
 		}
 	}
-	public void moverDisp()
+	public void moverDisp()//TODO java8?
 	{
+		//Con java8
+		//ArrayList<Disparo> LD = new ArrayList<Disparo>(LDis);
+		//LD.stream().filter(disp -> disp.mover()).forEach(d -> LDis.remove(d));
+		//Antiguo
 		for(int i=0;i<LDis.size();i++)
 		{
 			Disparo d = LDis.get(i);

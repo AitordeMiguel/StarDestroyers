@@ -64,17 +64,22 @@ public class ListaEnem implements Observer{
 		coor.add(new int[] {2,15});
 		coor.add(new int[] {2,19});
 		*/
-		for(int i=0;i<cantEnem;i++)
+		for(int i=0;i<cantEnem;i++)//TODO java8? --Creo que no es la clase de bucle que buscamos para java8 
 		{
 			int[] pos = {2,15+i*dist}; 
 			//int[] pos = coor.get(i);      Parte de la comprobación de 2 enem 1 disp
 			LEnems.add(fabricarEnemigos(pos));
 		};
-		for(PiezaAbs p: LEnems)
+		//java8
+		LEnems.stream().map(p -> (Enemigo) p).forEach(e -> e.crear());
+		//antiguo
+		/*
+		for(PiezaAbs p: LEnems)//TODO java8
 		{
 			Enemigo e = (Enemigo) p;
 			e.crear();
 		}
+		*/
 		inicializado = true;
 	}
 	private void removeEnem(int x, int y)//LLamado por el update
@@ -101,11 +106,16 @@ public class ListaEnem implements Observer{
 	}
 	public void moverEnem() //version postLabo
 	{
-		for (PiezaAbs p : new ArrayList<>(LEnems))
+		//java8
+		new ArrayList<>(LEnems).stream().map(p -> (Enemigo) p).forEach(e -> e.mover("down"));
+		//antiguo
+		/*
+		for (PiezaAbs p : new ArrayList<>(LEnems))//TODO java8
 		{
 			Enemigo e = (Enemigo) p;
 		    e.mover("down");
 		}
+		*/
 	}
 
 	@Override
