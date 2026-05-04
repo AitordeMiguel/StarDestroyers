@@ -34,7 +34,7 @@ public class Composite implements Component{
 			// Desdibujar
 			this.borrar();//Esto notifica ya a Juego de quitar cada pixel
 			// Mover
-			for(int i=0; i<components.size();i++)//TODO java8?  --> copiar si es válido el de Nave
+			for(int i=0; i<components.size();i++)//TODO java8?  --> copiar si es válido el de Nave   --> probar
 			{
 				Component comp = components.get(i);
 			    if(comp.mover(dir))//Solo actualiza posiciones

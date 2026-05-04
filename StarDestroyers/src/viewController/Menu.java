@@ -178,7 +178,6 @@ public class Menu extends JFrame implements Observer{
 
 		@Override
 		public void keyTyped(KeyEvent e) {
-			// TODO Auto-generated method stub
 			
 		}
 
@@ -213,13 +212,12 @@ public class Menu extends JFrame implements Observer{
 				model.Espacio.getEspacio().inicializar(color);
 				model.ListaNaves.getListaNaves().inicializar(color);
 				model.ListaEnem.getListaEnem().inicializar(); 
-				model.Espacio.getEspacio().notificar(0/*A menu*/,2/*Seguir jugando*/,color,new int[] {-1,-1}, -1,-1);
+				model.Espacio.getEspacio().notificar(0/*A menu*/,2/*Seguir jugando*/,color,new int[] {-1,-1}, -1,-1,-1,-1);
 			}			
 		}
 
 		@Override
 		public void keyReleased(KeyEvent e) {
-			// TODO Auto-generated method stub
 			
 		}
 		

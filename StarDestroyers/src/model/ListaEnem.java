@@ -57,7 +57,7 @@ public class ListaEnem implements Observer{
 	{
 		LEnems = new ArrayList<PiezaAbs>();
 		int cantEnem = new Random().nextInt(4,9);
-		int dist=270/cantEnem;
+		int dist=90/cantEnem;         //TODO límites del tablero
 		/*          Comporobación de dos enem colisionados por el mismo disp
 		cantEnem=2;
 		ArrayList<int[]> coor = new ArrayList<>();
@@ -66,7 +66,7 @@ public class ListaEnem implements Observer{
 		*/
 		for(int i=0;i<cantEnem;i++)//TODO java8? --Creo que no es la clase de bucle que buscamos para java8 
 		{
-			int[] pos = {2,15+i*dist}; 
+			int[] pos = {2,5+i*dist};              //TODO límites del tablero
 			//int[] pos = coor.get(i);      Parte de la comprobación de 2 enem 1 disp
 			LEnems.add(fabricarEnemigos(pos));
 		};

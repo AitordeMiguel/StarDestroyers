@@ -49,7 +49,7 @@ public class PixelD  implements Component{
 	@Override
 	public void notificar(int dest, int estado, String color, int accion, int tipo) 
 	{
-		Espacio.getEspacio().notificar(dest, estado, color, new int[] {x,y}, accion, tipo);
+		Espacio.getEspacio().notificar(dest, estado, color, new int[] {x,y}, accion, tipo, -1, -1);//TODO cuidado con esos dos -1, podría fallar con info
 	}
 
 	
