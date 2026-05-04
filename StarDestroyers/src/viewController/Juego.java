@@ -19,13 +19,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import model.Casilla;
-import model.Disparo;
-import model.Enemigo;
 import model.Espacio;
-import model.ListaEnem;
-import model.ListaNaves;
-import model.Nave;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -89,12 +83,12 @@ public class Juego extends JFrame implements Observer {
 		if (panel == null) {
 			panel = new JPanel();
 			panel.setOpaque(false);
-			panel.setLayout(new GridLayout(60, 100, 0, 0));
+			panel.setLayout(new GridLayout(180, 300, 0, 0));
 			JLabel lblNewLabel;
-			tablero = new JLabel[60][100];
-			for(int f=0;f<60;f++)
+			tablero = new JLabel[180][300];
+			for(int f=0;f<180;f++)
 			{
-				for(int c=0;c<100;c++)
+				for(int c=0;c<300;c++)
 				{
 					lblNewLabel = new JLabel("");
 					if(tabEsp[f][c]==0)//es la nave
@@ -136,6 +130,108 @@ public class Juego extends JFrame implements Observer {
 	
 	@Override
 	public void update(Observable o, Object arg) {
+		Object[] res = (Object[]) arg;//arg: destinatario,tablero,estado,juegoInic,finJuego,color
+		if((int) res[0]==1)//Si está dirigido al juego
+		{
+			boolean terminado = (boolean) res[4];
+			boolean iniciado = (boolean) res[3];
+			if(!terminado && iniciado)//Creo que con el destinatario esto sobrará, pero ya veremos
+			{
+				int estado = (int) res[2];
+				if(estado != 2)//Se pierde o gana
+				{
+					this.setVisible(false);
+				    Fin fin = new Fin(estado);
+				    fin.setVisible(true);
+				}
+				else
+				{
+					int[] coor = (int[]) res[6];
+					int f = coor[0];
+					int c = coor[1];
+					JLabel lbl = tablero[f][c];
+					if((int) res[7]==0)//Si la acción es borrar
+					{
+						lbl.setOpaque(false);
+						lbl.repaint();
+					}
+					else //Si es pintar
+					{
+						int tipo = (int) res[8];
+						if(tipo==0)//Si hay que pintar nave
+						{
+							lbl.setOpaque(true);
+							
+							if(colorN.equals("green")) {
+								lbl.setBackground(Color.GREEN);
+							}
+							else if(colorN.equals("blue")) {
+								lbl.setBackground(Color.BLUE);
+							}
+							else {
+								lbl.setBackground(Color.RED);
+							}
+							lbl.repaint();
+						}
+						else if(tipo==1)//Si es disp
+						{
+							lbl.setOpaque(true);
+							lbl.setBackground(Color.YELLOW);
+							lbl.repaint();
+						}
+						else if(tipo==2)//Si es enem, aunque podría ser solo un else
+						{
+							lbl.setOpaque(true);
+							lbl.setBackground(Color.GRAY);
+							lbl.repaint();
+						}
+					}
+					/*
+					int[][] tabNum = (int[][]) res[1];
+					for(int f=0;f<60;f++)
+					{
+						for(int c=0;c<100;c++)
+						{
+							JLabel lbl = tablero[f][c];
+							if(tabNum[f][c]==0)//Si es nave
+							{
+								lbl.setOpaque(true);
+								
+								if(colorN.equals("green")) {
+									lbl.setBackground(Color.GREEN);
+								}
+								else if(colorN.equals("blue")) {
+									lbl.setBackground(Color.BLUE);
+								}
+								else {
+									lbl.setBackground(Color.RED);
+								}
+								lbl.repaint();
+							}
+							else if(tabNum[f][c]==1)//Si es disparo
+							{
+								lbl.setOpaque(true);
+								lbl.setBackground(Color.YELLOW);
+								lbl.repaint();
+							}
+							else if(tabNum[f][c]==2)//Si es un enemigo
+							{
+								lbl.setOpaque(true);
+								lbl.setBackground(Color.GRAY);
+								lbl.repaint();
+							}
+							else if(tabNum[f][c]==3)//Si es un vacío
+							{
+								lbl.setOpaque(false);
+								lbl.repaint();
+							}
+						}
+					}
+					*/	
+				}
+			}
+		}
+		/*
 		Object[] res = (Object[]) arg;//arg: acción,posAnt,posNueva,tipo
 		int accion = (int) res[0];
 		int[] posAnt = (int[]) res[1];
@@ -235,7 +331,7 @@ public class Juego extends JFrame implements Observer {
 			}
 		}
 		
-		
+		*/
 	}
 
 	// Instancia del controlador
@@ -260,7 +356,12 @@ public class Juego extends JFrame implements Observer {
 			if (e.getKeyCode() == KeyEvent.VK_UP) {model.ListaNaves.getListaNaves().moverNave("up");}
 			if (e.getKeyCode() == KeyEvent.VK_DOWN) {model.ListaNaves.getListaNaves().moverNave("down");}
 			
-			if (e.getKeyCode() == KeyEvent.VK_SPACE) {model.ListaDisp.getListaDisp().crearDisp("normal");}
+			if (e.getKeyCode() == KeyEvent.VK_SPACE) {model.ListaNaves.getListaNaves().crearDisp();}
+			
+			if (e.getKeyCode() == KeyEvent.VK_C) {model.ListaNaves.getListaNaves().cambiarDisp(3);}//Cambiar a Rombo
+			if (e.getKeyCode() == KeyEvent.VK_X) {model.ListaNaves.getListaNaves().cambiarDisp(2);}//Cambiar a Flecha
+			if (e.getKeyCode() == KeyEvent.VK_Z) {model.ListaNaves.getListaNaves().cambiarDisp(1);}//Cambiar a Normal
+			
 			
 			
 		}
