@@ -17,6 +17,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import model.Espacio;
@@ -41,6 +42,11 @@ public class Juego extends JFrame implements Observer {
 	private JLabel[][] tablero;
 	private Controlador controlador;
 	private String colorN; 
+	private JPanel panelInfo;
+	private JLabel lblInfo1;
+	private JLabel lblInfo2;
+	private JLabel lblInfo3;
+	private JLabel lblInfo4;
 
 	/**
 	 * Launch the application.
@@ -70,6 +76,41 @@ public class Juego extends JFrame implements Observer {
 		lblFondo.setLayout(new BorderLayout());  
 		setContentPane(lblFondo);  
 		lblFondo.add(getPanel(mat), BorderLayout.CENTER);
+		panelInfo = new JPanel();
+		panelInfo.setLayout(new java.awt.GridLayout(1, 4)); // 4 columnas iguales
+		panelInfo.setBackground(Color.BLACK); // Fondo negro para que destaque
+		
+		// 2. Crear los 4 Labels (puedes cambiarles el texto inicial aquí)
+		lblInfo1 = new JLabel("PUNTOS: 0", SwingConstants.CENTER);
+		lblInfo1.setForeground(Color.WHITE);
+		lblInfo1.setFont(new java.awt.Font("Monospaced", java.awt.Font.BOLD, 18));
+		
+		lblInfo2 = new JLabel("ARMA: NORMAL", SwingConstants.CENTER);
+		lblInfo2.setForeground(Color.WHITE);
+		lblInfo2.setFont(new java.awt.Font("Monospaced", java.awt.Font.BOLD, 18));
+		
+		lblInfo3 = new JLabel("MUNICIÓN: INF", SwingConstants.CENTER);
+		lblInfo3.setForeground(Color.WHITE);
+		lblInfo3.setFont(new java.awt.Font("Monospaced", java.awt.Font.BOLD, 18));
+		
+		lblInfo4 = new JLabel("VIDAS: 3", SwingConstants.CENTER);
+		lblInfo4.setForeground(Color.WHITE);
+		lblInfo4.setFont(new java.awt.Font("Monospaced", java.awt.Font.BOLD, 18));
+		
+		// 3. Añadir los labels al panelInfo
+		panelInfo.add(lblInfo1);
+		panelInfo.add(lblInfo2);
+		panelInfo.add(lblInfo3);
+		panelInfo.add(lblInfo4);
+		
+		// 4. Añadir el panelInfo a la parte inferior de la pantalla (SOUTH)
+		lblFondo.add(panelInfo, BorderLayout.SOUTH);
+		// --- HASTA AQUÍ ---
+
+		// Inicializar el controlador y asignarlo
+		setFocusable(true);
+		requestFocusInWindow();
+		addKeyListener(getControlador());
 		// Inicializar el controlador y asignarlo
 		setFocusable(true);
 		requestFocusInWindow();
