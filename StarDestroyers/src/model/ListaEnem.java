@@ -82,7 +82,7 @@ public class ListaEnem implements Observer{
 		*/
 		inicializado = true;
 	}
-	private void removeEnem(int x, int y)//LLamado por el update
+	private void recibirDisp(int x, int y)//LLamado por el update
 	{
 		int i=0;
 		boolean enc = false;
@@ -92,9 +92,13 @@ public class ListaEnem implements Observer{
 			enc = enem.encontrar(x, y);
 			if(enc)
 			{
-				enem.borrar();
-				LEnems.remove(i);
-				i--;
+				Enemigo e = (Enemigo) enem;
+				if(e.recibirDisp())//Si al recibirlo se muere
+				{
+					enem.borrar();
+					LEnems.remove(i);
+					i--;
+				}
 			}
 			i++;
 			
@@ -128,7 +132,7 @@ public class ListaEnem implements Observer{
 			int[] coor = (int[]) res[6];
 			int x = coor[0];
 			int y = coor[1];
-			removeEnem(x, y);
+			recibirDisp(x, y);
 		}
 		
 	}

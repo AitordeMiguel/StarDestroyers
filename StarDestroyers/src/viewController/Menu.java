@@ -12,25 +12,13 @@ import javax.swing.border.EmptyBorder;
 
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
-//import java.awt.CardLayout;
 import java.awt.Color;
-//import java.awt.FlowLayout;
-//import javax.swing.BoxLayout;
-//import java.awt.GridBagLayout;
 import java.awt.Image;
-//import java.awt.GridBagConstraints;
-//import java.awt.Insets;
-//import java.awt.event.ActionEvent;
-//import java.awt.event.ActionListener;
-//import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-//import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import java.awt.Graphics;
-//import javax.swing.GroupLayout;
-//import javax.swing.GroupLayout.Alignment;
 
 public class Menu extends JFrame implements Observer{
 
@@ -70,28 +58,7 @@ public class Menu extends JFrame implements Observer{
 		
 		imagenEspacio = new ImageIcon(getClass().getResource("fondoMenu.jpg")).getImage();
 		imagenLogo = new ImageIcon(getClass().getResource("space_invaders_logo.png")).getImage(); 
-		/*
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null); 
 		
-		ImageIcon EspacioOriginal = new ImageIcon(getClass().getResource("espacio.jpg"));
-		Image imagenEspacioAntigua = EspacioOriginal.getImage();
-		Image imagenEspacioEscalada = imagenEspacioAntigua.getScaledInstance(450, 300, Image.SCALE_SMOOTH);
-		ImageIcon espacioEscalado = new ImageIcon(imagenEspacioEscalada);
-		JLabel lblFondo = new JLabel(espacioEscalado);
-		lblFondo.setBounds(0, 0, 450, 300);
-		
-		ImageIcon LogoOriginal = new ImageIcon(getClass().getResource("SpIn.png"));
-		Image imagenLogoAntigua = LogoOriginal.getImage();
-		Image imagenLogoEscalada = imagenLogoAntigua.getScaledInstance(250, 100, Image.SCALE_SMOOTH);
-		ImageIcon logoEscalado = new ImageIcon(imagenLogoEscalada);
-		JLabel lblLogo = new JLabel(logoEscalado);
-		lblLogo.setBounds(96, 75, 250, 100);
-		*/
-
-
 		contentPane = new JPanel(new BorderLayout()) {
 			@Override
 			protected void paintComponent(Graphics g) {

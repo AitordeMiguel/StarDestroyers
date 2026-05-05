@@ -173,6 +173,11 @@ public class Espacio extends Observable{
 			if(f==0)//Se puede mover, luego al moverlo sencillamente se borra
 			{
 				rdo = true;
+				if(puntos>0)
+				{
+					puntos--;//Notificar que pierdes un punto por fallar el tiro
+					this.notificar(4/*A Info*/,-1/*No se usa*/, null/*Color que no se usa*/, null, -1/*No se usa*/, -1/*No se usa*/,0/*relación puntos*/,puntos);
+				}
 			}
 			else if(tablero[f-1][c]!=2)//Si el de arriba no es enem
 			{

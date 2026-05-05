@@ -177,8 +177,8 @@ public class Juego extends JFrame implements Observer {
 					}
 					else if(tabEsp[f][c]==2)//es un enemigo
 					{
-						lblNewLabel.setOpaque(true);
-					    lblNewLabel.setBackground(Color.GRAY);
+						//lblNewLabel.setOpaque(true);
+					    //lblNewLabel.setBackground(new Color(0, 200, 140));
 					}
 					else//if(tabEsp[f][c]==3) es espacio vacio
 					{
@@ -248,7 +248,7 @@ public class Juego extends JFrame implements Observer {
 						else if(tipo==2)//Si es enem, aunque podría ser solo un else
 						{
 							lbl.setOpaque(true);
-							lbl.setBackground(Color.GRAY);
+							lbl.setBackground(new Color(0, 200, 140));
 							lbl.repaint();
 						}
 					}

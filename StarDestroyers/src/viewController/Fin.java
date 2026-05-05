@@ -8,6 +8,7 @@ import java.awt.Image;
 import java.awt.EventQueue;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Random;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -62,9 +63,20 @@ public class Fin extends JFrame {
 		} else {
 			overlay = new ImageIcon(getClass().getResource("youlose.png")).getImage();
 			// additional image to show when losing
-			if (getClass().getResource("dumbPatrick.png") != null) {
-				overlay2 = new ImageIcon(getClass().getResource("dumbPatrick.png")).getImage();
+			int opcion = new Random().nextInt(1,10);
+			if(opcion > 1)///Mucho más probable
+			{
+				if (getClass().getResource("dumbPatrick.png") != null) {
+					overlay2 = new ImageIcon(getClass().getResource("dumbPatrick.png")).getImage();
+				}
 			}
+			else //if(opcion == 2)
+			{
+				if (getClass().getResource("patrick-stupid-baba.gif") != null) {
+					overlay2 = new ImageIcon(getClass().getResource("patrick-stupid-baba.gif")).getImage();
+				}
+			}
+			
 		}
 
 		// Use a custom panel that paints the background and then overlay image(s) centered on top
@@ -206,9 +218,6 @@ public class Fin extends JFrame {
 
 			if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 				System.exit(0);
-			}
-			if(e.getKeyCode() == KeyEvent.VK_R) {
-				//TODO new menu
 			}
 
 		}
