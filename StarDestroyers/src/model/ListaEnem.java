@@ -1,33 +1,45 @@
 package model;
 
 import java.util.ArrayList;
+
+
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
-public class ListaEnem{
-	private ArrayList<int[]> LEnem;
+import java.util.Observable;
+import java.util.Observer;
+
+public class ListaEnem implements Observer{
+	private ArrayList<PiezaAbs> LEnems;//Realmente todos son enemigos
 	private static ListaEnem miListaEnem;
-	private Timer timer = null;
+	private ScheduledExecutorService scheduler;
+	private int cont = 0;
+	private boolean inicializado = false;
 	private ListaEnem()
 	{
-		TimerTask timerTask = new TimerTask() {
-			@Override
-			public void run() {
-				//moverEnem();
-			}		
-		};
-		timer = new Timer();
-		timer.scheduleAtFixedRate(timerTask, 0, 200);
+	    scheduler = Executors.newSingleThreadScheduledExecutor();
+
+	    scheduler.scheduleAtFixedRate(() -> {
+	        if (inicializado)
+	        {
+	            cont++;
+	            if(cont == 4)
+	            {
+	                cont = 0;
+	                moverEnem();
+	            }
+
+	            ListaNaves.getListaNaves().moverDisp();
+	        }
+	    }, 0, 100, TimeUnit.MILLISECONDS);
+
+		Espacio.getEspacio().addObserver(this);	
 	}
-	
-	
-	//public void addEnem(int x, int y)
-	//{
-	//	int[] coor = {x,y};
-	//	LEnem.add(coor);
-	//}
-	
+		
 	public static ListaEnem getListaEnem()
 	{
 		if(miListaEnem == null)
@@ -36,95 +48,88 @@ public class ListaEnem{
 		}
 		return miListaEnem;
 	}
-	public void inicializar(String color)
+	private PiezaAbs fabricarEnemigos(int[] posiciones)
 	{
-		LEnem = new ArrayList<int[]>();
+		// llamamos al factory indicando tipo 1 para Enemigo, null en color y las posiciones
+		return Factory.getFactory().generar(1, null, posiciones);//Devuelve un enemigo, que es heredero de PiezaAbs
+	}
+	public void inicializar()
+	{
+		LEnems = new ArrayList<PiezaAbs>();
 		int cantEnem = new Random().nextInt(4,9);
-		int dist=90/cantEnem;
-		for(int i=0;i<cantEnem;i++)
+		int dist=90/cantEnem;         //TODO límites del tablero
+		/*          Comporobación de dos enem colisionados por el mismo disp
+		cantEnem=2;
+		ArrayList<int[]> coor = new ArrayList<>();
+		coor.add(new int[] {2,15});
+		coor.add(new int[] {2,19});
+		*/
+		for(int i=0;i<cantEnem;i++)//TODO java8? --Creo que no es la clase de bucle que buscamos para java8 
 		{
-			int[] pos = {2,5+i*dist};
-			LEnem.add(pos);
+			int[] pos = {2,5+i*dist};              //TODO límites del tablero
+			//int[] pos = coor.get(i);      Parte de la comprobación de 2 enem 1 disp
+			LEnems.add(fabricarEnemigos(pos));
 		};
-		Espacio.getEspacio().inicializar(color,LEnem);
-	}
-	public void removeEnem(int x, int y)
-	{
-		for(int i=0;i<LEnem.size();i++)
+		//java8
+		LEnems.stream().map(p -> (Enemigo) p).forEach(e -> e.crear());
+		//antiguo
+		/*
+		for(PiezaAbs p: LEnems)//TODO java8
 		{
-			if(LEnem.get(i)[0]==x && LEnem.get(i)[1]==y)//basta con y
-			{
-				LEnem.remove(i);
-			}
+			Enemigo e = (Enemigo) p;
+			e.crear();
 		}
-		//TODO comprobamos aquí si aún quedan enemigos? size()==0
+		*/
+		inicializado = true;
 	}
-	public void comprobarColNave(ArrayList<int[]> LNav)//TODO determinar si realmente se necesita o si ya se hace con notify
+	private void removeEnem(int x, int y)//LLamado por el update
 	{
-		for(int i=0;i<LNav.size();i++)
+		int i=0;
+		boolean enc = false;
+		while(i<LEnems.size() && !enc)
 		{
-			int pXN=LNav.get(i)[0];
-			int pYN=LNav.get(i)[1];
-			for(int j=0;j<LEnem.size();j++)
+			Enemigo enem =(Enemigo) LEnems.get(i);
+			enc = enem.encontrar(x, y);
+			if(enc)
 			{
-				int pXE=LEnem.get(j)[0];
-				int pYE=LEnem.get(j)[1];
-				if(pXE==pXN && pYE==pYN)
-				{
-					removeEnem(pXE,pYE);
-				}
-			}
-		}
-	}
-	public void actEnem(int x, int y)
-	{
-		for(int i=0;i<LEnem.size();i++)
-		{
-			if(LEnem.get(i)[0]==x && LEnem.get(i)[1]==y)
-			{
-				LEnem.get(i)[0]=x+1; //Baja una posición
-			}
-		}
-	}
-	public void moverEnem()//version postLabo
-	{
-		ArrayList<Boolean> rdo = Espacio.getEspacio().moverEnem(LEnem);
-		for(int i=0;i<rdo.size();i++)
-		{
-			if(rdo.get(i))//si se ha movido
-			{
-				LEnem.get(i)[0]++; //Baja una posición
-			}
-			else
-			{
-				LEnem.remove(i); //Se elimina este
+				enem.borrar();
+				LEnems.remove(i);
 				i--;
 			}
+			i++;
+			
 		}
-	}
-	public boolean moverNave(String dir, ArrayList<int[]> LNav)
-	{
-		return Espacio.getEspacio().moverNave(dir, LNav);
-	}
-	public ArrayList<int[]> moverDisp(ArrayList<int[]> LDisp)
-	{
-		ArrayList<int[]> rdo = Espacio.getEspacio().moverDisp(LDisp);
-		for(int i=0;i<rdo.size();i++)
+		if(LEnems.size()==0)
 		{
-			if(rdo.get(i)[2]==1)//se borra enemigo
-			{
-				removeEnem(rdo.get(i)[3], rdo.get(i)[4]);
-			}
+			Espacio.getEspacio().notifyFin(1);//Anunciar victoria
 		}
-		return rdo;
 	}
-	public int[] crearDisp(ArrayList<int[]> LNav,String tipo)
+	public void moverEnem() //version postLabo
 	{
-		int[] rdo = Espacio.getEspacio().crearDisp(LNav.get(0), tipo);
-		if(rdo[3]==1)//se borra este enem
+		//java8
+		new ArrayList<>(LEnems).stream().map(p -> (Enemigo) p).forEach(e -> e.mover("down"));
+		//antiguo
+		/*
+		for (PiezaAbs p : new ArrayList<>(LEnems))//TODO java8
 		{
-			removeEnem(rdo[1],rdo[2]);
+			Enemigo e = (Enemigo) p;
+		    e.mover("down");
 		}
-		return rdo;
+		*/
+	}
+
+	@Override
+	public void update(Observable o, Object arg) 
+	{
+		Object[] res = (Object[]) arg;//arg: destinatario,tablero,estado,juegoInic,finJuego,color,accion,coordenadas
+		int destinatario = (int) res[0];
+		if(destinatario == 3)//Si va dirigido a LE
+		{
+			int[] coor = (int[]) res[6];
+			int x = coor[0];
+			int y = coor[1];
+			removeEnem(x, y);
+		}
+		
 	}
 }

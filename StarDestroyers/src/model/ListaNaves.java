@@ -1,9 +1,11 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
-public class ListaNaves{
-	private ArrayList<int[]> LNav;
+public class ListaNaves extends Observable implements Observer{
+	private ArrayList<PiezaAbs> LNaves;//Realmente solo hay nave
 	private static ListaNaves miListaNaves;
 	private ListaNaves(){}
 	public static ListaNaves getListaNaves()
@@ -12,62 +14,93 @@ public class ListaNaves{
 		{
 			miListaNaves = new ListaNaves();
 		}
-		return miListaNaves;
+		return miListaNaves;	
+	}
+	private PiezaAbs fabricarNave(String color, int[] pos)
+	{
+		// llamamos al factory indicando tipo 0 para Nave, el color y la lista de posiciones
+		return Factory.getFactory().generar(0, color, pos);
 	}
 	public void inicializar(String color)
-	{
-		LNav = new ArrayList<int[]>();
-		addNave(55,50);
-		ListaEnem.getListaEnem().inicializar(color);
-	}
-	private void addNave(int x, int y)
-	{
-		int[] coor = {x,y};
-		LNav.add(coor);
-	}
-	public void removeNave(int x, int y)
-	{
-		for (int i=0;i<LNav.size();i++)
+	{	
+		Espacio.getEspacio().addObserver(this);	
+		LNaves = new ArrayList<PiezaAbs>();
+		int[] pos = {55,50};                 //TODO límites del tablero
+		LNaves.add(fabricarNave(color,pos));
+		//java8
+		LNaves.stream().map(p -> (Nave) p).forEach(n -> n.crear());
+		//antiguo
+		/*
+		for(PiezaAbs p: LNaves)//Aunque solo hay una           //TODO java8
 		{
-			if(LNav.get(i)[0]==x && LNav.get(i)[1]==y)
-			{
-				LNav.remove(i);
-			}
+			Nave n =(Nave) p;
+			n.crear(); //Dibujarlo en el tablero
 		}
+		*/
 	}
 	
 	
-	public void moverNave(String dir)
+	public void moverNave(String dir)//TODO java8
 	{
-		boolean rdo = ListaEnem.getListaEnem().moverNave(dir,LNav);
-		if(rdo)
+		//java8
+		LNaves.stream().map(p -> (Nave) p).forEach(n -> n.mover(dir));
+		//antiguo
+		/*
+		for(PiezaAbs p: LNaves)//Solo tenemos una nave, seguramente si tuviesemos más, no sería así, si no individualmente
 		{
-			if(dir.equals("left"))
-			{
-				LNav.get(0)[1]--;
-			}
-			else if(dir.equals("right"))
-			{
-				LNav.get(0)[1]++;
-			}
-			else if(dir.equals("down"))
-			{
-				LNav.get(0)[0]++;
-			}
-			else if(dir.equals("up"))
-			{
-				LNav.get(0)[0]--;
-			}
-			
+			Nave n =(Nave) p;
+			n.mover(dir);
 		}
-		
+		*/
 	}
-	public ArrayList<int[]> moverDisp(ArrayList<int[]> LDisp)
+	public void moverDisp()
 	{
-		return ListaEnem.getListaEnem().moverDisp(LDisp);
+		PiezaAbs p = LNaves.get(0);
+		Nave n = (Nave) p;
+		n.moverDisp(); 
 	}
-	public int[] crearDisp(String tipo)
+	public void crearDisp()
 	{
-		return ListaEnem.getListaEnem().crearDisp(LNav,tipo);
+		//De momento solo hay una nave, por lo que basta con hacerlo con esa sin escoger entre varias
+		PiezaAbs p = LNaves.get(0);
+		Nave n = (Nave) p;
+		int[] rdo = n.disparar();
+		if(rdo[0] == 1 && (rdo[1] == 1 || rdo[1] == 2))//Si se ha disparado
+		{
+			setChanged();
+			notifyObservers(new Object[] {4,null,null,null,null,null,null,null,null,rdo[1],rdo[2]});
+		}
+	}
+	public void cambiarDisp(int tipo) {
+		if (LNaves != null && !LNaves.isEmpty()) {
+			PiezaAbs p = LNaves.get(0);
+			Nave n = (Nave) p;
+			if(n.cambiarStrategy(tipo))//Si se ha podido cambiar de estrategia
+			{
+				setChanged();
+				notifyObservers(new Object[] {4,null,null,null,null,null,null,null,null,tipo+2,-1/*no se usa*/});
+			}
+		}
+	}
+	public void removeDisp(int[] coor)
+	{
+		PiezaAbs p = LNaves.get(0);
+		Nave n = (Nave) p;
+		n.borrarDisp(coor);
+	}
+	@Override
+	public void update(Observable o, Object arg) 
+	{
+		Object[] res = (Object[]) arg;//arg: destinatario,tablero,estado,juegoInic,finJuego,color,accion,coordenadas
+		int destinatario = (int) res[0];
+		if(destinatario == 2)//Si va dirigido a LN
+		{
+			this.removeDisp((int[]) res[6]);
+		}
+	}
+	public void borrar()
+	{
+		Nave n = (Nave) LNaves.get(0);
+		n.borrar();
 	}
 }

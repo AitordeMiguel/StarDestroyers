@@ -39,7 +39,6 @@ public class Menu extends JFrame implements Observer{
 	//private JLabel lblEspacio;
 	private Controlador controlador = null;
 	private String color = "";
-	private boolean juegoIniciado = false;
 	//Ponemos las imagenes como atributo
 	private Image imagenEspacio;
 	private Image imagenLogo;
@@ -66,6 +65,7 @@ public class Menu extends JFrame implements Observer{
 	public Menu() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
+		setExtendedState(JFrame.MAXIMIZED_BOTH);	//inicializar a pantalla completa.
 		color = "red";
 		
 		imagenEspacio = new ImageIcon(getClass().getResource("espacio.jpg")).getImage();
@@ -151,15 +151,16 @@ public class Menu extends JFrame implements Observer{
 
 	@Override
 	public void update(Observable o, Object arg) {//que pase el color, y el array en forma numérica
-		if(!juegoIniciado)
+		Object[] conv = (Object[]) arg;
+		boolean iniciado = (boolean) conv[3];
+		int destinatario = (int) conv[0];
+		if(destinatario == 0 && !iniciado)
 		{
-			Object[] conv = (Object[]) arg;
-			String col = (String) conv[0];
+			String col = (String) conv[5];
 			int[][] mat = (int[][]) conv[1];
 			this.setVisible(false);
 			Juego juego = new Juego(col,mat);
 			juego.setVisible(true);
-			juegoIniciado = 1>0;
 		}
 	}
 	
@@ -177,7 +178,6 @@ public class Menu extends JFrame implements Observer{
 
 		@Override
 		public void keyTyped(KeyEvent e) {
-			// TODO Auto-generated method stub
 			
 		}
 
@@ -209,13 +209,15 @@ public class Menu extends JFrame implements Observer{
 		    // iniciar juego
 			if (e.getKeyCode() == KeyEvent.VK_SPACE) 
 			{
-				model.ListaDisp.getListaDisp().inicializar(color);
+				model.Espacio.getEspacio().inicializar(color);
+				model.ListaNaves.getListaNaves().inicializar(color);
+				model.ListaEnem.getListaEnem().inicializar(); 
+				model.Espacio.getEspacio().notificar(0/*A menu*/,2/*Seguir jugando*/,color,new int[] {-1,-1}, -1,-1,-1,-1);
 			}			
 		}
 
 		@Override
 		public void keyReleased(KeyEvent e) {
-			// TODO Auto-generated method stub
 			
 		}
 		
