@@ -68,7 +68,7 @@ public class Menu extends JFrame implements Observer{
 		setExtendedState(JFrame.MAXIMIZED_BOTH);	//inicializar a pantalla completa.
 		color = "red";
 		
-		imagenEspacio = new ImageIcon(getClass().getResource("espacio.jpg")).getImage();
+		imagenEspacio = new ImageIcon(getClass().getResource("fondoMenu.jpg")).getImage();
 		imagenLogo = new ImageIcon(getClass().getResource("space_invaders_logo.png")).getImage(); 
 		/*
 		contentPane = new JPanel();
@@ -107,7 +107,7 @@ public class Menu extends JFrame implements Observer{
 					int anchoLogo = (int) (getWidth() * 0.6); 
 					int altoLogo = (imagenLogo.getHeight(null) * anchoLogo) / imagenLogo.getWidth(null);
 					int posX = (getWidth() - anchoLogo) / 2;
-					int posY = (getHeight() - altoLogo) / 3; 
+					int posY = (getHeight() - altoLogo) / 3 +50; 
 					g.drawImage(imagenLogo, posX, posY, anchoLogo, altoLogo, this);
 				}
 			}
