@@ -8,6 +8,10 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+
+import javax.swing.JRadioButton;
+import javax.swing.ButtonGroup;
+
 //import model.Espacio;
 
 import java.awt.BorderLayout;
@@ -31,6 +35,8 @@ public class Menu extends JFrame implements Observer{
 	private Image imagenEspacio;
 	private Image imagenLogo;
 	private JLabel lblColor;
+	private JRadioButton azul,rojo,verde;
+	private final ButtonGroup buttonGroup = new ButtonGroup();
 	/**
 	 * Launch the application.
 	 */
@@ -109,11 +115,41 @@ public class Menu extends JFrame implements Observer{
 		
 		contentPane.add(lblTexto, BorderLayout.SOUTH);
 		
+		//TODO escoger una
 		lblColor = new JLabel("Color actual: RED");
 		lblColor.setForeground(Color.WHITE);
 		lblColor.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPane.add(lblColor, BorderLayout.NORTH);
-	
+		/*
+		JPanel panelBotones = new JPanel();
+		
+		rojo = new JRadioButton("Rojo");
+		rojo.setOpaque(false);
+		rojo.setSelected(true);//Que empiece por defecto el rojo
+		buttonGroup.add(rojo);
+		rojo.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		azul = new JRadioButton("Azul");
+		azul.setOpaque(false);
+		buttonGroup.add(azul);
+		azul.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		verde = new JRadioButton("Verde");
+		verde.setOpaque(false);
+		buttonGroup.add(verde);
+		verde.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		rojo.setForeground(Color.RED);
+        azul.setForeground(Color.BLUE);
+        verde.setForeground(Color.GREEN);
+		
+		panelBotones.add(rojo);
+		panelBotones.add(azul);
+		panelBotones.add(verde);
+		panelBotones.setOpaque(false);
+		
+		contentPane.add(panelBotones, BorderLayout.NORTH);
+		*/
 	} 
 
 	@Override
@@ -150,7 +186,7 @@ public class Menu extends JFrame implements Observer{
 
 		@Override
 		public void keyPressed(KeyEvent e) {
-			
+			/*
 			// elegir color
 		    if(e.getKeyCode() == KeyEvent.VK_R)
 		        color = "red";
@@ -158,7 +194,7 @@ public class Menu extends JFrame implements Observer{
 		        color = "green";
 		    if(e.getKeyCode() == KeyEvent.VK_B)
 		        color = "blue";
-		    
+		    */
 		    // actualizar color en el menu
 		    if(e.getKeyCode() == KeyEvent.VK_R) {
 		        color = "red";
