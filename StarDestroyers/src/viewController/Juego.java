@@ -17,9 +17,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import model.Espacio;
+import model.ListaNaves;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -41,6 +43,11 @@ public class Juego extends JFrame implements Observer {
 	private JLabel[][] tablero;
 	private Controlador controlador;
 	private String colorN; 
+	private JPanel panelInfo;
+	private JLabel lblInfo1;
+	private JLabel lblInfo2;
+	private JLabel lblInfo3;
+	private JLabel lblInfo4;
 
 	/**
 	 * Launch the application.
@@ -70,6 +77,64 @@ public class Juego extends JFrame implements Observer {
 		lblFondo.setLayout(new BorderLayout());  
 		setContentPane(lblFondo);  
 		lblFondo.add(getPanel(mat), BorderLayout.CENTER);
+		panelInfo = new JPanel();
+		panelInfo.setLayout(new java.awt.GridLayout(1, 4)); // 4 columnas iguales
+		panelInfo.setBackground(Color.BLACK); // Fondo negro para que destaque
+		
+		// 2. Crear los 4 Labels (puedes cambiarles el texto inicial aquí)
+		lblInfo1 = new JLabel("PUNTOS: 0", SwingConstants.CENTER);
+		lblInfo1.setForeground(Color.WHITE);
+		lblInfo1.setFont(new java.awt.Font("Monospaced", java.awt.Font.BOLD, 18));
+		
+		lblInfo2 = new JLabel("ARMA: NORMAL", SwingConstants.CENTER);
+		lblInfo2.setForeground(Color.WHITE);
+		lblInfo2.setFont(new java.awt.Font("Monospaced", java.awt.Font.BOLD, 18));
+		
+		if(colorNave=="blue") 
+		{
+			lblInfo3 = new JLabel("FLECHAS: 0", SwingConstants.CENTER);
+			lblInfo3.setForeground(Color.RED);
+			lblInfo3.setFont(new java.awt.Font("Monospaced", java.awt.Font.BOLD, 18));
+			
+			lblInfo4 = new JLabel("ROMBOS: 20", SwingConstants.CENTER);
+			lblInfo4.setForeground(Color.WHITE);
+			lblInfo4.setFont(new java.awt.Font("Monospaced", java.awt.Font.BOLD, 18));
+		}
+		else if(colorNave=="green")
+		{
+			lblInfo3 = new JLabel("FLECHAS: 30", SwingConstants.CENTER);
+			lblInfo3.setForeground(Color.WHITE);
+			lblInfo3.setFont(new java.awt.Font("Monospaced", java.awt.Font.BOLD, 18));
+			
+			lblInfo4 = new JLabel("ROMBOS: 0", SwingConstants.CENTER);
+			lblInfo4.setForeground(Color.RED);
+			lblInfo4.setFont(new java.awt.Font("Monospaced", java.awt.Font.BOLD, 18));
+		}
+		else if(colorNave =="red")
+		{
+			lblInfo3 = new JLabel("FLECHAS: 30", SwingConstants.CENTER);
+			lblInfo3.setForeground(Color.WHITE);
+			lblInfo3.setFont(new java.awt.Font("Monospaced", java.awt.Font.BOLD, 18));
+			
+			lblInfo4 = new JLabel("ROMBOS: 20", SwingConstants.CENTER);
+			lblInfo4.setForeground(Color.WHITE);
+			lblInfo4.setFont(new java.awt.Font("Monospaced", java.awt.Font.BOLD, 18));
+		}
+		
+		// 3. Añadir los labels al panelInfo
+		panelInfo.add(lblInfo1);
+		panelInfo.add(lblInfo2);
+		panelInfo.add(lblInfo3);
+		panelInfo.add(lblInfo4);
+		
+		// 4. Añadir el panelInfo a la parte inferior de la pantalla (SOUTH)
+		lblFondo.add(panelInfo, BorderLayout.SOUTH);
+		// --- HASTA AQUÍ ---
+
+		// Inicializar el controlador y asignarlo
+		setFocusable(true);
+		requestFocusInWindow();
+		addKeyListener(getControlador());
 		// Inicializar el controlador y asignarlo
 		setFocusable(true);
 		requestFocusInWindow();
@@ -77,18 +142,19 @@ public class Juego extends JFrame implements Observer {
 
 		// Agregar este frame como observer del modelo
 		Espacio.getEspacio().addObserver(this);	
+		ListaNaves.getListaNaves().addObserver(this);
 	}
 	
 	private JPanel getPanel(int[][] tabEsp) {//tabEsp:  0=nave 1=disp 2=enem 3=vacío
 		if (panel == null) {
 			panel = new JPanel();
 			panel.setOpaque(false);
-			panel.setLayout(new GridLayout(180, 300, 0, 0));
+			panel.setLayout(new GridLayout(60, 100, 0, 0));    //TODO límites del tablero
 			JLabel lblNewLabel;
-			tablero = new JLabel[180][300];
-			for(int f=0;f<180;f++)
+			tablero = new JLabel[60][100];
+			for(int f=0;f<60;f++)
 			{
-				for(int c=0;c<300;c++)
+				for(int c=0;c<100;c++)
 				{
 					lblNewLabel = new JLabel("");
 					if(tabEsp[f][c]==0)//es la nave
@@ -111,8 +177,8 @@ public class Juego extends JFrame implements Observer {
 					}
 					else if(tabEsp[f][c]==2)//es un enemigo
 					{
-						lblNewLabel.setOpaque(true);
-					    lblNewLabel.setBackground(Color.GRAY);
+						//lblNewLabel.setOpaque(true);
+					    //lblNewLabel.setBackground(new Color(0, 200, 140));
 					}
 					else//if(tabEsp[f][c]==3) es espacio vacio
 					{
@@ -182,156 +248,51 @@ public class Juego extends JFrame implements Observer {
 						else if(tipo==2)//Si es enem, aunque podría ser solo un else
 						{
 							lbl.setOpaque(true);
-							lbl.setBackground(Color.GRAY);
+							lbl.setBackground(new Color(0, 200, 140));
 							lbl.repaint();
 						}
 					}
-					/*
-					int[][] tabNum = (int[][]) res[1];
-					for(int f=0;f<60;f++)
-					{
-						for(int c=0;c<100;c++)
-						{
-							JLabel lbl = tablero[f][c];
-							if(tabNum[f][c]==0)//Si es nave
-							{
-								lbl.setOpaque(true);
-								
-								if(colorN.equals("green")) {
-									lbl.setBackground(Color.GREEN);
-								}
-								else if(colorN.equals("blue")) {
-									lbl.setBackground(Color.BLUE);
-								}
-								else {
-									lbl.setBackground(Color.RED);
-								}
-								lbl.repaint();
-							}
-							else if(tabNum[f][c]==1)//Si es disparo
-							{
-								lbl.setOpaque(true);
-								lbl.setBackground(Color.YELLOW);
-								lbl.repaint();
-							}
-							else if(tabNum[f][c]==2)//Si es un enemigo
-							{
-								lbl.setOpaque(true);
-								lbl.setBackground(Color.GRAY);
-								lbl.repaint();
-							}
-							else if(tabNum[f][c]==3)//Si es un vacío
-							{
-								lbl.setOpaque(false);
-								lbl.repaint();
-							}
-						}
-					}
-					*/	
+					
 				}
 			}
 		}
-		/*
-		Object[] res = (Object[]) arg;//arg: acción,posAnt,posNueva,tipo
-		int accion = (int) res[0];
-		int[] posAnt = (int[]) res[1];
-		int[] posNueva = (int[]) res[2];
-		int tipo = (int) res[3];
-		int estado = (int) res[4];
-		
-		int fN=posNueva[0];
-		int cN=posNueva[1];
-		int fA=posAnt[0];
-		int cA=posAnt[1];
-		boolean terminado = (boolean) res[8];
-		boolean iniciado = (boolean) res[5];
-		if(!terminado && iniciado)//Si no ha terminado el juego, y se ha empezado el juego
+		else if((int) res[0]==4)//Se dirige concretamente al panelInfo 
 		{
-			if (estado != 2) {//0=perder, 1=ganar 
-			    this.setVisible(false);
-			    Fin fin = new Fin(estado);
-			    fin.setVisible(true);
-			    terminado = true;
-			}
-			else
+			int info = (int) res[9];
+			int valor = (int) res[10];
+			if(info == 0)//Cambiar puntos
 			{
-				if(accion==0)//se quiere mover
+				lblInfo1.setText("PUNTOS: "+valor);
+			}
+			else if(info == 1)//Cambiar cant disp flecha
+			{
+				lblInfo3.setText("FLECHAS: "+ valor);
+				if(valor == 0)
 				{
-					JLabel lblA = tablero[fA][cA];
-					JLabel lblN = tablero[fN][cN];
-					//borrar la casilla antigua
-					lblA.setOpaque(false);
-					lblA.repaint();
-					//dibujar la nueva
-					lblN.setOpaque(true);
-					lblN.repaint();
-					if(tipo==0)//lo que se mueve es nave
-					{
-						if(colorN.equals("green")) {
-							lblN.setBackground(Color.GREEN);
-						}
-						else if(colorN.equals("blue")) {
-							lblN.setBackground(Color.BLUE);
-						}
-						else {
-							lblN.setBackground(Color.RED);
-						}
-					}
-					else if(tipo==1)//lo que se mueve es disparo
-					{
-						lblN.setBackground(Color.YELLOW);
-					}
-					else//if (tipo==2) vamos, que es enemigo
-					{
-						lblN.setBackground(Color.GRAY);
-					}
-					
+					lblInfo3.setForeground(Color.RED);
 				}
-				else if(accion==1)//se borra algo
+			}
+			else if(info == 2)//Cambiar cant disp rombo
+			{
+				lblInfo4.setText("ROMBOS: "+valor);
+				if(valor == 0)
 				{
-					JLabel lblA = tablero[fA][cA];
-					lblA.setOpaque(false);
-					lblA.repaint();
+					lblInfo4.setForeground(Color.RED);
 				}
-				else if(accion==2) //se crea algo nuevo    
-				{
-					JLabel lblN = tablero[fN][cN];
-					lblN.setOpaque(true);
-					if(tipo==0)//lo que se crea es nave, aunque no deberían poder crearse más naves
-					{
-						if(colorN.equals("green")) {
-							lblN.setBackground(Color.GREEN);
-						}
-						else if(colorN.equals("blue")) {
-							lblN.setBackground(Color.BLUE);
-						}
-						else {
-							lblN.setBackground(Color.RED);
-						}
-					}
-					else if(tipo==1)//lo que se crea es disparo
-					{
-						lblN.setBackground(Color.YELLOW);
-					}
-					else//if (tipo==2) vamos, que es enemigo, aunque no deberían poder crearse más enemigos
-					{
-						lblN.setBackground(Color.GRAY);
-					}
-				}
-				else if (accion==4) //borrar 2, disparoEnemigo o NaveEnemigo
-				{
-					JLabel lblA = tablero[fA][cA];
-					JLabel lblN = tablero[fN][cN];
-					lblA.setOpaque(false);
-					lblA.repaint();
-					lblN.setOpaque(false);
-					lblN.repaint();
-					
-				}
+			}
+			else if(info == 3)//Cambiar a normal
+			{
+				lblInfo2.setText("ARMA: NORMAL");
+			}
+			else if(info == 4)//Cambiar a flecha
+			{
+				lblInfo2.setText("ARMA: FLECHA");
+			}
+			else if(info == 5)//Cambiar a rombo
+			{
+				lblInfo2.setText("ARMA: ROMBO");
 			}
 		}
-		
-		*/
 	}
 
 	// Instancia del controlador

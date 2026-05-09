@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
-public class ListaNaves implements Observer{
+public class ListaNaves extends Observable implements Observer{
 	private ArrayList<PiezaAbs> LNaves;//Realmente solo hay nave
 	private static ListaNaves miListaNaves;
 	private ListaNaves(){}
@@ -25,7 +25,7 @@ public class ListaNaves implements Observer{
 	{	
 		Espacio.getEspacio().addObserver(this);	
 		LNaves = new ArrayList<PiezaAbs>();
-		int[] pos = {165,150};
+		int[] pos = {55,50};                 //TODO límites del tablero
 		LNaves.add(fabricarNave(color,pos));
 		//java8
 		LNaves.stream().map(p -> (Nave) p).forEach(n -> n.crear());
@@ -64,13 +64,22 @@ public class ListaNaves implements Observer{
 		//De momento solo hay una nave, por lo que basta con hacerlo con esa sin escoger entre varias
 		PiezaAbs p = LNaves.get(0);
 		Nave n = (Nave) p;
-		n.disparar();
+		int[] rdo = n.disparar();
+		if(rdo[0] == 1 && (rdo[1] == 1 || rdo[1] == 2))//Si se ha disparado
+		{
+			setChanged();
+			notifyObservers(new Object[] {4,null,null,null,null,null,null,null,null,rdo[1],rdo[2]});
+		}
 	}
 	public void cambiarDisp(int tipo) {
 		if (LNaves != null && !LNaves.isEmpty()) {
 			PiezaAbs p = LNaves.get(0);
 			Nave n = (Nave) p;
-			n.cambiarStrategy(tipo); 
+			if(n.cambiarStrategy(tipo))//Si se ha podido cambiar de estrategia
+			{
+				setChanged();
+				notifyObservers(new Object[] {4,null,null,null,null,null,null,null,null,tipo+2,-1/*no se usa*/});
+			}
 		}
 	}
 	public void removeDisp(int[] coor)
