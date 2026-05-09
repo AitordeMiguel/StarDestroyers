@@ -241,7 +241,10 @@ public class Espacio extends Observable{
 	{
 		setChanged();
 		notifyObservers(new Object[] {dest,tablero,estado,juegoIniciado,finJuego,color,pos,accion,tipo,infoTipo,info});//
-		juegoIniciado  = true;//Es porque en cuanto se haga una notificación se habrá empezado el juego, y luego ya no cambia
+		if (dest != 5) {
+			juegoIniciado  = true;//Es porque en cuanto se haga una notificación se habrá empezado el juego, y luego ya no cambia
+		}
+		
 	}
 	
 }
