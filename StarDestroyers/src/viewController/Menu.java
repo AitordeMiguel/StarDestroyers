@@ -8,29 +8,21 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+
+import javax.swing.JRadioButton;
+import javax.swing.ButtonGroup;
+
 //import model.Espacio;
 
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
-//import java.awt.CardLayout;
 import java.awt.Color;
-//import java.awt.FlowLayout;
-//import javax.swing.BoxLayout;
-//import java.awt.GridBagLayout;
 import java.awt.Image;
-//import java.awt.GridBagConstraints;
-//import java.awt.Insets;
-//import java.awt.event.ActionEvent;
-//import java.awt.event.ActionListener;
-//import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-//import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import java.awt.Graphics;
-//import javax.swing.GroupLayout;
-//import javax.swing.GroupLayout.Alignment;
 
 public class Menu extends JFrame implements Observer{
 
@@ -43,6 +35,8 @@ public class Menu extends JFrame implements Observer{
 	private Image imagenEspacio;
 	private Image imagenLogo;
 	private JLabel lblColor;
+	private JRadioButton azul,rojo,verde;
+	private final ButtonGroup buttonGroup = new ButtonGroup();
 	/**
 	 * Launch the application.
 	 */
@@ -68,30 +62,9 @@ public class Menu extends JFrame implements Observer{
 		setExtendedState(JFrame.MAXIMIZED_BOTH);	//inicializar a pantalla completa.
 		color = "red";
 		
-		imagenEspacio = new ImageIcon(getClass().getResource("espacio.jpg")).getImage();
+		imagenEspacio = new ImageIcon(getClass().getResource("fondoMenu.jpg")).getImage();
 		imagenLogo = new ImageIcon(getClass().getResource("space_invaders_logo.png")).getImage(); 
-		/*
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null); 
 		
-		ImageIcon EspacioOriginal = new ImageIcon(getClass().getResource("espacio.jpg"));
-		Image imagenEspacioAntigua = EspacioOriginal.getImage();
-		Image imagenEspacioEscalada = imagenEspacioAntigua.getScaledInstance(450, 300, Image.SCALE_SMOOTH);
-		ImageIcon espacioEscalado = new ImageIcon(imagenEspacioEscalada);
-		JLabel lblFondo = new JLabel(espacioEscalado);
-		lblFondo.setBounds(0, 0, 450, 300);
-		
-		ImageIcon LogoOriginal = new ImageIcon(getClass().getResource("SpIn.png"));
-		Image imagenLogoAntigua = LogoOriginal.getImage();
-		Image imagenLogoEscalada = imagenLogoAntigua.getScaledInstance(250, 100, Image.SCALE_SMOOTH);
-		ImageIcon logoEscalado = new ImageIcon(imagenLogoEscalada);
-		JLabel lblLogo = new JLabel(logoEscalado);
-		lblLogo.setBounds(96, 75, 250, 100);
-		*/
-
-
 		contentPane = new JPanel(new BorderLayout()) {
 			@Override
 			protected void paintComponent(Graphics g) {
@@ -107,7 +80,7 @@ public class Menu extends JFrame implements Observer{
 					int anchoLogo = (int) (getWidth() * 0.6); 
 					int altoLogo = (imagenLogo.getHeight(null) * anchoLogo) / imagenLogo.getWidth(null);
 					int posX = (getWidth() - anchoLogo) / 2;
-					int posY = (getHeight() - altoLogo) / 3; 
+					int posY = (getHeight() - altoLogo) / 3 +50; 
 					g.drawImage(imagenLogo, posX, posY, anchoLogo, altoLogo, this);
 				}
 			}
@@ -142,11 +115,41 @@ public class Menu extends JFrame implements Observer{
 		
 		contentPane.add(lblTexto, BorderLayout.SOUTH);
 		
+		//TODO escoger una
 		lblColor = new JLabel("Color actual: RED");
 		lblColor.setForeground(Color.WHITE);
 		lblColor.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPane.add(lblColor, BorderLayout.NORTH);
-	
+		/*
+		JPanel panelBotones = new JPanel();
+		
+		rojo = new JRadioButton("Rojo");
+		rojo.setOpaque(false);
+		rojo.setSelected(true);//Que empiece por defecto el rojo
+		buttonGroup.add(rojo);
+		rojo.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		azul = new JRadioButton("Azul");
+		azul.setOpaque(false);
+		buttonGroup.add(azul);
+		azul.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		verde = new JRadioButton("Verde");
+		verde.setOpaque(false);
+		buttonGroup.add(verde);
+		verde.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		rojo.setForeground(Color.RED);
+        azul.setForeground(Color.BLUE);
+        verde.setForeground(Color.GREEN);
+		
+		panelBotones.add(rojo);
+		panelBotones.add(azul);
+		panelBotones.add(verde);
+		panelBotones.setOpaque(false);
+		
+		contentPane.add(panelBotones, BorderLayout.NORTH);
+		*/
 	} 
 
 	@Override
@@ -161,6 +164,13 @@ public class Menu extends JFrame implements Observer{
 			this.setVisible(false);
 			Juego juego = new Juego(col,mat);
 			juego.setVisible(true);
+		}
+		else if(destinatario==5)//Actualizar etiquetas
+		{
+			color = (String) conv[5];
+			if(color=="red") lblColor.setText("Color actual: RED");
+			else if(color=="blue") lblColor.setText("Color actual: BLUE");
+			else if(color=="green") lblColor.setText("Color actual: GREEN");
 		}
 	}
 	
@@ -178,13 +188,12 @@ public class Menu extends JFrame implements Observer{
 
 		@Override
 		public void keyTyped(KeyEvent e) {
-			// TODO Auto-generated method stub
 			
 		}
 
 		@Override
 		public void keyPressed(KeyEvent e) {
-			
+			/*
 			// elegir color
 		    if(e.getKeyCode() == KeyEvent.VK_R)
 		        color = "red";
@@ -192,19 +201,16 @@ public class Menu extends JFrame implements Observer{
 		        color = "green";
 		    if(e.getKeyCode() == KeyEvent.VK_B)
 		        color = "blue";
-		    
+		    */
 		    // actualizar color en el menu
 		    if(e.getKeyCode() == KeyEvent.VK_R) {
-		        color = "red";
-		        lblColor.setText("Color actual: RED");
+		        model.Espacio.getEspacio().notificar(5, 2,"red",new int[] {-1,-1}, -1,-1,-1,-1);
 		    }
 		    if(e.getKeyCode() == KeyEvent.VK_G) {
-		        color = "green";
-		        lblColor.setText("Color actual: GREEN");
+		       model.Espacio.getEspacio().notificar(5, 2,"green",new int[] {-1,-1}, -1,-1,-1,-1);
 		    }
 		    if(e.getKeyCode() == KeyEvent.VK_B) {
-		        color = "blue";
-		        lblColor.setText("Color actual: BLUE");
+		        model.Espacio.getEspacio().notificar(5, 2,"blue",new int[] {-1,-1}, -1,-1,-1,-1);
 		    }
 		    
 		    // iniciar juego
@@ -213,13 +219,12 @@ public class Menu extends JFrame implements Observer{
 				model.Espacio.getEspacio().inicializar(color);
 				model.ListaNaves.getListaNaves().inicializar(color);
 				model.ListaEnem.getListaEnem().inicializar(); 
-				model.Espacio.getEspacio().notificar(0/*A menu*/,2/*Seguir jugando*/,color,new int[] {-1,-1}, -1,-1);
+				model.Espacio.getEspacio().notificar(0/*A menu*/,2/*Seguir jugando*/,color,new int[] {-1,-1}, -1,-1,-1,-1);
 			}			
 		}
 
 		@Override
 		public void keyReleased(KeyEvent e) {
-			// TODO Auto-generated method stub
 			
 		}
 		

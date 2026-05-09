@@ -57,7 +57,7 @@ public class ListaEnem implements Observer{
 	{
 		LEnems = new ArrayList<PiezaAbs>();
 		int cantEnem = new Random().nextInt(4,9);
-		int dist=270/cantEnem;
+		int dist=90/cantEnem;         //TODO límites del tablero
 		/*          Comporobación de dos enem colisionados por el mismo disp
 		cantEnem=2;
 		ArrayList<int[]> coor = new ArrayList<>();
@@ -66,7 +66,7 @@ public class ListaEnem implements Observer{
 		*/
 		for(int i=0;i<cantEnem;i++)//TODO java8? --Creo que no es la clase de bucle que buscamos para java8 
 		{
-			int[] pos = {2,15+i*dist}; 
+			int[] pos = {2,5+i*dist};              //TODO límites del tablero
 			//int[] pos = coor.get(i);      Parte de la comprobación de 2 enem 1 disp
 			LEnems.add(fabricarEnemigos(pos));
 		};
@@ -82,7 +82,7 @@ public class ListaEnem implements Observer{
 		*/
 		inicializado = true;
 	}
-	private void removeEnem(int x, int y)//LLamado por el update
+	private void recibirDisp(int x, int y)//LLamado por el update
 	{
 		int i=0;
 		boolean enc = false;
@@ -92,9 +92,13 @@ public class ListaEnem implements Observer{
 			enc = enem.encontrar(x, y);
 			if(enc)
 			{
-				enem.borrar();
-				LEnems.remove(i);
-				i--;
+				Enemigo e = (Enemigo) enem;
+				if(e.recibirDisp())//Si al recibirlo se muere
+				{
+					enem.borrar();
+					LEnems.remove(i);
+					i--;
+				}
 			}
 			i++;
 			
@@ -128,7 +132,7 @@ public class ListaEnem implements Observer{
 			int[] coor = (int[]) res[6];
 			int x = coor[0];
 			int y = coor[1];
-			removeEnem(x, y);
+			recibirDisp(x, y);
 		}
 		
 	}

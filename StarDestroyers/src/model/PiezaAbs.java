@@ -18,6 +18,7 @@ public abstract class PiezaAbs {
 	{
 		forma.mover(dir);
 	}
+	
 	public void borrar()
 	{
 		forma.borrar();
