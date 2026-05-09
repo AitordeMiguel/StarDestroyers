@@ -8,8 +8,8 @@ public class Enemigo extends PiezaAbs{
 	{
 		super(pForma);
 		vidas = new Random().nextInt(1,3);//Puede tener de 1 a 10 vidas  
-		//if(vidas>5 && vidas<10) vidas=5;//de 5 a 10 no hay
-		vidas = vidas*2 +1;
+		if(vidas>5 && vidas<10) vidas=5;//de 5 a 10 no hay
+		//vidas = vidas*2 +1;
 	}
 	public boolean encontrar(int x, int y)//Llamado por removeEnem de LE
 	{

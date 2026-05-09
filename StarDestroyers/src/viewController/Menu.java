@@ -165,6 +165,13 @@ public class Menu extends JFrame implements Observer{
 			Juego juego = new Juego(col,mat);
 			juego.setVisible(true);
 		}
+		else if(destinatario==5)//Actualizar etiquetas
+		{
+			color = (String) conv[5];
+			if(color=="red") lblColor.setText("Color actual: RED");
+			else if(color=="blue") lblColor.setText("Color actual: BLUE");
+			else if(color=="green") lblColor.setText("Color actual: GREEN");
+		}
 	}
 	
 	//CONTROLER - INSTANCIA
@@ -197,16 +204,13 @@ public class Menu extends JFrame implements Observer{
 		    */
 		    // actualizar color en el menu
 		    if(e.getKeyCode() == KeyEvent.VK_R) {
-		        color = "red";
-		        lblColor.setText("Color actual: RED");
+		        model.Espacio.getEspacio().notificar(5, 2,"red",new int[] {-1,-1}, -1,-1,-1,-1);
 		    }
 		    if(e.getKeyCode() == KeyEvent.VK_G) {
-		        color = "green";
-		        lblColor.setText("Color actual: GREEN");
+		       model.Espacio.getEspacio().notificar(5, 2,"green",new int[] {-1,-1}, -1,-1,-1,-1);
 		    }
 		    if(e.getKeyCode() == KeyEvent.VK_B) {
-		        color = "blue";
-		        lblColor.setText("Color actual: BLUE");
+		        model.Espacio.getEspacio().notificar(5, 2,"blue",new int[] {-1,-1}, -1,-1,-1,-1);
 		    }
 		    
 		    // iniciar juego
